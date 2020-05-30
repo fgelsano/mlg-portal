@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.login')
 
 @section('title','Login')
 
@@ -6,7 +6,7 @@
 
 @endsection
 
-@section('content')
+@section('contents')
 <div class="container">
 
     <!-- Outer Row -->
