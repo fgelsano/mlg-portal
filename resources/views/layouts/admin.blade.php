@@ -25,6 +25,15 @@
   {{-- FontAwesome --}}
   <script src="https://kit.fontawesome.com/2e85fc64c2.js" crossorigin="anonymous"></script>
 
+  {{-- DataTables --}}
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+  <style>
+    .sidebar-dark .nav-item.active{
+      background: #6885D9;
+    }
+  </style>
+
   @yield('styles')
 </head>
 
@@ -62,6 +71,10 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+
+  {{-- DataTables --}}
+  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
   @yield('scripts')
 

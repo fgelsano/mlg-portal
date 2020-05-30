@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Dashboard\Enrolment;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DataTables;
+
+use App\Models\Admission;
 
 class PendingRequestsController extends Controller
 {
@@ -14,6 +17,10 @@ class PendingRequestsController extends Controller
      */
     public function index()
     {
+        if(request()->ajax())
+        {
+            return $this->generateDatatables();
+        };
         return view('admin.enrolment.pending-requests');
     }
 
@@ -81,5 +88,23 @@ class PendingRequestsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function generateDatatables()
+    {
+        $pending = Admission::where('status','0')->get();
+
+        return DataTables::of($pending)
+                ->addColumn('action', function($data){
+                    $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editAdmission">
+                                        <i class="fas fa-edit"></i>
+                                      </a>
+                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteAdmission">
+                                        <i class="fas fa-trash"></i>
+                                      </a>';
+                    return $actionButtons;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
     }
 }

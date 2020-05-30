@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Dashboard\Enrolment;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DataTables;
+
+use App\Models\Admission;
 
 class AllRequestsController extends Controller
 {
@@ -14,6 +17,10 @@ class AllRequestsController extends Controller
      */
     public function index()
     {
+        if(request()->ajax())
+        {
+            return $this->generateDatatables();
+        };
         return view('admin.enrolment.all-requests');
     }
 
@@ -81,5 +88,32 @@ class AllRequestsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function generateDatatables()
+    {
+        return DataTables::of(Admission::latest()->get())
+                ->addColumn('status', function($data){
+                    $status = '';
+
+                    if($data->status === 0){
+                        $status = '<span class="badge badge-pill badge-danger">Pending</span>';
+                    } else {
+                        $status = '<span class="badge badge-pill badge-success">Accepted</span>';
+                    }
+
+                    return $status;
+                })
+                ->addColumn('action', function($data){
+                    $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editAdmission">
+                                        <i class="fas fa-edit"></i>
+                                      </a>
+                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteAdmission">
+                                        <i class="fas fa-trash"></i>
+                                      </a>';
+                    return $actionButtons;
+                })
+                ->rawColumns(['action','status'])
+                ->make(true);
     }
 }
