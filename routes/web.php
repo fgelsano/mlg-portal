@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('front-portal');
+    return view('front.index');
 });
 
 Auth::routes([
@@ -23,4 +23,24 @@ Auth::routes([
     'verify' => false, // Email Verification Routes...
 ]);
 
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Route::get('/online-admission', 'Front\FrontContentsController@createAdmission')->name('admission.index');
+Route::post('/online-admission', 'Front\FrontContentsController@storeAdmission')->name('admission.store');
+
+Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( function(){
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+    Route::resource('/dashboard/admission/pending-requests', 'Enrolment\AcceptedRequestsController');
+    Route::resource('/dashboard/admission/all-requests', 'Enrolment\AllRequestsController');
+    Route::resource('/dashboard/admission/pending-requests', 'Enrolment\PendingRequestsController');
+    Route::resource('/dashboard/admission/accepted-requests', 'Enrolment\AcceptedRequestsController');
+    Route::resource('/dashboard/admission/rejected-requests', 'Enrolment\RejectedRequestsController');
+
+    Route::resource('/dashboard/enrolment/schedules', 'Enrolment\Others\SchedulesController');
+    Route::resource('/dashboard/enrolment/rooms-labs', 'Enrolment\Others\LabsAndRoomsController');
+
+    Route::resource('/dashboard/instructors', 'Instructors\InstructorsController');
+    Route::resource('/dashboard/students', 'Students\StudentsController');
+    Route::resource('/dashboard/subjects', 'Subjects\SubjectsController');
+
+    Route::resource('/dashboard/users', 'Admin\UsersController');
+});

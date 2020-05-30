@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
 
@@ -19,14 +19,39 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+  {{-- Favicon --}}
   <link rel="icon" type="image/png" href="{{ asset('admin/img/favicon.png') }}">
+
+  {{-- FontAwesome --}}
+  <script src="https://kit.fontawesome.com/2e85fc64c2.js" crossorigin="anonymous"></script>
 
   @yield('styles')
 </head>
 
 <body>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
 
-  @yield('content')
+    @include('admin.0-partials._sidebar')
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+    <div id="content">
+        @include('admin.0-partials._topbar')
+        @yield('contents')
+    </div>
+    <!-- End of Main Content -->
+      
+      @include('admin.0-partials._footer')
+      
+      @include('admin.0-partials._logout-modal')
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
 
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
