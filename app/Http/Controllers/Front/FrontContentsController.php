@@ -10,6 +10,10 @@ use DateTime;
 
 class FrontContentsController extends Controller
 {
+    public function index(){
+        return view('front.index');
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -95,7 +99,7 @@ class FrontContentsController extends Controller
             if($request->has('sf9-back')){
                 $sf9_back = $request->file('sf9-back')->getClientOriginalName();
                 $sf9_back = pathinfo($sf9_back, PATHINFO_FILENAME);
-                $sf9_back_extension = $request->file('sf9_back')->getClientOriginalExtension();
+                $sf9_back_extension = $request->file('sf9-back')->getClientOriginalExtension();
                 $sf9_back = $sf9_back.'-'.$date.'.'.$sf9_back_extension;
                 $path_sf9_back = $request->file('sf9_back')->storeAs('public/uploads/sf9-back', $sf9_back);
             } else {
@@ -164,7 +168,7 @@ class FrontContentsController extends Controller
             $admission->gender                  = $request->input('gender');
             $admission->civil_status            = $request->input('civil-status');
             $admission->religion                = $request->input('religion');
-            $admission->house_number            = $request->input('house-number');
+            $admission->purok                   = $request->input('purok');
             $admission->sitio                   = $request->input('sitio');
             $admission->street_barangay         = $request->input('street-barangay');
             $admission->municipality            = $request->input('municipality');

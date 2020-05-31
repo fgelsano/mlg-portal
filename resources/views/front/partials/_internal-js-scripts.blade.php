@@ -105,16 +105,16 @@
                     let print_civil_status = ['Single','Married','Widow','Widower'];
                     $('#print-civil-status').text(print_civil_status[data.success.civil_status]);
                     $('#print-religion').text(data.success.religion);
-                    let print_house_number = '';
-                    if(data.success.house_number){
-                        print_house_number = 'House #'+data.success.house_number
+                    let print_purok = '';
+                    if(data.success.purok){
+                        print_purok = 'Purok '+data.success.purok
                     }
                     let print_sitio = '';
                     if(data.success.sitio){
                         print_sitio = 'Sitio '+data.success.sitio;
                     }
-                    $('#print-physical-address').text(print_house_number+' '+print_sitio+','+data.success.street_barangay+','+data.success.municipality+','+data.success.province+', Philippines '+data.success.zip_code);
-                    let print_courses = ['BSIT','BEED','BSED-Math','BSED-SocSci','SHS'];
+                    $('#print-physical-address').text(print_purok+' '+print_sitio+','+data.success.street_barangay+','+data.success.municipality+','+data.success.province+', Philippines '+data.success.zip_code);
+                    let print_courses = ['BSIT','BEED','BSED-Math','BSED-SocSci','SHS-ABM','SHS-HUMSS','SHS-CK','SHS-HK','SHS-BP','SHS-ICT','JHS'];
                     $('#print-course').text(print_courses[data.success.course]);
                     let print_year_level = ['First Year','Second Year','Third Year','Fourth Year','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'];
                     $('#print-year-level').text(print_year_level[data.success.year_level]);

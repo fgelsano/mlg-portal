@@ -10,7 +10,13 @@
             <option value="1">Bachelor in Elementary Education (BEED)</option>
             <option value="2">Bachelor in Secondary Education major in Math (BSED-Math)</option>
             <option value="3">Bachelor in Secondary Education major in Social Science (BSED-SocSci)</option>
-            <option value="4">Senior High School</option>
+            <option value="4">Senior High School - ABM</option>
+            <option value="6">Senior High School - HUMSS</option>
+            <option value="7">Senior High School - Cookery</option>
+            <option value="8">Senior High School - Housekeeping</option>
+            <option value="9">Senior High School - Bread & Pastry</option>
+            <option value="10">Senior High School - ICT</option>
+            <option value="11">Junior High School</option>
         </select>
     </div>
     <div class="col-12 col-md-2 form-group">

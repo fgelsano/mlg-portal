@@ -44,7 +44,7 @@
                 <label for="">Physical Address</label>
             </div>
             <div class="col-12 col-md-2 mb-2">
-                <input type="text" name="house-number" id="house-number" placeholder="House #" title="House #" class="form-control">
+                <input type="text" name="purok" id="purok" placeholder="Purok" class="form-control">
             </div>
             <div class="col-12 col-md-2 mb-2">
                 <input type="text" name="sitio" id="sitio" placeholder="Sitio" class="form-control">
