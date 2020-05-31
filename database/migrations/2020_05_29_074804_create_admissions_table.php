@@ -22,7 +22,7 @@ class CreateAdmissionsTable extends Migration
             $table->integer('gender');
             $table->integer('civil_status');
             $table->string('religion');
-            $table->integer('house_number')->nullable();
+            $table->integer('purok')->nullable();
             $table->string('sitio')->nullable();
             $table->string('street_barangay');
             $table->string('municipality');

@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('front.index');
-});
+Route::get('/', 'Front\FrontContentsController@index');
 
 Auth::routes([
     'register' => false, // Registration Routes...

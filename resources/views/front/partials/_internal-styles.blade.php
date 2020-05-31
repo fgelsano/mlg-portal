@@ -1,6 +1,10 @@
 <style>
     body{
         background-color: #fff;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .merriweather{
         font-family: 'Merriweather', serif;
     }
 
@@ -22,7 +26,7 @@
         left: 0;
         width: 100%;
         min-height: 5em;
-        line-height: 4em;
+        padding: 15px 15px 0px;
         opacity: 1;
         visibility: visible;
         text-align: center;
