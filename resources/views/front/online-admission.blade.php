@@ -11,6 +11,10 @@
     @include('front.partials._external-styles')
     @include('front.partials._internal-styles')
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.4/dist/sweetalert2.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css">
+
 </head>
 
 <body>
@@ -29,12 +33,16 @@
         </div>
     </div>
 
-    
     @include('front.partials._selfie-modal')
 
     @include('front.partials._external-js-scripts')
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.4/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/dropify@0.2.2/src/js/dropify.min.js"></script>
+
     @include('front.partials._internal-js-scripts')
+
 </body>
 
 </html>

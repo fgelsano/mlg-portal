@@ -1,11 +1,10 @@
 @extends('layouts.admin')
 
 @section('title', 'Instructors')
+@section('menu-title', 'Instructors')
 
 @section('styles')
-<style>
-    
-</style>
+
 @endsection
 
 @section('contents')
@@ -14,13 +13,22 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Instructors</h1>
-        {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
+        <div class="row">
+            <div class="col-12">
+                @include('admin.0-partials._messages')
+            </div>
         </div>
+        @include('admin.instructors.partials.sections.table')
+
+        @include('admin.instructors.partials.sections.modal')
 
     </div>
     <!-- /.container-fluid -->
 
+@endsection
+
+@section('scripts')
+    @include('admin.instructors.partials.scripts.datatables')
+    @include('admin.instructors.partials.scripts.actions')
+    @include('admin.instructors.partials.scripts.instructorSave')
 @endsection

@@ -9,11 +9,20 @@
 @section('contents')
 <div class="container">
 
+    <div class="row mt-5">
+        <div class="col-12 col-md-4 offset-md-4 text-center">
+            <img src="{{ asset('storage/MLG_Logo-Since-1999.jpg') }}" alt="MLG Logo" class="img-responsive" width="40%">
+        </div>
+        <div class="col-12 col-md-6 offset-md-3 text-center mt-3 mb-0">
+            <h2 class="merriweather font-weight-bold">MLG College of Learning, Inc</h2>
+            <h4 class="m-0 merriweather">Brgy. Atabay, Hilongos, Leyte</h4>
+        </div>
+    </div>
     <!-- Outer Row -->
     <div class="row justify-content-center">
 
-    <img src="{{ asset('admin/img/logo.png') }}" alt="MLGCL Logo" class="img-responsive my-5 d-md-block d-none">
-    <img src="{{ asset('admin/img/logo.jpg') }}" alt="MLGCL Logo" class="img-responsive mb-3 mt-5 d-block d-md-none" width="50%">
+    {{-- <img src="{{ asset('admin/img/logo.png') }}" alt="MLGCL Logo" class="img-responsive my-5 d-md-block d-none">
+    <img src="{{ asset('admin/img/logo.jpg') }}" alt="MLGCL Logo" class="img-responsive mb-3 mt-5 d-block d-md-none" width="50%"> --}}
 
       <div class="col-xl-10 col-lg-12 col-md-9">
 

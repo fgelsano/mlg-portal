@@ -1,10 +1,17 @@
 @extends('layouts.admin')
 
 @section('title', 'Subjects')
+@section('menu-title', 'Subjects')
 
 @section('styles')
 <style>
-    
+    .hover-shadow:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        cursor: pointer;
+    }
+    .popover{
+        max-width: 80% !important;
+    }
 </style>
 @endsection
 
@@ -14,13 +21,22 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Subjects</h1>
-        {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
+        <div class="row">
+            <div class="col-12">
+                @include('admin.0-partials._messages')
+            </div>
         </div>
+        @include('admin.subjects.partials.sections.table')
+
+        @include('admin.subjects.partials.sections.modal')
 
     </div>
     <!-- /.container-fluid -->
 
+@endsection
+
+@section('scripts')
+    @include('admin.subjects.partials.scripts.datatables')
+    @include('admin.subjects.partials.scripts.actions')
+    @include('admin.subjects.partials.scripts.subjectSave')
 @endsection

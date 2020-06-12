@@ -10,57 +10,17 @@
                     Medical Certificate [RHU]
                 </div>
                 <div class="col-12 col-md-6">
-                    (All Applicants)
+                    All Applicants
                 </div>
             </div>
         </li>
         <li>
             <div class="row">
                 <div class="col-12 col-md-6">
-                    PSA Birth Certificate [NSO] 
+                    PSA Birth Certificate
                 </div>
                 <div class="col-12 col-md-6">
-                    (All Applicants except Current Students)
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    SF-9 or Form 138 [FRONT VIEW]
-                </div>
-                <div class="col-12 col-md-6">
-                    (High School Applicants)
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    SF-9 or Form 138 [BACK VIEW]
-                </div>
-                <div class="col-12 col-md-6">
-                    (High School Applicants)
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    General Weighted Average Certification
-                </div>
-                <div class="col-12 col-md-6">
-                    (High School Applicants)
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    Honorable Dismissal [TRANFEREES] 
-                </div>
-                <div class="col-12 col-md-6">
-                    (New or Transfer Applicants)
+                    Incoming First Years
                 </div>
             </div>
         </li>
@@ -70,7 +30,37 @@
                     Good Moral Character
                 </div>
                 <div class="col-12 col-md-6">
-                    (New or Transfer Applicants)
+                    Incoming First Years
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    SF-9 or Form 138 or Report Card [FRONT VIEW]
+                </div>
+                <div class="col-12 col-md-6">
+                    Incoming First Years
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    SF-9 or Form 138 or Report Card [BACK VIEW]
+                </div>
+                <div class="col-12 col-md-6">
+                    Incoming First Years
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    Honorable Dismissal [TRANFEREES] 
+                </div>
+                <div class="col-12 col-md-6">
+                    All Transfer Applicants
                 </div>
             </div>
         </li>
@@ -80,7 +70,7 @@
                     2 pcs 2x2 Id Pictures
                 </div>
                 <div class="col-12 col-md-6">
-                    (New or Transfer Applicants)
+                    Incoming First Years
                 </div>
             </div>
         </li>
@@ -90,7 +80,7 @@
                     1 Long Brown Envelope
                 </div>
                 <div class="col-12 col-md-6">
-                    (New or Transfer Applicants)
+                    Incoming First Years
                 </div>
             </div>
         </li>
@@ -100,7 +90,7 @@
                     2 pcs Long Folders
                 </div>
                 <div class="col-12 col-md-6">
-                    (New or Transfer Applicants)
+                    Incoming First Years
                 </div>
             </div>
         </li>
@@ -110,17 +100,26 @@
                     1 Long Mailing Envelope with Postage Stamp
                 </div>
                 <div class="col-12 col-md-6">
-                    (New or Transfer Applicants)
+                    Incoming First Years
                 </div>
             </div>
         </li>
     </ul>
     <p class="mb-0">You may also send your enrolment fee via the following payment options listed below:</p>
-    <ul>
-        <li>Cashier's Office</li>
-        <li>Bank Transfer</li>
-        <li>Palawan Pawnshop Pera Padala</li>
-        <li>MLhuillier Kwarta Padala</li>
-        <li>Cebuana Lhuilier Pera Padala</li>
-    </ul>
+    <div class="row">
+        <div class="col-12 col-md-3">Cashier's Office</div>
+        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/</a></div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">GCash</div>
+        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/</a></div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">MLhuillier</div>
+        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/</a></div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">Cebuana Lhuillier</div>
+        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-cebuana-lhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-cebuana-lhuillier/</a></div>
+    </div>
 </div>

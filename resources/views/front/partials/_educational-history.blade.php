@@ -1,8 +1,5 @@
 {{-- Educational History --}}
 <div class="row">
-    <div class="col-12">
-        <h4 class="mt-3">Educational History</h4>
-    </div>
     <div class="col-12 col-md-9 mb-2">
         <input type="text" name="school-graduated" id="school-graduated" placeholder="School Graduated" class="form-control">
     </div>

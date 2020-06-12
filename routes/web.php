@@ -23,21 +23,25 @@ Auth::routes([
 
 Route::get('/online-admission', 'Front\FrontContentsController@createAdmission')->name('admission.index');
 Route::post('/online-admission', 'Front\FrontContentsController@storeAdmission')->name('admission.store');
+Route::get('/fetchOldStudent/{name}', 'Front\FrontContentsController@fetchOldStudent')->name('oldStudent.fetch');
 
 Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( function(){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-    Route::resource('/dashboard/admission/pending-requests', 'Enrolment\AcceptedRequestsController');
-    Route::resource('/dashboard/admission/all-requests', 'Enrolment\AllRequestsController');
-    Route::resource('/dashboard/admission/pending-requests', 'Enrolment\PendingRequestsController');
-    Route::resource('/dashboard/admission/accepted-requests', 'Enrolment\AcceptedRequestsController');
-    Route::resource('/dashboard/admission/rejected-requests', 'Enrolment\RejectedRequestsController');
-
-    Route::resource('/dashboard/enrolment/schedules', 'Enrolment\Others\SchedulesController');
-    Route::resource('/dashboard/enrolment/rooms-labs', 'Enrolment\Others\LabsAndRoomsController');
+    Route::resource('/dashboard/enrollment/admission/requests', 'Enrollment\Admission\AdmissionRequestsController');
+    Route::post('/dashboard/enrollment/admission/requests/accept', 'Enrollment\Admission\AdmissionRequestsController@markAccept')->name('requests.accept');
+    
+    Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists');
+    Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
+    Route::resource('/dashboard/enrollment/enroll', 'Enrollment\Enroll\EnrollController');
 
     Route::resource('/dashboard/instructors', 'Instructors\InstructorsController');
+    Route::get('/dashboard/instructors-list', 'Instructors\InstructorsController@instructorList')->name('instructors.list');
+    
     Route::resource('/dashboard/students', 'Students\StudentsController');
+
+    Route::get('/dashboard/subjects/enroll-subjects', 'Subjects\SubjectsController@enrollSubjects')->name('enroll-subjects.list');
+    Route::get('/dashboard/subjects/pick-subjects/{id}', 'Subjects\SubjectsController@pickedSubjects')->name('subjects.pick');
     Route::resource('/dashboard/subjects', 'Subjects\SubjectsController');
 
     Route::resource('/dashboard/users', 'Admin\UsersController');
