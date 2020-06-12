@@ -9,7 +9,8 @@
 <link rel="icon" type="image/png" href="{{ asset('admin/img/favicon.png') }}">
 
 {{-- Bootstrap CSS --}}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> --}}
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-9/chHLTCcBULgxOFoUyZXSgEF0uFXs+NrQqzcy/DXqcR+Sk8C1l4EgmUXAEzTb92" crossorigin="anonymous">
 
 {{-- Merriweather Font --}}
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700;900&display=swap" rel="stylesheet">
@@ -25,3 +26,12 @@
 
 {{-- PrintJS --}}
 <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+
+ <!-- CSS -->
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+ <!-- Default theme -->
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+ <!-- Semantic UI theme -->
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+ <!-- Bootstrap theme -->
+ <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>

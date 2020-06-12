@@ -40,7 +40,7 @@
                     @if (Route::has('login'))
                         <div class="links">
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="btn btn-default">Home</a>
+                                <a href="{{ url('/dashboard') }}" class="btn btn-default">Dashboard</a>
                             @else
                                 <a href="{{ route('login') }}" class="btn btn-default">Login</a>
                                 <a href="https://mlgcl.edu.ph" class="btn btn-default">Front Page</a>

@@ -25,27 +25,18 @@
 
     <!-- Nav Item - Enrolment Collapse Menu -->
     <li class="nav-item
-      {{ url()->current() === route('all-requests.index') ? 'active' : '' }}
-      {{ url()->current() === route('accepted-requests.index') ? 'active' : '' }}
-      {{ url()->current() === route('pending-requests.index') ? 'active' : '' }}
-      {{ url()->current() === route('rejected-requests.index') ? 'active' : '' }}
-      {{ url()->current() === route('schedules.index') ? 'active' : '' }}
-      {{ url()->current() === route('rooms-labs.index') ? 'active' : '' }}">
+      {{ url()->current() === route('requests.index') ? 'active' : '' }}">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-book-open"></i>
-        <span class="ml-2">Enrolment</span>
+        <span class="ml-2">Enrollment</span>
       </a>
       <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Admissions:</h6>
-          <a class="collapse-item" href="{{ route('all-requests.index') }}">All Requests</a>
-          <a class="collapse-item" href="{{ route('pending-requests.index') }}">Pending Requests</a>
-          <a class="collapse-item" href="{{ route('accepted-requests.index') }}">Accepted</a>
-          <a class="collapse-item" href="{{ route('rejected-requests.index') }}">Rejected</a>
+          <a class="collapse-item" href="{{ route('requests.index') }}">All Requests</a>
           <div class="collapse-divider"></div>
-          <h6 class="collapse-header">Others:</h6>
-          <a class="collapse-item" href="{{ route('schedules.index') }}">Schedules</a>
-          <a class="collapse-item" href="{{ route('rooms-labs.index') }}">Rooms / Labs</a>
+          <h6 class="collapse-header">Enrollments:</h6>
+          <a class="collapse-item" href="{{ route('enroll.index') }}">Enrollees</a>
         </div>
       </div>
     </li>
@@ -82,12 +73,20 @@
       Admin Menus
     </div>
 
-    <!-- Nav Item - Tables -->
+    <!-- Nav Item - Users -->
     <li class="nav-item
       {{ url()->current() === route('users.index') ? 'active' : '' }}">
       <a class="nav-link" href="{{ route('users.index') }}">
         <i class="fas fa-users"></i>
         <span class="ml-2">Users</span></a>
+    </li>
+
+    <!-- Nav Item - Options -->
+    <li class="nav-item
+      {{ url()->current() === route('options.index') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('options.index') }}">
+        <i class="fas fa-list"></i>
+        <span class="ml-2">Options</span></a>
     </li>
 
     <!-- Divider -->

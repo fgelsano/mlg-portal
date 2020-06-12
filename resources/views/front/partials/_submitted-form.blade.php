@@ -8,11 +8,11 @@
         </button>
     </div>
 
-    <div id="printContents" class="p-5 border">
+    <div id="printContents" class="p-md-5 p-3 border">
         {{-- Letter Head --}}
         <div class="row border-bottom py-3">
             <div class="col-12 col-md-1 print-col-2">
-                <img src="{{ asset('storage/MLG_Logo-Since-1999.jpg') }}" alt="MLG Logo" class="img-responsive" width="100%" id="print-logo">
+                <img src="{{ asset('admin/img/MLG_Logo-Since-1999.jpg') }}" alt="MLG Logo" class="img-responsive" width="100%" id="print-logo">
             </div>
             <div class="col-12 col-md-11">
                 <div class="row">
@@ -29,14 +29,30 @@
 
         <div class="row mt-5">
             {{-- Personal Information --}}
-            <div class="col-12 col-md-8 print-col-8">
+            <div class="col-12 col-md-3 mb-3">
+                <div class="thumbnail">
+                    <img src="{{ asset('admin/img/empty-profile-img.png') }}" alt="Applicant Image" id="print-applicant-img" class="img-responsive" width="100%">
+                    <div class="caption">
+                        <p class="bg-danger text-white py-2 text-center">Applicant's Selfie</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-7 print-col-8">
                 <h5 class="border-bottom">Personal Information</h5>
                 <div class="row">
                     <div class="col-12 col-md-3 d-none d-md-block print-show">
                         Name:
                     </div>
                     <div class="col-12 col-md-9 font-weight-bold" id="print-fullname">
-                        Francis Engcoy Gelsano
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-3 d-none d-md-block print-show">
+                        Contact:
+                    </div>
+                    <div class="col-12 col-md-9 font-weight-bold" id="print-contact">
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -44,7 +60,7 @@
                         Gender:
                     </div>
                     <div class="col-12 col-md-9 font-weight-bold" id="print-gender">
-                        Male
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -52,7 +68,7 @@
                         Civil Status:
                     </div>
                     <div class="col-12 col-md-9 font-weight-bold" id="print-civil-status">
-                        Married
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -60,7 +76,7 @@
                         Religion:
                     </div>
                     <div class="col-12 col-md-9 font-weight-bold" id="print-religion">
-                        Born Again Christian
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -68,19 +84,32 @@
                         Physical Address:
                     </div>
                     <div class="col-12 col-md-9 font-weight-bold" id="print-physical-address">
-                        #1 Sitio Manga, Sto. Niño Extension, Matalom, Leyte, Philippines, 6526
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-2 print-col-4 text-right">
+                <h5 class="border-bottom">Course Details</h5>
+                <div class="row">
+                    <div class="col-12 font-weight-bold">
+                        <h1 class="text-danger my-0 font-weight-bold" id="print-course"></h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 font-weight-bold my-0" id="print-gender">
+                        <h6 class="my-0" id="print-year-level"></h6>
                     </div>
                 </div>
             </div>
             {{-- Course Details --}}
-            <div class="col-12 col-md-4 text-md-right mt-3 text-center mt-sm-3 print-col-4">
+            {{-- <div class="col-12 col-md-2 text-md-right mt-3 text-center mt-sm-3 print-col-4">
                 <h5>Course Details</h5>
                 <h1 class="text-danger my-0 font-weight-bold" id="print-course">BSIT</h1>
-                <h6 class="my-0" id="print-year-level">First Year</h6>
+                <h6 class="my-0" id="print-year-level"></h6>
                 <div class="mt-4">
                     <h2 class="text-danger" id="print-trans-id"></h2>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="row mt-5">
             <div class="col-12 border-bottom">
@@ -90,10 +119,10 @@
                 Name:
             </div>
             <div class="col-12 col-md-7 font-weight-bold" id="print-parent-name">
-                Francisco Gelsano
+                
             </div>
             <div class="col-12 col-md-3 font-weight-bold" id="print-parent-contact">
-                0977-489-0473
+                
             </div>
         </div>
         <div class="row mt-5">
@@ -104,101 +133,94 @@
                 LRN:
             </div>
             <div class="col-12 col-md-10 font-weight-bold text-danger" id="print-lrn">
-                PH000000000012
+                
             </div>
             
             <div class="col-12 col-md-2 d-none d-md-block print-show">
                 School Graduated:
             </div>
             <div class="col-12 col-md-7 font-weight-bold" id="print-school-graduated">
-                MLG College of Learning, Inc.
+                
             </div>
             <div class="col-12 col-md-2 d-none d-md-block print-show">
                 Year Graduated:
             </div>
             <div class="col-12 col-md-1 text-right font-weight-bold" id="print-year-graduated">
-                2018
+                
             </div>
             
             <div class="col-12 col-md-2 d-none d-md-block print-show">
                 School Address:
             </div>
             <div class="col-12 col-md-10 font-weight-bold" id="print-school-address">
-                Brgy. Atabay, Hilongos, Leyte, Philippines
+                
             </div>
         </div>
-        <div class="row mt-5 py-3 border-bottom">
-            <div class="col-12 col-md-6">
-                <div class="row">
-                    <div class="col-12 border-bottom">
-                        <h5>Uploaded Documents</h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-med-cert">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        Medical Certificate
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-gmc">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        Good Moral Character
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-sf9-front">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        SF9 or Form 138 [FRONT VIEW]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-sf9-back">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        SF9 or Form 138 [BACK VIEW]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-gwa">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        GWA Certification
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-psa-bc">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        PSA Birth Certificate [NSO]
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2 col-md-2 my-3 text-center print-col-1" id="print-hd">
-                        <i class="fas fa-check text-success"></i>
-                    </div>
-                    <div class="col-10 col-md-10 my-3 print-col-11">
-                        Honorable Dismissal
-                    </div>
+        <div class="row mt-5 py-3 border-bottom">    
+            <div class="col-12 border-bottom">
+                <h5>Uploaded Documents</h5>
+            </div>
+    
+            <div class="col-12 col-md-4 my-2 text-center print-col-4 uploaded-doc" id="print-med-cert">
+                <div class="thumbnail">
+                    <a href="#">
+                        <div class="caption">
+                            <p class="bg-danger text-white py-2">Medical Certificate</p>
+                        </div>
+                    </a>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
-                <div class="row">
-                    <div class="col-12 border-bottom">
-                        <h5>Applicant Image</h5>
-                    </div>
+                    
+            <div class="col-12 col-md-4 my-2 text-center print-col-4 uploaded-doc" id="print-gmc">
+                <div class="thumbnail">
+                    <a href="#">
+                        <div class="caption">
+                            <p class="bg-danger text-white py-2">Good Moral Character</p>
+                        </div>
+                    </a>
                 </div>
-                <img src="" alt="Applicant Image" id="print-applicant-img" class="img-responsive" width="100%">
             </div>
+                    
+            <div class="col-12 col-md-4 my-2 text-center print-col-4 uploaded-doc" id="print-sf9-front">
+                <div class="thumbnail">
+                    <a href="#">
+                        <div class="caption">
+                            <p class="bg-danger text-white py-2">Report Card [FRONT]</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+                    
+            <div class="col-12 col-md-4 my-2 text-center print-col-4 uploaded-doc" id="print-sf9-back">
+                <div class="thumbnail">
+                    <a href="#">
+                        <div class="caption">
+                            <p class="bg-danger text-white py-2">Report Card [BACK]</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+                    
+            <div class="col-12 col-md-4 my-2 text-center print-col-4 uploaded-doc" id="print-psa-bc">
+                <div class="thumbnail">
+                    <a href="#">
+                        <div class="caption">
+                            <p class="bg-danger text-white py-2">PSA Birth Certificate</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+                    
+            <div class="col-12 col-md-4 my-2 text-center print-col-4 uploaded-doc" id="print-hd">
+                <div class="thumbnail">
+                    <a href="#">
+                        <div class="caption">
+                            <p class="bg-danger text-white py-2">Honorable Dismissal</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+                
         </div>
         <div class="row mt-5">
             <div class="col-12 text-center">
