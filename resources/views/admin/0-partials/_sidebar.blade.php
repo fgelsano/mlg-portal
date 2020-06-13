@@ -25,18 +25,27 @@
 
     <!-- Nav Item - Enrolment Collapse Menu -->
     <li class="nav-item
-      {{ url()->current() === route('requests.index') ? 'active' : '' }}">
+      {{ url()->current() === route('requests.index') ? 'active' : '' }}
+      {{ url()->current() === route('cashier.list') ? 'active' : '' }}
+      {{ url()->current() === route('enroll.index') ? 'active' : '' }}">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-book-open"></i>
         <span class="ml-2">Enrollment</span>
       </a>
-      <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div id="collapsePages" class="collapse
+      {{ url()->current() === route('requests.index') ? 'show' : '' }}
+      {{ url()->current() === route('cashier.list') ? 'show' : '' }}
+      {{ url()->current() === route('enroll.index') ? 'show' : '' }}
+      " aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Admissions:</h6>
-          <a class="collapse-item" href="{{ route('requests.index') }}">All Requests</a>
+          <a class="collapse-item {{ url()->current() === route('requests.index') ? 'active' : '' }}" href="{{ route('requests.index') }}">All Requests</a>
+          <div class="collapse-divider"></div>
+          <h6 class="collapse-header">Cashier:</h6>
+          <a class="collapse-item {{ url()->current() === route('cashier.list') ? 'active' : '' }}" href="{{ route('cashier.list') }}">Cashier's Hold</a>
           <div class="collapse-divider"></div>
           <h6 class="collapse-header">Enrollments:</h6>
-          <a class="collapse-item" href="{{ route('enroll.index') }}">Enrollees</a>
+          <a class="collapse-item {{ url()->current() === route('enroll.index') ? 'active' : '' }}" href="{{ route('enroll.index') }}">Enrollees</a>
         </div>
       </div>
     </li>
@@ -87,6 +96,14 @@
       <a class="nav-link" href="{{ route('options.index') }}">
         <i class="fas fa-list"></i>
         <span class="ml-2">Options</span></a>
+    </li>
+
+    <!-- Nav Item - Payments -->
+    <li class="nav-item
+      {{ url()->current() === route('payments.index') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('payments.index') }}">
+        <i class="fas fa-money-bill-alt"></i>
+        <span class="ml-2">Payments</span></a>
     </li>
 
     <!-- Divider -->

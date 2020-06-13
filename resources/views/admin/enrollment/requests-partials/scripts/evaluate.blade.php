@@ -15,7 +15,7 @@
             processData: false,
             dataType: 'json',
             success: function(data){
-                
+                console.log(data);
                 $('#rejectAdmission').attr('data-id', data.id);
                 $('#enrollAdmission').attr('data-id', data.id);
                 
@@ -24,57 +24,88 @@
                 $('#requested-by').text(fullname);
                 let print_gender = ['Male','Female']
                 $('#gender').text(print_gender[data.gender]);
+                $('#contact').text(data.contact_number);
                 let print_civil_status = ['Single','Married','Widow','Widower'];
                 $('#civil-status').text(print_civil_status[data.civil_status]);
                 $('#religion').text(data.religion);
                 let print_purok = '';
                 if(data.purok){
-                    print_purok = 'Purok '+data.purok+',';
+                    print_purok = 'Purok '+data.purok
                 }
                 let print_sitio = '';
                 if(data.sitio){
-                    print_sitio = 'Sitio '+data.sitio+',';
+                    print_sitio = 'Sitio '+data.sitio;
                 }
-                $('#physical-address').text(print_purok+' '+print_sitio+' '+data.street_barangay+', '+data.municipality+', '+data.province+', Philippines '+data.zip_code);
+
+                let purokSitio = '';
+                if(print_purok == '' || print_sitio == ''){
+                    purokSitio = '';
+                } else if(print_purok == ''){
+                    purokSitio = print_sition;
+                } else {
+                    purokSitio = print_purok+' '+print_sitio+', ';
+                }
+
+                $('#physical-address').text(purokSitio+data.barangay+','+data.municipality+','+data.province+', Philippines '+data.zipcode);
                 let print_courses = ['BSIT','BEED','BSED-Math','BSED-SocSci','SHS-ABM','SHS-HUMSS','SHS-CK','SHS-HK','SHS-BP','SHS-ICT','JHS'];
                 $('#course').text(print_courses[data.course]);
                 let print_year_level = ['First Year','Second Year','Third Year','Fourth Year','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'];
                 $('#year-level').text(print_year_level[data.year_level]);
                 $('#lrn').text(data.lrn);
-                let trans_id = data.id;
-                let request_id = trans_id.toString();
-                $('#request-id').text(request_id.padStart(6,'0'));
-                $('#request-id').attr('data-id', trans_id);
-                $('#contact-name').text(data.parent_guardian_name);
-                $('#contact-number').text(data.parent_guardian_contact);
-                $('#school').text(data.school_graduated);
+                // let trans_id = data.id;
+                // let request_id = trans_id.toString();
+                // $('#request-id').text(request_id.padStart(6,'0'));
+                // $('#request-id').attr('data-id', trans_id);
+                $('#parent-name').text(data.emergency_contact_name);
+                $('#parent-contact').text(data.emergency_contact_number);
+                $('#school-graduated').html(data.school_graduated+' (Graduated: '+data.year_graduated+')');
                 $('#school-address').text(data.school_address);
-                $('#year').text(data.year_graduated);
 
-                $('#gmc').html(data.gmc ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#gmc-popover').attr(data.gmc ? {'data-content':'<img src="{{ asset('/storage/uploads/gmc') }}/'+data.gmc+'" width="100%">'} : '');
+                let filePath = '/storage/uploads/';
+                let noDoc = '/no-document-uploaded.jpg';
 
-                $('#sf9-front').html(data.sf9_front ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#sf9-front-popover').attr(data.sf9_front ? {'data-content':'<img src="{{ asset('/storage/uploads/sf9-front') }}/'+data.sf9_front+'" width="100%">'} : '');
+                let gmc = data.documents[0].good_moral ? filePath+'gmc/'+data.good_moral : filePath+'gmc'+noDoc;
+                $('#gmc').css('background-image','url("'+gmc+'")');
+                $('#gmc-link').attr('data-img',gmc);
 
-                $('#sf9-back').html(data.sf9_back ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#sf9-back-popover').attr(data.sf9_back ? {'data-content':'<img src="{{ asset('/storage/uploads/sf9-back') }}/'+data.sf9_back+'" width="100%">'} : '');
+                let sf9_front = data.documents[0].report_card_front ? filePath+'sf9-front/'+data.report_card_front : filePath+'sf9-front'+noDoc;
+                $('#sf9-front').css('background-image','url("'+sf9_front+'")');
+                $('#sf9-front-link').attr('data-img',sf9_front);
+
+                let sf9_back = data.documents[0].report_card_back ? filePath+'sf9-back/'+data.report_card_back : filePath+'sf9-back'+noDoc;
+                $('#sf9-back').css('background-image','url("'+sf9_back+'")');
+                $('#sf9-back-link').attr('data-img',sf9_back);
+
+                let med_cert = data.documents[0].med_cert ? filePath+'med-cert/'+data.med_cert : filePath+'med-cert'+noDoc;
+                $('#med-cert').css('background-image','url("'+med_cert+'")');
+                $('#med-cert-link').attr('data-img',med_cert);
+
+                let psa_bc = data.documents[0].psa_birth_cert ? filePath+'psa-bc/'+data.psa_birth_cert : filePath+'psa-bc'+noDoc;
+                $('#psa-bc').css('background-image','url("'+psa_bc+'")');
+                $('#psa-bc-link').attr('data-img',psa_bc);
+
+                let hd = data.documents[0].honorable_dismissal ? filePath+'hd/'+data.documents[0].honorable_dismissal : filePath+'hd'+noDoc;
+                $('#hd').css('background-image','url("'+hd+'")');
+                $('#hd-link').attr('data-img',hd);
+
+                let profile_pic = data.profile_pic ? filePath+'applicant-img/'+data.profile_pic : filePath+'applicant-img'+noDoc;
                 
-                $('#med-cert').html(data.med_cert ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#med-cert-popover').attr(data.med_cert ? {'data-content':'<img src="{{ asset('/storage/uploads/med-cert') }}/'+data.med_cert+'" width="100%">'} : '');
+                $('#profile-pic').css('background-image', 'url("'+profile_pic+'")');
+                $('#profile-pic-link').attr('data-img',profile_pic);
 
-                $('#gwa').html(data.gwa ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#gwa-popover').attr(data.gwa ? {'data-content':'<img src="{{ asset('/storage/uploads/gwa') }}/'+data.gwa+'" width="100%">'} : '');
-
-                $('#psa-bc').html(data.psa_bc ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#psa-bc-popover').attr(data.psa_bc ? {'data-content':'<img src="{{ asset('/storage/uploads/psa-bc') }}/'+data.psa_bc+'" width="100%">'} : '');
-
-                $('#hd').html(data.hd ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>');
-                $('#hd-popover').attr(data.hd ? {'data-content':'<img src="{{ asset('/storage/uploads/hd') }}/'+data.hd+'" width="100%">'} : '');
-
-                let applicant_img_url = '/storage/uploads/applicant-img/';
-                $('#applicant-img').attr('src', applicant_img_url+data.applicant_img);
-
+                let status = '';
+                if(data.status == 0){
+                    status = 'PENDING REVIEW';
+                } else if(data.status == 1){
+                    status = 'Cashier\'s Hold';
+                } else if(data.status == 2){
+                    status = 'Accepted';
+                } else if(data.status == 3){
+                    status = 'Rejected: '+data.comment;
+                } else {
+                    status = 'Enrolled';
+                }
+                $('#admission-status').text(status);
                 $('#admission-modal').modal('show');
             }
         })

@@ -31,6 +31,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/enrollment/admission/requests', 'Enrollment\Admission\AdmissionRequestsController');
     Route::post('/dashboard/enrollment/admission/requests/accept', 'Enrollment\Admission\AdmissionRequestsController@markAccept')->name('requests.accept');
     
+    Route::get('/dashboard/enrollment/cashier/lists','Enrollment\Cashier\CashierController@index')->name('cashier.list');
     Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists');
     Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
     Route::resource('/dashboard/enrollment/enroll', 'Enrollment\Enroll\EnrollController');
@@ -43,6 +44,8 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/subjects/enroll-subjects', 'Subjects\SubjectsController@enrollSubjects')->name('enroll-subjects.list');
     Route::get('/dashboard/subjects/pick-subjects/{id}', 'Subjects\SubjectsController@pickedSubjects')->name('subjects.pick');
     Route::resource('/dashboard/subjects', 'Subjects\SubjectsController');
+
+    Route::resource('/dashboard/payments','Payments\PaymentsController');
 
     Route::resource('/dashboard/users', 'Admin\UsersController');
 });

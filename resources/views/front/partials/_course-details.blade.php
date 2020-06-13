@@ -3,10 +3,9 @@
     <div class="col-12 col-md-9 form-group">
         <select name="course" id="course" class="form-control">
             <option value="" selected disabled>Select a Course</option>
-            <option value="0">Bachelor of Science in Information Technology (BSIT)</option>
-            <option value="1">Bachelor in Elementary Education (BEED)</option>
-            <option value="2">Bachelor in Secondary Education major in Math (BSED-Math)</option>
-            <option value="3">Bachelor in Secondary Education major in Social Science (BSED-SocSci)</option>
+            @foreach ($courses as $course)
+                <option value="{{$course->id}}">{{$course->name}} ({{$course->code}})</option>
+            @endforeach
             {{-- <option value="4">Senior High School - ABM</option>
             <option value="6">Senior High School - HUMSS</option>
             <option value="7">Senior High School - Cookery</option>

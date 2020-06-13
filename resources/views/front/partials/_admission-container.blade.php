@@ -128,12 +128,5 @@
                 </div>
               </div>
         </div>
-
-        {{-- Error Box --}}
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="alert alert-danger d-none" id="error-box"></div>
-            </div>
-        </div>
     </form>
 </div>

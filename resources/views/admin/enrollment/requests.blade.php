@@ -19,6 +19,38 @@
     #enroll-subjects{
         width: 100%!important;
     }
+
+    .uploaded-doc{
+        height: 300px;
+        position: relative;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border: 15px solid #fff;
+    }
+
+    .uploaded-doc p{
+        position: absolute;
+        bottom: 5px;
+        width: 90%;
+    }
+
+    #profile-pic{
+        height: 250px;
+        position: relative;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #profile-pic p{
+        position: absolute;
+        bottom: 5px;
+        width: 90%;
+    }
+
+    #reject-reason{
+        width: 100%;
+    }
 </style>
 @endsection
 

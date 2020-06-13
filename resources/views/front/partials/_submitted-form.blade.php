@@ -101,17 +101,8 @@
                     </div>
                 </div>
             </div>
-            {{-- Course Details --}}
-            {{-- <div class="col-12 col-md-2 text-md-right mt-3 text-center mt-sm-3 print-col-4">
-                <h5>Course Details</h5>
-                <h1 class="text-danger my-0 font-weight-bold" id="print-course">BSIT</h1>
-                <h6 class="my-0" id="print-year-level"></h6>
-                <div class="mt-4">
-                    <h2 class="text-danger" id="print-trans-id"></h2>
-                </div>
-            </div> --}}
         </div>
-        <div class="row mt-5">
+        <div class="row">
             <div class="col-12 border-bottom">
                 <h5>Emergency Contacts</h5>
             </div>
@@ -125,7 +116,7 @@
                 
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-3">
             <div class="col-12 border-bottom">
                 <h5>Educational History</h5>
             </div>
@@ -156,7 +147,7 @@
                 
             </div>
         </div>
-        <div class="row mt-5 py-3 border-bottom">    
+        <div class="row mt-3 py-3 border-bottom">    
             <div class="col-12 border-bottom">
                 <h5>Uploaded Documents</h5>
             </div>

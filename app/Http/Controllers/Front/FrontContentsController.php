@@ -9,11 +9,18 @@ use App\Models\Admission;
 use DateTime;
 use App\Models\Profile;
 use App\Models\Document;
+use App\Models\Course;
 
 class FrontContentsController extends Controller
 {
     public function index(){
         return view('front.index');
+        // $requests = Admission::where('status',0)
+        //                     ->orWhere('status',2)
+        //                     ->orWhere('status',3)
+        //                     ->join('profiles','profiles.id','=','admissions.profile_id')
+        //                     ->get();
+        // return $requests;
     }
     
     /**
@@ -23,7 +30,8 @@ class FrontContentsController extends Controller
      */
     public function createAdmission()
     {
-        return view('front.online-admission');
+        $courses = Course::all();
+        return view('front.online-admission')->with('courses', $courses);
     }
 
     /**
@@ -193,6 +201,7 @@ class FrontContentsController extends Controller
                 $admission->academic_year = '2020-2021'; // ########### make this dynamic ########## //
                 $admission->semester = '1'; // ########### make this dynamic ########## //
                 $admission->status = '0';
+                $admission->save();
 
                 $applicantDetails['first_name']             = $request->input('first-name');
                 $applicantDetails['middle_name']            = $request->input('middle-name');
@@ -268,10 +277,13 @@ class FrontContentsController extends Controller
         }
         
         if($searchId){
-            $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name')
+            $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name','courses.code as course')
                         ->where('school_id', $fname)
+                        ->join('courses','courses.ied','=','profiles.course')
+                        ->where('courses.id','profiles.course')
                         ->first();
         } else {
+            // dd($fname,$lname);
             $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name','courses.code as course')
                         ->where('first_name', 'LIKE', '%'.$fname.'%')
                         ->orWhere('last_name', 'LIKE', '%'.$lname.'%')
@@ -279,7 +291,7 @@ class FrontContentsController extends Controller
                         ->where('courses.id','profiles.course')
                         ->first();
         }
-        if(empty($oldStudent)){
+        if($oldStudent == null){
             return response()->json([
                 'error' => $error,
             ], 404);

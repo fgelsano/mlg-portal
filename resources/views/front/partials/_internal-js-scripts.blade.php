@@ -112,7 +112,8 @@
                                                                 '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.success.school_id+'</strong></p>' +
                                                                 '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.success.first_name+'</strong></p>' +
                                                                 '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.success.middle_name+'</strong></p>' +
-                                                                '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.success.last_name+'</strong></p>',
+                                                                '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.success.last_name+'</strong></p>'+
+                                                                '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.success.course+'</strong></p>',
                                                                 showCancelButton: true,
                                                                 confirmButtonText: 'Yes, that\'s me!',
                                                                 cancelButtonText: 'No, that\'s not me!',
@@ -344,9 +345,6 @@
                 }
                 // toastr["error"](error_html);
                 alertify.error(error_html);
-                $('#error-box').html('<ul>'+error_html+'</ul>');
-                $('#error-box').removeClass('d-none');
-                $('#error-box').addClass('d-block');
             }
         });  
 
