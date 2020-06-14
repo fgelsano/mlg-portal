@@ -10,17 +10,18 @@ use DateTime;
 use App\Models\Profile;
 use App\Models\Document;
 use App\Models\Course;
+use App\Models\Payment;
 
 class FrontContentsController extends Controller
 {
     public function index(){
-        return view('front.index');
-        // $requests = Admission::where('status',0)
-        //                     ->orWhere('status',2)
-        //                     ->orWhere('status',3)
-        //                     ->join('profiles','profiles.id','=','admissions.profile_id')
-        //                     ->get();
-        // return $requests;
+        // return view('front.index');
+        $requests = Admission::where('status',1)
+                                ->join('profiles','profiles.id','=','admissions.profile_id')
+                                ->join('courses','profiles.course','=','courses.id')
+                                ->select('courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','admissions.status','admissions.created_at','admissions.profile_id')
+                                ->get();
+        return $requests;
     }
     
     /**
@@ -161,7 +162,7 @@ class FrontContentsController extends Controller
 
                 // create admission
                 $profile = new Profile;
-                $profile->school_id               = 'Not Yet Enrolled';
+                $profile->school_id               = '0';
                 $profile->profile_pic             = $applicant_img;
                 $profile->first_name              = $request->input('first-name');
                 $profile->middle_name             = $request->input('middle-name');
@@ -203,6 +204,22 @@ class FrontContentsController extends Controller
                 $admission->status = '0';
                 $admission->save();
 
+                $initialBalance = 0;
+                if($profile->year_level == 1){
+                    $initialBalance = 3500.00;
+                } else {
+                    $initialBalance = 3300.00;
+                }
+                $payment = new Payment;
+                $payment->profile_id = $profile->id;
+                $payment->type = 'Enrollment Fee';
+                $payment->amount = 0;
+                $payment->balance = $initialBalance;
+                $payment->or_number = 'none';
+                $payment->ref_number = 'none';
+                $payment->others = 'Enrollment fee unpaid';
+                $payment->save();
+
                 $applicantDetails['first_name']             = $request->input('first-name');
                 $applicantDetails['middle_name']            = $request->input('middle-name');
                 $applicantDetails['last_name']              = $request->input('last-name');
@@ -235,6 +252,7 @@ class FrontContentsController extends Controller
                 $applicantDetails['psa_bc']                 = $psa_bc ? $filePath.'psa-bc/'.$psa_bc : $noUploadedDoc;
                 $applicantDetails['med_cert']               = $med_cert ? $filePath.'med-cert/'.$med_cert : $noUploadedDoc;
                 $applicantDetails['hd']                     = $hd ? $filePath.'hd/'.$hd : $noUploadedDoc;
+                $applicantDetails['courses']                = Course::select('id','code')->get();
             }
 
             if($error_array){

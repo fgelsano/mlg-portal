@@ -23,10 +23,9 @@
                             <table id="cashier-hold" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Last Name</th>
                                         <th>First Name</th>
-                                        <th>School</th>
+                                        <th>School Graduated</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -54,10 +53,6 @@
                 ajax: '{{ route('cashier.list') }}',
                 columns: [
                     {
-                        data: 'id',
-                        name: 'request_id'
-                    },
-                    {
                         data: 'last_name',
                         name: 'last_name'
                     },
@@ -77,13 +72,13 @@
                         data: 'created_at',
                         name: 'created_at',
                         type: 'date',
-                        targets: [4],
+                        targets: [3],
                         visible: false,
                         orderable: false
                     }
 
                 ],
-                "order": [[ 4, 'asc']]
+                "order": [[ 3, 'asc']]
             });
         } );
     </script>

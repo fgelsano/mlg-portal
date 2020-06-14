@@ -221,4 +221,147 @@
             </div>
         </div>
     </div>
+
+    <div id="fees" class="mt-3">
+        <div class="alert alert-primary">
+            <h4 class="my-0">Tuition and Other Fees</h4>
+        </div>
+        
+        <div class="table-responsive">
+            <table id="payments" class="table table-sm table-bordered table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center font-weight-bold">#</th>
+                        <th>Fee</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- Tuition Fee --}}
+                    <tr>
+                        <td class="text-center font-weight-bold">A</td>
+                        <td colspan="2" class="font-weight-bold text-uppercase">Tuition Fee</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Laboratory</td>
+                        <td class="text-right">₱500.00 per Unit</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Lecture</td>
+                        <td class="text-right">₱400.00 per Unit</td>
+                    </tr>
+    
+                    {{-- Miscellaneous Fees --}}
+                    <tr>
+                        <td class="text-center font-weight-bold">B</td>
+                        <td colspan="2" class="font-weight-bold text-uppercase">Miscellaneous Fees</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Registration Fee</td>
+                        <td class="text-right">₱500.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Library Fee</td>
+                        <td class="text-right">₱300.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Laboratory Fee</td>
+                        <td class="text-right">₱300.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Computer Fee</td>
+                        <td class="text-right">₱500.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Guidance & Counseling Fee</td>
+                        <td class="text-right">₱200.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Handbook Fee</td>
+                        <td class="text-right">₱100.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Medical/Dental Fee</td>
+                        <td class="text-right">₱200.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Athletic Fee</td>
+                        <td class="text-right">₱200.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>School Publication Fee</td>
+                        <td class="text-right">₱100.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>School Id Fee</td>
+                        <td class="text-right">₱200.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="font-weight-bold text-right">Total</td>
+                        <td class="font-weight-bold text-right">₱2600.00</td>
+                    </tr>
+    
+                    {{-- Development Fees --}}
+                    <tr>
+                        <td class="text-center font-weight-bold">C</td>
+                        <td colspan="2" class="font-weight-bold text-uppercase">Development Fees</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Leadership Training Fee</td>
+                        <td class="text-right">₱100.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Student Partnership & Student Org Activities Fee</td>
+                        <td class="text-right">₱200.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Spiritual, Social & Values Program Fee</td>
+                        <td class="text-right">₱100.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Bridging/Remedial Program Fee</td>
+                        <td class="text-right">₱200.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="font-weight-bold text-right">Total</td>
+                        <td class="font-weight-bold text-right">₱600.00</td>
+                    </tr>
+                    
+                    {{-- Other Fees --}}
+                    <tr>
+                        <td class="text-center font-weight-bold">D</td>
+                        <td colspan="2" class="font-weight-bold text-uppercase">Other Fees</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>NSPT (CWTS) - <span class="px-3 badge badge-pill badge-warning">FIRST YEAR STUDENTS ONLY</span></td>
+                        <td class="text-right">₱300.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="font-weight-bold text-right">Total</td>
+                        <td class="font-weight-bold text-right">₱300.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

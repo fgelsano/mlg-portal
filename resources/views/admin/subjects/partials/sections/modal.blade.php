@@ -22,7 +22,14 @@
                     <input type="text" name="description" id="description" class="form-control" placeholder="Enter Subject Description">
                   </div>
                   <div class="form-group">
+                    <input type="text" name="url" id="url" class="form-control" placeholder="Enter Subject URL">
+                  </div>
+                  <div class="form-group">
                     <select name="category" id="category" class="form-control">
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <select name="schedule" id="schedule" class="form-control">
                     </select>
                   </div>
                   <div class="form-group">
@@ -32,31 +39,25 @@
                   <div class="row">
                     <div class="col-12 col-md-6">
                       <div class="form-group">
-                        <select name="room-lab" id="room-lab" class="form-control">
+                        <select name="subjectType" id="subject-type" class="form-control">
                         </select>
                       </div>
                     </div>
                     <div class="col-12 col-md-6">
                       <div class="form-group">
-                        <select name="schedule" id="schedule" class="form-control">
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12 col-md-6">
-                      <div class="form-group">
-                        <select name="sy" id="sy" class="form-control">
+                        <select name="academic-year" id="ay" class="form-control">
                         </select>
                       </div>
                     </div>
                     <div class="col-12 col-md-6">
                       <div class="form-group">
                         <select name="sem" id="sem" class="form-control">
-                          <option value="" disabled selected>Semester</option>
-                          <option value="1">First Semester</option>
-                          <option value="2">Second Semester</option>
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <input type="text" name="units" id="units" class="form-control" placeholder="Units">
                       </div>
                     </div>
                   </div>
@@ -65,10 +66,10 @@
                   <input type="hidden" name="action-button" value="save">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success px-3" id="subjectSave" data-action="Save">
+                <button type="submit" class="btn btn-success px-5" id="subjectSave" data-action="Save">
                   <i class="fas fa-save"></i> Save
               </button>
-              <button type="button" class="btn btn-danger px-3" data-dismiss="modal">
+              <button type="button" class="btn btn-danger px-5" data-dismiss="modal">
                   <i class="fas fa-times"></i> Close
               </button>
             </div>          

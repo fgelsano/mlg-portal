@@ -19,11 +19,57 @@
                     <div class="form-group">
                         <input type="text" name="name" id="name" class="form-control" placeholder="Enter Option">
                     </div>
+                    <div class="alert alert-info">
+                        <p class="font-weight-bold mb-0">Option Types</p>
+                        <ul class="my-0">
+                            <li>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Subject Category
+                                    </div>
+                                    <div class="col-6">
+                                        Type "subject-category"
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Room
+                                    </div>
+                                    <div class="col-6">
+                                        Type "room"
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Laboratory
+                                    </div>
+                                    <div class="col-6">
+                                        Type "lab"
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Academic Year
+                                    </div>
+                                    <div class="col-6">
+                                        Type "ay"
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <p class="mt-3 small lead">For new type of option, make sure to specify a new option type.</p>
+                    </div>
                     <div class="form-group">
                         <input type="text" name="type" id="type" class="form-control" placeholder="Enter Option Type">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="extra" id="extra" class="form-control" placeholder="Enter Option Extra Info">
+                        <input type="text" name="extra" id="extra" class="form-control" placeholder="Extra (Optional)">
                     </div>
                     
                     <input type="hidden" name="_method" value="" id="formMethod">

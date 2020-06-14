@@ -9,6 +9,7 @@ use DataTables;
 use Validator;
 
 use App\Models\Profile;
+use App\User;
 
 class InstructorsController extends Controller
 {
@@ -35,9 +36,10 @@ class InstructorsController extends Controller
     public function store(Request $request)
     {
         $validation = Validator::make($request->all(),[
+            'instructor-id' => 'required',
             'last-name'     => 'required',
             'first-name'     => 'required',
-            'middle-name'   => 'required',
+            'email' => 'required',
             'status'        => 'required'
         ]);
 
@@ -49,26 +51,58 @@ class InstructorsController extends Controller
             foreach($validation->messages()->getMessages() as $field_name => $messages){
                 $error_array[] = $messages;
             }
+            return response()->json([
+                $error_array
+            ],414);
         } else {
             
             // create instructor
             $instructor = new Profile;
+            $instructor->school_id = $request->input('instructor-id');
+            $instructor->profile_pic = 'none';
             $instructor->last_name = $request->input('last-name');
             $instructor->first_name = $request->input('first-name');
-            $instructor->middle_name = $request->input('middle-name');
-            $instructor->status = $request->input('status');
-            $instructor->type = '1';
+            $instructor->middle_name = 'none';
+            $instructor->gender = 0;
+            $instructor->civil_status = 0;
+            $instructor->contact_number = '0';
+            $instructor->email = $request->input('email');
+            $instructor->religion = 'none';
+            $instructor->purok = 'none';
+            $instructor->sitio = 'none';
+            $instructor->barangay = 'none';
+            $instructor->municipality = 'none';
+            $instructor->province = 'none';
+            $instructor->zipcode = 0;
+            $instructor->emergency_contact_name = 'none';
+            $instructor->emergency_contact_number = 'none';
+            $instructor->school_graduated = 'none';
+            $instructor->year_graduated = 'none';
+            $instructor->school_address = 'none';
+            $instructor->lrn = 'none';
+            $instructor->course = 'none';
+            $instructor->year_level = 'none';
+            $instructor->complete_profile = 0;
             $instructor->save();
 
-            $success_output = '<p class="m-0">Instructor Added!</p>';
+            $user = new User;
+            $user->name = $request->input('first-name').' '.$request->input('last-name');
+            $user->email = $request->input('email');
+            $user->password = $this->generateRandomString();
+            $user->role = $request->input('status');
+            $user->profile_id = $instructor->id;
+            $user->save();
+
+            $success_output = [
+                'profile' => $instructor,
+                'user' => $user
+            ];
+
+            return response()->json([
+                $success_output
+            ],200);
         }
 
-        $output = array(
-            'error' => $error_array,
-            'success' => $success_output
-        );
-
-        return response()->json($output);
     }
 
     /**
@@ -91,7 +125,10 @@ class InstructorsController extends Controller
     public function edit($id)
     {
         if(request()->ajax()){
-            $instructor = Profile::where('id', $id)->first();
+            $instructor = Profile::where('profiles.id', $id)
+                                ->join('users','profiles.id','=','users.profile_id')
+                                ->select('profiles.*','users.role')
+                                ->first();
             return response()->json($instructor);
         }
     }
@@ -106,9 +143,10 @@ class InstructorsController extends Controller
     public function update(Request $request, $id)
     {
         $validation = Validator::make($request->all(),[
+            'instructor-id' => 'required',
             'last-name'     => 'required',
             'first-name'     => 'required',
-            'middle-name'   => 'required',
+            'email' => 'required',
             'status'        => 'required'
         ]);
 
@@ -120,26 +158,34 @@ class InstructorsController extends Controller
             foreach($validation->messages()->getMessages() as $field_name => $messages){
                 $error_array[] = $messages;
             }
+            return response()->json([
+                $error_array
+            ],414);
         } else {
             
             // create instructor
             $instructor = Profile::where('id', $id)->first();
             $instructor->last_name = $request->input('last-name');
             $instructor->first_name = $request->input('first-name');
-            $instructor->middle_name = $request->input('middle-name');
-            $instructor->status = $request->input('status');
-            $instructor->type = '1';
+            $instructor->email = $request->input('email');
             $instructor->save();
 
-            $success_output = '<p class="m-0">Instructor Updated!</p>';
+            $user = User::where('profile_id',$id)->first();
+            $user->name = $request->input('first-name').' '.$request->input('last-name');
+            $user->email = $request->input('email');
+            $user->role = $request->input('status');
+            $user->profile_id = $instructor->id;
+            $user->save();
+
+            $success_output = [
+                'profile' => $instructor,
+                'user' => $user
+            ];
+
+            return response()->json([
+                $success_output
+            ],200);
         }
-
-        $output = array(
-            'error' => $error_array,
-            'success' => $success_output
-        );
-
-        return response()->json($output);
     }
 
     /**
@@ -155,13 +201,18 @@ class InstructorsController extends Controller
 
     public function generateDatatables()
     {
-        return DataTables::of(Profile::latest()->get())
+        $instructors = Profile::select('profiles.last_name','profiles.first_name','users.role','profiles.id','profiles.school_id')
+                                ->join('users','profiles.id','=','users.profile_id')
+                                ->where('users.role',4)
+                                ->orWhere('users.role',5)
+                                ->get();
+        return DataTables::of($instructors)
                 ->addColumn('status', function($data){
                     $status = '';
 
-                    if($data->status === 3){
+                    if($data->role === 4){
                         $status = '<span class="badge badge-pill badge-primary">Full-time</span>';
-                    } else if($data->status === 4){
+                    } else if($data->role === 5){
                         $status = '<span class="badge badge-pill badge-warning">Part-time</span>';
                     }
 
@@ -187,5 +238,15 @@ class InstructorsController extends Controller
         }
 
         return response()->json($instructors);
+    }
+
+    public function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

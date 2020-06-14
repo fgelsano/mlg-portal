@@ -8,6 +8,7 @@ use DataTables;
 
 use App\Models\Admission;
 use App\Models\Profile;
+use App\Models\Course;
 
 class AdmissionRequestsController extends Controller
 {
@@ -22,7 +23,7 @@ class AdmissionRequestsController extends Controller
         {
             return $this->generateDatatables();
         };
-        return view('admin.enrollment.requests');
+        return view('admin.enrollment.requests.index');
     }
 
     /**
@@ -55,15 +56,18 @@ class AdmissionRequestsController extends Controller
     public function show($id)
     {
         if(request()->ajax()){
-            // $admission = Admission::where('id', $id)
-            //                 ->join('profiles','profiles.id','=','admissions.profile_id')
-            //                 ->first();
             $profile = Profile::where('profiles.id',$id)
                                 ->join('admissions','profiles.id','=','admissions.profile_id')
                                 ->select('profiles.*','admissions.status','admissions.comment')
                                 ->with('documents')
                                 ->first();
-            return response()->json($profile);
+            $courses = Course::all();
+
+            $details = [
+                'profile' => $profile,
+                'courses' => $courses
+            ];
+            return response()->json($details);
         }
     }
 
@@ -91,10 +95,16 @@ class AdmissionRequestsController extends Controller
             
             $admission = Admission::where('profile_id',$id)->first();
 
+            if($request->requestType == 'CashierAccepted'){
+                $admission = Admission::where('id',$id)->first();
+            } 
+
             if($request->requestType == 'markAccept'){
-                $admission->status = '1';
-            } else {
-                $admission->status = $request->buttonAction == 'Reject' ? '3' : '1';
+                $admission->status = 1;
+            } else if($request->requestType == 'CashierAccepted'){
+                $admission->status = 2;
+            } else if($request->buttonAction == 'Reject'){
+                $admission->status =  3;
                 $admission->comment = $request->rejectReason;
             }
             
@@ -102,7 +112,7 @@ class AdmissionRequestsController extends Controller
     
             if(!$admission->save()){
                 return response()->json([
-                    'Error' => 'Update failed',
+                    $admission
                 ],414);
             }
     
@@ -158,14 +168,23 @@ class AdmissionRequestsController extends Controller
 
                     if($data->status == 3){
                         $status = 'd-none';
+                    } else if($data->status == 2){
+                        $status = 'd-none';
                     } else {
                         $status = '';
                     }
 
-                    $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' evalAdmission" data-toggle="modal" data-target="#admission-modal">
-                                        <i class="fas fa-eye"></i> Evaluate
-                                      </a>
-                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-'.$color.' deleteAdmission '.$status.'">
+                    $evaluateBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' evalAdmission" data-toggle="modal" data-target="#admission-modal"><i class="fas fa-eye"></i> Evaluate</a>';
+                    $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' enrollStudent" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-folder-open"></i> Enroll</a>';
+                    
+                    if($data->status == 2){
+                        $actionBtn = $enrollBtn;
+                    } else {
+                        $actionBtn = $evaluateBtn;
+                    }
+
+                    $actionButtons = $actionBtn.
+                                      '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-'.$color.' deleteAdmission '.$status.'">
                                         <i class="fas fa-trash"></i>
                                       </a>';
                     return $actionButtons;
@@ -173,4 +192,5 @@ class AdmissionRequestsController extends Controller
                 ->rawColumns(['action','status'])
                 ->make(true);
     }
+
 }

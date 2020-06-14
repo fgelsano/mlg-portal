@@ -22,6 +22,14 @@
                     name: 'instructor'
                 },
                 {
+                    data: 'type',
+                    name: 'type'
+                },
+                {
+                    data: 'units',
+                    name: 'units'
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false

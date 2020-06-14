@@ -4,12 +4,14 @@
             <div class="card-body">
 
                 <div class="table-responsive">
-                    <table id="instructors" class="table table-striped table-bordered table-hover">
+                    <table id="payments" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>Student Id</th>
                                 <th>Last Name</th>
                                 <th>First Name</th>
+                                <th>Course</th>
+                                <th>Balance</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

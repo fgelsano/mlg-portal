@@ -34,7 +34,8 @@
         width: 90%;
     }
 
-    #profile-pic{
+    #profile-pic,
+    #enroll-profile-pic{
         height: 250px;
         position: relative;
         background-size: cover;
@@ -42,7 +43,8 @@
         background-position: center;
     }
 
-    #profile-pic p{
+    #profile-pic p,
+    #enroll-profile-pic p{
         position: absolute;
         bottom: 5px;
         width: 90%;
@@ -70,11 +72,11 @@
                 @include('admin.0-partials._messages')
             </div>
         </div>
-        @include('admin.enrollment.requests-partials.sections.table')
+        @include('admin.enrollment.requests.partials.sections.table')
 
-        @include('admin.enrollment.requests-partials.sections.request-modal')
+        @include('admin.enrollment.requests.partials.sections.request-modal')
 
-        @include('admin.enrollment.enroll-partials.enroll-modal')
+        @include('admin.enrollment.enroll.enroll-modal')
 
     </div>
     <!-- /.container-fluid -->
@@ -82,19 +84,17 @@
 @endsection
 
 @section('scripts')
-    @include('admin.enrollment.requests-partials.scripts.datatables')
+    @include('admin.enrollment.requests.partials.scripts.datatables')
 
-    @include('admin.enrollment.requests-partials.scripts.popover')
+    @include('admin.enrollment.requests.partials.scripts.evaluate')
 
-    @include('admin.enrollment.requests-partials.scripts.evaluate')
+    @include('admin.enrollment.requests.partials.scripts.reject')
 
-    @include('admin.enrollment.requests-partials.scripts.reject')
+    @include('admin.enrollment.requests.partials.scripts.registrarAccept')
 
-    @include('admin.enrollment.requests-partials.scripts.enroll')
+    @include('admin.enrollment.requests.partials.scripts.processEnrollment')
 
-    @include('admin.enrollment.enroll-partials.scripts.datatables')
+    @include('admin.enrollment.enroll.scripts.datatables')
 
-    @include('admin.enrollment.enroll-partials.scripts.crud')
-
-    @include('admin.enrollment.enroll-partials.scripts.action')
+    @include('admin.enrollment.enroll.scripts.action')
 @endsection

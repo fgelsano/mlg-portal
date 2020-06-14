@@ -105,21 +105,31 @@
             </div>
         </li>
     </ul>
-    <p class="mb-0">You may also send your enrolment fee via the following payment options listed below:</p>
+    <hr>
+    <h3 class="font-weight-bold text-danger">Important Reminder!</h3>
     <div class="row">
-        <div class="col-12 col-md-3">Cashier's Office</div>
-        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/</a></div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-3">GCash</div>
-        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/</a></div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-3">MLhuillier</div>
-        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/</a></div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-3">Cebuana Lhuillier</div>
-        <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-cebuana-lhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-cebuana-lhuillier/</a></div>
+        <div class="col-12 col-md-9">
+            <p class="mb-0 font-weight-bold mb-3">Please pay your miscellaneous fee via the following payment options listed below. Once payment is confirmed, the registrar will start loading your subjects and activate your access to the school's student portal.</p>
+            <div class="row">
+                <div class="col-12 col-md-3">Cashier's Office</div>
+                <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/</a></div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3">GCash</div>
+                <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/</a></div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3">MLhuillier</div>
+                <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/</a></div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3">Cebuana Lhuillier</div>
+                <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-cebuana-lhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-cebuana-lhuillier/</a></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <p class="text-center bg-danger text-white py-1">Miscellaneous Fee</p>
+            <h1 class="text-center" id="totalMiscFee">₱ 3,500.00</h1>
+        </div>
     </div>
 </div>

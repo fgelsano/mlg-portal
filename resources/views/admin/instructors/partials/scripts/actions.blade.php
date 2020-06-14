@@ -9,8 +9,10 @@
        $('#alerts').addClass('d-none');
        $('#alerts').removeClass('d-block');
     });
+
     $(document).on('click', '.editInstructor', function(e){
         e.preventDefault();
+        $('#instructorForm')[0].reset();
         $('#alerts').addClass('d-none');
         $('#alerts').removeClass('d-block');
         let instructorId = $(this).attr('data-id');
@@ -23,10 +25,19 @@
             processData: false,
             dataType: 'json',
             success: function(data){
+                console.log(data);
                 $('#instructorTitle').html('<i class="fas fa-chalkboard-teacher"></i> Edit Instructor');
                 $('#last-name').val(data.last_name);
                 $('#first-name').val(data.first_name);
                 $('#middle-name').val(data.middle_name);
+                $('#email').val(data.email);
+
+                let selectedStatus = data.role;
+                $('select#status option').each(function(){
+                    if($(this).val() == selectedStatus){
+                        $(this).attr('selected','selected');
+                    }
+                });
                 
                 let selectedStat = data.status;
                 $('select#status option').each(function(){
