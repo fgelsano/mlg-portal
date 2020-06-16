@@ -2,7 +2,8 @@
 <div class="d-none mt-5" id="admission">
     <form action="" method="POST" id="admission-form" enctype="multipart/form-data" class="multisteps-form__form">
         @csrf
-
+        <input type="hidden" name="studentType" id="student-type">
+        <input type="hidden" name="profileId" id="profile-id">
         <div class="container">
 
             <div class="multisteps-form">

@@ -76,6 +76,8 @@
                                             $('#first-name').val(data.success.first_name);
                                             $('#middle-name').val(data.success.middle_name);
                                             $('#last-name').val(data.success.last_name);
+                                            $('#student-type').val('old');
+                                            $('#profile-id').val(data.success.id);
                                             swalWithBootstrapButtons.fire(
                                                 'Welcome Back '+data.success.first_name+'!',
                                                 'Please fill-out the form below.',
@@ -126,6 +128,8 @@
                                                                     $('#first-name').val(data.success.first_name);
                                                                     $('#middle-name').val(data.success.middle_name);
                                                                     $('#last-name').val(data.success.last_name);
+                                                                    $('#student-type').val('old');
+                                                                    $('#profile-id').val(data.success.id);
                                                                     swalWithBootstrapButtons.fire(
                                                                         'Welcome Back '+data.success.first_name+'!',
                                                                         'Please fill-out the form below.',

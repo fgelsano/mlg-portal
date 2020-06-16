@@ -161,8 +161,15 @@ class FrontContentsController extends Controller
             
 
                 // create admission
-                $profile = new Profile;
-                $profile->school_id               = '0';
+                $studentType = $request->input('studentType');
+                $profileId = $request->input('profile-id');
+
+                if($studentType === 'old'){
+                    $profile = Profile::where('id',$profileId)->first();
+                } else {
+                    $profile = new Profile;
+                    $profile->school_id               = '0';
+                }
                 $profile->profile_pic             = $applicant_img;
                 $profile->first_name              = $request->input('first-name');
                 $profile->middle_name             = $request->input('middle-name');
@@ -295,14 +302,14 @@ class FrontContentsController extends Controller
         }
         
         if($searchId){
-            $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name','courses.code as course')
+            $oldStudent = Profile::select('id','school_id','first_name', 'last_name','middle_name','courses.code as course')
                         ->where('school_id', $fname)
                         ->join('courses','courses.ied','=','profiles.course')
                         ->where('courses.id','profiles.course')
                         ->first();
         } else {
             // dd($fname,$lname);
-            $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name','courses.code as course')
+            $oldStudent = Profile::select('id','school_id','first_name', 'last_name','middle_name','courses.code as course')
                         ->where('first_name', 'LIKE', '%'.$fname.'%')
                         ->orWhere('last_name', 'LIKE', '%'.$lname.'%')
                         ->join('courses','courses.id','=','profiles.course')
