@@ -15,25 +15,21 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    if(data.error.length > 0){
-                        let error_html = '';
-                        for(let x = 0; x < data.error.length; x++){
-                            error_html += '<p class="m-0">'+data.error[x]+'</p>';
+                    $('#subjects').DataTable().ajax.reload();
+                    $('#subjects-modal').modal('hide');
+                    alertify.success('Subject Added!')
+                },
+                error: function(err){
+                    console.log(err)
+                    let error_html = '<ul class="text-left">';
+                    for(let x = 0; x < err.responseJSON.error.length; x++){
+                        error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                        if(x==err.responseJSON.error.length){
+                            error_html += '</ul>';
                         }
-                        $('#alerts').removeClass('d-none');
-                        $('#alerts').addClass('d-block');
-                        $('#alerts').addClass('alert-danger');
-                        $('#alerts').removeClass('alert-success')
-                        $('#alert-title').text('Error:')
-                        $('#alerts-message').html(error_html);
-                    } else {
-                        $('#alerts').addClass('d-none');
-                        $('#alerts').removeClass('alert-danger');
-                        $('#subjectForm')[0].reset();
-                        $('#subjects').DataTable().ajax.reload();
-                        $('#subjects-modal').modal('hide');
-                        alertify.success(data.success)
                     }
+                    // toastr["error"](error_html);
+                    alertify.error(error_html);
                 }
             });
         } else {
@@ -54,26 +50,20 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    if(data.error.length > 0){
-                        let error_html = '';
-                        for(let x = 0; x < data.error.length; x++){
-                            error_html += '<p class="m-0">'+data.error[x]+'</p>';
+                    $('#subjects').DataTable().ajax.reload();
+                    $('#subjects-modal').modal('hide');
+                    alertify.success('Subject Updated!')
+                },
+                error: function(err){
+                    console.log(err)
+                    let error_html = '<ul class="text-left">';
+                    for(let x = 0; x < err.responseJSON.error.length; x++){
+                        error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                        if(x==err.responseJSON.error.length){
+                            error_html += '</ul>';
                         }
-                        $('#alerts').removeClass('d-none');
-                        $('#alerts').addClass('d-block');
-                        $('#alerts').addClass('alert-danger');
-                        $('#alerts').removeClass('alert-success')
-                        $('#alert-title').text('Error:')
-                        $('#alerts-message').html(error_html);
-                    } else {
-                        $('#alerts').addClass('d-block');
-                        $('#alerts').removeClass('d-none');
-                        $('#alerts').removeClass('alert-danger');
-                        $('#alerts').addClass('alert-success');
-                        $('#alert-title').text('Success:')
-                        $('#alerts-message').html(data.success);
-                        $('#subjects').DataTable().ajax.reload();
                     }
+                    alertify.error(error_html);
                 }
             });
         }

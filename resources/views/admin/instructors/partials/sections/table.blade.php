@@ -7,9 +7,9 @@
                     <table id="instructors" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Last Name</th>
                                 <th>First Name</th>
-                                <th>Middle Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

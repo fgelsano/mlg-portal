@@ -15,25 +15,20 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    if(data.error.length > 0){
-                        let error_html = '';
-                        for(let x = 0; x < data.error.length; x++){
-                            error_html += '<p class="m-0">'+data.error[x]+'</p>';
+                    $('#instructor-modal').modal('hide');
+                    $('#instructors').DataTable().ajax.reload();
+                    alertify.success('Instructor Added!');
+                },
+                error: function(err){
+                    console.log(err)
+                        let error_html = '<ul class="text-left">';
+                        for(let x = 0; x < err.responseJSON.length; x++){
+                            error_html += '<li class="text-left">'+err.responseJSON[x]+'</li>';
+                            if(x==err.responseJSON.length){
+                                error_html += '</ul>';
+                            }
                         }
-                        $('#alerts').removeClass('d-none');
-                        $('#alerts').addClass('d-block');
-                        $('#alerts').addClass('alert-danger');
-                        $('#alerts').removeClass('alert-success')
-                        $('#alert-title').text('Error:')
-                        $('#alerts-message').html(error_html);
-                    } else {
-                        $('#alerts').addClass('d-none');
-                        $('#alerts').removeClass('alert-danger');
-                        $('#instructorForm')[0].reset();
-                        $('#instructors').DataTable().ajax.reload();
-                        $('#instructor-modal').modal('hide');
-                        alertify.success(data.success)
-                    }
+                        alertify.error(error_html);
                 }
             });
         } else {
@@ -54,26 +49,24 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    if(data.error.length > 0){
-                        let error_html = '';
-                        for(let x = 0; x < data.error.length; x++){
-                            error_html += '<p class="m-0">'+data.error[x]+'</p>';
+                    $('#alerts-message').html(data.success);
+                    $('#instructor-modal').modal('hide');
+                    $('#instructors').DataTable().ajax.reload();
+                    alertify.success('Instructor Details Updated!');
+                },
+                error: function(err){
+                    console.log(err)
+                        let error_html = '<ul class="text-left">';
+                        for(let x = 0; x < err.responseJSON.length; x++){
+                            error_html += '<li class="text-left">'+err.responseJSON[x]+'</li>';
+                            if(err.responseJSON.message){
+                                error_html += err.responseJSON.message;
+                            }
+                            if(x==err.responseJSON.length){
+                                error_html += '</ul>';
+                            }
                         }
-                        $('#alerts').removeClass('d-none');
-                        $('#alerts').addClass('d-block');
-                        $('#alerts').addClass('alert-danger');
-                        $('#alerts').removeClass('alert-success')
-                        $('#alert-title').text('Error:')
-                        $('#alerts-message').html(error_html);
-                    } else {
-                        $('#alerts').addClass('d-block');
-                        $('#alerts').removeClass('d-none');
-                        $('#alerts').removeClass('alert-danger');
-                        $('#alerts').addClass('alert-success');
-                        $('#alert-title').text('Success:')
-                        $('#alerts-message').html(data.success);
-                        $('#instructors').DataTable().ajax.reload();
-                    }
+                        alertify.error(error_html);
                 }
             });
         }

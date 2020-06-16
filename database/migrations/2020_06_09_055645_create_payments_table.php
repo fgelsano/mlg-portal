@@ -16,10 +16,10 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('type')->comment('e.g. enrollment fee, exam fee, etc');
-            $table->decimal('amount',9,3);
+            $table->decimal('amount',9,2);
             $table->string('or_number');
             $table->string('ref_number');
-            $table->string('others');
+            $table->text('others');
             $table->timestamps();
         });
     }

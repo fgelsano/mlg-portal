@@ -3,7 +3,7 @@
     $(document).ready( function () {
         $('#subjects').DataTable({
             initComplete: function(){
-                $('.dataTables_filter ').append('<button type="button" id="addSubject" class="btn btn-sm btn-primary ml-3" data-toggle="modal" data-target="#subject-modal"><i class="fas fa-book"></i> New Subject</button>');
+                $('.dataTables_filter ').append('<button type="button" id="addSubject" class="btn btn-sm btn-primary ml-3" data-toggle="modal" data-target="#subjects-modal"><i class="fas fa-book"></i> New Subject</button>');
             },
             processing: true,
             serverSide: true,
@@ -43,13 +43,13 @@
                     orderable: false
                 },
                 {
-                    data: 'sy',
-                    name: 'sy',
+                    data: 'academic_year',
+                    name: 'academic_year',
                     visible: false,
                 },
                 {
-                    data: 'sem',
-                    name: 'sem',
+                    data: 'semester',
+                    name: 'semester',
                     visible: false,
                 }
 

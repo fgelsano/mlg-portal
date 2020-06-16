@@ -11,6 +11,7 @@ use DataTables;
 use App\Models\Enrollee;
 use App\Models\Profile;
 use App\Models\Admission;
+use App\Models\Subject;
 
 class EnrollController extends Controller
 {
@@ -25,7 +26,7 @@ class EnrollController extends Controller
         {
             return $this->generateDatatables();
         };
-        return view('admin.enrollment.enrollees');
+        return view('admin.enrollment.enrollees.index');
     }
     
     /**
@@ -86,8 +87,18 @@ class EnrollController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $applicant = Profile::where('profiles.id',$id)
+                            ->select('id','first_name','last_name','gender','civil_status','religion','course','year_level')
+                            ->first();
+        $subjects = Subject::all();
+        
+        $output = [
+            $applicant,
+            $subjects
+        ];
+
+        return response()->json($output);
     }
 
     /**

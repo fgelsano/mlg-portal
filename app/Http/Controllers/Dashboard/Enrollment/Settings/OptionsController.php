@@ -167,19 +167,25 @@ class OptionsController extends Controller
     public function lists()
     {
         if(request()->ajax()){
-            $subjectCategories = Option::where('type', 'subject-category')->get();
-            $instructors = Profile::select('id','first_name','last_name')->where('type', '1')->get();
-            $roomsLabs = Option::where('type','room')->orWhere('type','lab')->get();
-            $sy = Option::where('type','sy')->get();
-            $schedules = Schedule::get();
+            $subjectDetails = Option::where('type','subject-category')
+                                    ->orWhere('type','room')
+                                    ->orWhere('type','lab')
+                                    ->orWhere('type','ay')
+                                    ->get();
+            
+            $instructors = Profile::select('profiles.id','profiles.first_name','profiles.last_name','users.role')
+                                ->join('users','profiles.id','=','users.profile_id')
+                                ->where('users.role',4)
+                                ->orWhere('users.role',5)
+                                ->get();
+            
+            $schedules = Schedule::where('status',0)->get();
         }
         
         $output = [
-            'categories' => $subjectCategories,
+            'subjectDetails' => $subjectDetails,
             'instructors' => $instructors,
-            'roomslabs' => $roomsLabs,
-            'schedules' => $schedules,
-            'sy' => $sy,
+            'schedules' => $schedules
         ];
         
         return response()->json($output);

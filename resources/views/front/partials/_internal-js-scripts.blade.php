@@ -76,6 +76,8 @@
                                             $('#first-name').val(data.success.first_name);
                                             $('#middle-name').val(data.success.middle_name);
                                             $('#last-name').val(data.success.last_name);
+                                            $('#student-type').val('old');
+                                            $('#profile-id').val(data.success.id);
                                             swalWithBootstrapButtons.fire(
                                                 'Welcome Back '+data.success.first_name+'!',
                                                 'Please fill-out the form below.',
@@ -112,7 +114,8 @@
                                                                 '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.success.school_id+'</strong></p>' +
                                                                 '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.success.first_name+'</strong></p>' +
                                                                 '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.success.middle_name+'</strong></p>' +
-                                                                '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.success.last_name+'</strong></p>',
+                                                                '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.success.last_name+'</strong></p>'+
+                                                                '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.success.course+'</strong></p>',
                                                                 showCancelButton: true,
                                                                 confirmButtonText: 'Yes, that\'s me!',
                                                                 cancelButtonText: 'No, that\'s not me!',
@@ -125,6 +128,8 @@
                                                                     $('#first-name').val(data.success.first_name);
                                                                     $('#middle-name').val(data.success.middle_name);
                                                                     $('#last-name').val(data.success.last_name);
+                                                                    $('#student-type').val('old');
+                                                                    $('#profile-id').val(data.success.id);
                                                                     swalWithBootstrapButtons.fire(
                                                                         'Welcome Back '+data.success.first_name+'!',
                                                                         'Please fill-out the form below.',
@@ -225,6 +230,7 @@
 
     // Print
     function printAdmission(){
+        alert('IMPORTANT REMINDER!\n Enable the "Background Graphics" option first before printing.\n This will allow the images to be included in the printout.')
         window.print();
     }
 
@@ -247,6 +253,19 @@
         "hideMethod": "fadeOut"
     }
     
+    // GWA Accepts Only Numbers
+    $(document).on('input', '#gwa-grade', function(){
+        let entry = $('#gwa-grade').val();
+        let gwa = $.isNumeric($('#gwa-grade').val());
+        if(gwa == false){
+            alertify.error('Please enter a number. Enter 0 if not applicable!');
+            $(this).val('');
+        }
+    });
+
+    // Initialize Dropify
+    $('.dropify').dropify();
+
     // Admission Form Submission
     $('#admission-form').on('submit',function(event){
         
@@ -264,7 +283,6 @@
         let formData = new FormData(form);
         formData.append('applicant-img', file);
         
-        console.log(formData.entries);
         $.ajax({
             url: '{{ route("admission.store") }}',
             type: 'POST',
@@ -306,8 +324,15 @@
                 }
 
                 $('#print-physical-address').text(purokSitio+data.success.street_barangay+','+data.success.municipality+','+data.success.province+', Philippines '+data.success.zip_code);
-                let print_courses = ['BSIT','BEED','BSED-Math','BSED-SocSci','SHS-ABM','SHS-HUMSS','SHS-CK','SHS-HK','SHS-BP','SHS-ICT','JHS'];
-                $('#print-course').text(print_courses[data.success.course]);
+                
+                let courseSelected = '';
+                let courseList = data.success.courses;
+                $.each(courseList, function(key,value){
+                    if(value.id == data.success.course){
+                        courseSelected = value.code;
+                    }
+                })
+                $('#print-course').text(courseSelected);
                 let print_year_level = ['First Year','Second Year','Third Year','Fourth Year','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'];
                 $('#print-year-level').text(print_year_level[data.success.year_level]);
                 $('#print-lrn').text(data.success.lrn);
@@ -328,13 +353,16 @@
                 $('#print-hd').css('background-image','url('+data.success.hd+')');
 
                 $('#print-applicant-img').attr('src', data.success.applicant_img);
+                
+                let initialFee = '₱ 3,200.00';
+                if(data.success.year_level == 1){
+                    initialFee = '₱ 3,500.00';
+                } 
+                $('#totalMiscFee').text(initialFee);
                 $('html,body').animate({scrollTop: $('#admission-submitted').offset().top},'slow');
                 
             },
             error: function(err){
-                console.log(err.responseJSON);
-                console.log(err.responseJSON.error);
-                console.log(err.responseJSON.error.length)
                 let error_html = '<ul class="text-left">';
                 for(let x = 0; x < err.responseJSON.error.length; x++){
                     error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
@@ -344,26 +372,10 @@
                 }
                 // toastr["error"](error_html);
                 alertify.error(error_html);
-                $('#error-box').html('<ul>'+error_html+'</ul>');
-                $('#error-box').removeClass('d-none');
-                $('#error-box').addClass('d-block');
             }
         });  
 
     });
-
-    // GWA Accepts Only Numbers
-    $(document).on('input', '#gwa-grade', function(){
-        let entry = $('#gwa-grade').val();
-        let gwa = $.isNumeric($('#gwa-grade').val());
-        if(gwa == false){
-            alertify.error('Please enter a number. Enter 0 if not applicable!');
-            $(this).val('');
-        }
-    });
-
-    // Initialize Dropify
-    $('.dropify').dropify();
 </script>
 
 <script>

@@ -69,6 +69,9 @@
         #printContents{
             margin-top: 180px!important;
         }
+        #admission-submitted{
+            margin-top: 100px !important;
+        }
     }
 
     /* Style the input fields */
@@ -197,7 +200,7 @@
     }
 
     .uploaded-doc{
-        height: 350px;
+        height: 300px;
         position: relative;
         background-size: cover;
         background-repeat: no-repeat;

@@ -2,7 +2,7 @@
     $('#optionForm').on('submit',function(event){
         event.preventDefault();
         let action = $('#optionSave').attr('data-action');
-        console.log(action);
+        
         if(action == 'Save'){
             console.log('Adding New Option');
             let form = $('#optionForm')[0];

@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Dashboard\Subjects;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admission;
 use Illuminate\Http\Request;
 
 use DataTables;
 use Validator;
+use Illuminate\Support\Str;
 
 use App\Models\Subject;
 use App\Models\Option;
 use App\Models\Profile;
 use App\Models\Schedule;
+use App\User;
 
 use Illuminate\Support\Facades\DB;
 
@@ -53,11 +56,12 @@ class SubjectsController extends Controller
             'code'          => 'required',
             'description'   => 'required',
             'category'      => 'required',
+            'url'           => 'required',
             'instructor'    => 'required',
-            'room-lab'      => 'required',
-            'schedule'      => 'required',
-            'sy'            => 'required',
-            'sem'           => 'required'
+            'subjectType'   => 'required',
+            'academic-year' => 'required',
+            'sem'           => 'required',
+            'units'         => 'required'
         ]);
 
         $error_array = array();
@@ -68,29 +72,37 @@ class SubjectsController extends Controller
             foreach($validation->messages()->getMessages() as $field_name => $messages){
                 $error_array[] = $messages;
             }
+            return response()->json([
+                'error' => $error_array,
+            ],414);
         } else {
             
             // create instructor
             $subject = new Subject;
             $subject->code = $request->input('code');
             $subject->description = $request->input('description');
+            $subject->url = $request->input('url');
             $subject->category = $request->input('category');
             $subject->instructor = $request->input('instructor');
-            $subject->location = $request->input('room-lab');
             $subject->schedule = $request->input('schedule');
-            $subject->sy = $request->input('sy');
-            $subject->sem = $request->input('sem');
+            $subject->units = $request->input('units');
+            $subject->type = $request->input('subjectType');
+            $subject->academic_year = $request->input('academic-year');
+            $subject->semester = $request->input('sem');
+            $subject->status = 0;
             $subject->save();
 
-            $success_output = '<p class="m-0">Subject Added!</p>';
+            if(!$subject->save()){
+                return response()->json([
+                    'error' => $subject,
+                ],414);
+            }
+
+            return response()->json([
+                'success' => 'Subject Added!',
+                'data' => $subject
+            ],200);
         }
-
-        $output = array(
-            'error' => $error_array,
-            'success' => $success_output
-        );
-
-        return response()->json($output);
     }
 
     /**
@@ -110,13 +122,11 @@ class SubjectsController extends Controller
     public function pickedSubjects($id)
     {
         if(request()->ajax()){
-            $subject = DB::table('subjects')
-                        ->join('profiles','profiles.id', '=', 'subjects.instructor')
-                        ->join('options', 'options.id', '=', 'subjects.location')
-                        ->join('schedules','schedules.id', '=', 'subjects.schedule')
-                        ->where('subjects.id','=', $id)
-                        ->select('subjects.id','profiles.first_name','profiles.last_name','options.name as location','subjects.code','subjects.description','schedules.schedule')
-                        ->get();
+            $subject = Subject::select('subjects.id','subjects.code','subjects.description','subjects.units','users.name as instructor_name','schedules.*')
+                                ->join('users','subjects.instructor','=','users.profile_id')
+                                ->join('schedules','subjects.schedule','=','schedules.id')
+                                ->where('subjects.id',$id)
+                                ->get();
             return response()->json($subject);
         }
     }
@@ -148,11 +158,12 @@ class SubjectsController extends Controller
             'code'          => 'required',
             'description'   => 'required',
             'category'      => 'required',
+            'url'           => 'required',
             'instructor'    => 'required',
-            'room-lab'      => 'required',
-            'schedule'      => 'required',
-            'sy'            => 'required',
-            'sem'           => 'required'
+            'subjectType'   => 'required',
+            'academic-year' => 'required',
+            'sem'           => 'required',
+            'units'         => 'required'
         ]);
 
         $error_array = array();
@@ -163,29 +174,37 @@ class SubjectsController extends Controller
             foreach($validation->messages()->getMessages() as $field_name => $messages){
                 $error_array[] = $messages;
             }
+            return response()->json([
+                'error' => $error_array,
+            ],414);
         } else {
             
             // create instructor
             $subject = Subject::where('id', $id)->first();
             $subject->code = $request->input('code');
             $subject->description = $request->input('description');
+            $subject->url = $request->input('url');
             $subject->category = $request->input('category');
             $subject->instructor = $request->input('instructor');
-            $subject->location = $request->input('room-lab');
             $subject->schedule = $request->input('schedule');
-            $subject->sy = $request->input('sy');
-            $subject->sem = $request->input('sem');
+            $subject->units = $request->input('units');
+            $subject->type = $request->input('subjectType');
+            $subject->academic_year = $request->input('academic-year');
+            $subject->semester = $request->input('sem');
+            $subject->status = 0;
             $subject->save();
 
-            $success_output = '<p class="m-0">Subject Updated!</p>';
+            if(!$subject->save()){
+                return response()->json([
+                    'error' => $subject,
+                ],414);
+            }
+
+            return response()->json([
+                'success' => 'Subject Updated!',
+                'data' => $subject
+            ],200);
         }
-
-        $output = array(
-            'error' => $error_array,
-            'success' => $success_output
-        );
-
-        return response()->json($output);
     }
 
     /**
@@ -213,36 +232,33 @@ class SubjectsController extends Controller
                     return $subjectCategory;
                 })
                 ->addColumn('instructor',function($data){
-                    $instructors = Profile::select('id','first_name','last_name')->where('type', '1')->get();
+                    $instructors = User::select('id','profile_id','name')->where('role', 4)->orWhere('role',5)->get();
                     $subjectInstructor = '';
                     foreach($instructors as $instructor){
-                        if($instructor->id == $data->instructor){
-                            $subjectInstructor = $instructor->first_name.' '.$instructor->last_name;
+                        if($instructor->profile_id == $data->instructor){
+                            $subjectInstructor = $instructor->name;
                         }
                     }
                     return $subjectInstructor;
                 })
                 ->addColumn('schedule',function($data){
                     $schedules = Schedule::all();
-                    $locations = Option::where('type','room')->orWhere('type','lab')->get();
 
                     $subjectSchedule = '';
-                    $subjectLocation = '';
 
                     foreach($schedules as $schedule){
+                        if($schedule->type == 0){
+                            $locType = 'Room ';
+                        } else if($schedule->type == 1){
+                            $locType = 'Lab ';
+                        } else {
+                            $locType = 'Home ';
+                        }
                         if($schedule->id == $data->schedule){
-                            $subjectSchedule = $schedule->schedule;
+                            $subjectSchedule = $schedule->day.', '.$locType.$schedule->location.' ('.$schedule->time.')';
                         }
                     }
-
-                    foreach($locations as $location){
-                        if($location->id == $data->location){
-                            $subjectLocation = $location->name;
-                        }
-                    }
-
-                    $output = $subjectLocation.'('.$subjectSchedule.')';
-                    return $output;
+                    return $subjectSchedule;
                 })
                 ->addColumn('action', function($data){
                     $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
@@ -253,7 +269,7 @@ class SubjectsController extends Controller
                                       </a>';
                     return $actionButtons;
                 })
-                ->rawColumns(['action','category'])
+                ->rawColumns(['action','category','instructor','schedule'])
                 ->make(true);
     }
 
@@ -263,7 +279,11 @@ class SubjectsController extends Controller
         {
             return DataTables::of(Subject::latest()->get())
                 ->addColumn('instructor',function($data){
-                    $instructors = Profile::select('id','first_name','last_name')->where('type', '1')->get();
+                    $instructors = Profile::select('profiles.id','profiles.first_name','profiles.last_name','users.role')
+                                            ->join('users','profiles.id','=','users.profile_id')
+                                            ->where('users.role', 4)
+                                            ->orWhere('users.role',5)
+                                            ->get();
                     $subjectInstructor = '';
                     foreach($instructors as $instructor){
                         if($instructor->id == $data->instructor){
@@ -272,13 +292,26 @@ class SubjectsController extends Controller
                     }
                     return $subjectInstructor;
                 })
+                ->addColumn('description', function($data){
+                    $description = Str::limit($data->description,20,'...');
+                    return $description;
+                })
+                ->addColumn('type', function($data){
+                    if($data->type == 0){
+                        $type = '<span class="badge badge-primary">Lecure</span>';
+                    } else {
+                        $type = '<span class="badge badge-warning px-2">Lab</span>';
+                    }
+
+                    return $type;
+                })
                 ->addColumn('action', function($data){
                     $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-primary enrollSubject">
                                         <i class="fas fa-plus"></i> Enroll
                                       </a>';
                     return $actionButtons;
                 })
-                ->rawColumns(['action','instructor'])
+                ->rawColumns(['action','instructor','description','type'])
                 ->make(true);
         }
     }

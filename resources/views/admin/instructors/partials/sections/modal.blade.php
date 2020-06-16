@@ -17,19 +17,22 @@
                 
                     @csrf
                     <div class="form-group">
+                        <input type="text" name="instructor-id" id="instructor-id" class="form-control" placeholder="Enter Instructor Id" required>
+                    </div>
+                    <div class="form-group">
                         <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Enter Instructor Last Name" required>
                     </div>
                     <div class="form-group">
                         <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Enter Instructor First Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="middle-name" id="middle-name" class="form-control" placeholder="Enter Instructor Middle Name" required>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Enter Instructor Email Address" required>
                     </div>
                     <div class="form-group">
                         <select name="status" id="status" class="form-control" required>
                             <option selected disabled>Select Status</option>
-                            <option value="3">Full Time</option>
-                            <option value="4">Part Time</option>
+                            <option value="4">Full Time</option>
+                            <option value="5">Part Time</option>
                         </select>
                     </div>
                     <input type="hidden" name="_method" value="" id="formMethod">

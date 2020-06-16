@@ -9,11 +9,19 @@ use App\Models\Admission;
 use DateTime;
 use App\Models\Profile;
 use App\Models\Document;
+use App\Models\Course;
+use App\Models\Payment;
 
 class FrontContentsController extends Controller
 {
     public function index(){
-        return view('front.index');
+        // return view('front.index');
+        $requests = Admission::where('status',1)
+                                ->join('profiles','profiles.id','=','admissions.profile_id')
+                                ->join('courses','profiles.course','=','courses.id')
+                                ->select('courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','admissions.status','admissions.created_at','admissions.profile_id')
+                                ->get();
+        return $requests;
     }
     
     /**
@@ -23,7 +31,8 @@ class FrontContentsController extends Controller
      */
     public function createAdmission()
     {
-        return view('front.online-admission');
+        $courses = Course::all();
+        return view('front.online-admission')->with('courses', $courses);
     }
 
     /**
@@ -152,8 +161,15 @@ class FrontContentsController extends Controller
             
 
                 // create admission
-                $profile = new Profile;
-                $profile->school_id               = 'Not Yet Enrolled';
+                $studentType = $request->input('studentType');
+                $profileId = $request->input('profile-id');
+
+                if($studentType === 'old'){
+                    $profile = Profile::where('id',$profileId)->first();
+                } else {
+                    $profile = new Profile;
+                    $profile->school_id               = '0';
+                }
                 $profile->profile_pic             = $applicant_img;
                 $profile->first_name              = $request->input('first-name');
                 $profile->middle_name             = $request->input('middle-name');
@@ -193,6 +209,23 @@ class FrontContentsController extends Controller
                 $admission->academic_year = '2020-2021'; // ########### make this dynamic ########## //
                 $admission->semester = '1'; // ########### make this dynamic ########## //
                 $admission->status = '0';
+                $admission->save();
+
+                $initialBalance = 0;
+                if($profile->year_level == 1){
+                    $initialBalance = 3500.00;
+                } else {
+                    $initialBalance = 3300.00;
+                }
+                $payment = new Payment;
+                $payment->profile_id = $profile->id;
+                $payment->type = 'Enrollment Fee';
+                $payment->amount = 0;
+                $payment->balance = $initialBalance;
+                $payment->or_number = 'none';
+                $payment->ref_number = 'none';
+                $payment->others = 'Enrollment fee unpaid';
+                $payment->save();
 
                 $applicantDetails['first_name']             = $request->input('first-name');
                 $applicantDetails['middle_name']            = $request->input('middle-name');
@@ -226,6 +259,7 @@ class FrontContentsController extends Controller
                 $applicantDetails['psa_bc']                 = $psa_bc ? $filePath.'psa-bc/'.$psa_bc : $noUploadedDoc;
                 $applicantDetails['med_cert']               = $med_cert ? $filePath.'med-cert/'.$med_cert : $noUploadedDoc;
                 $applicantDetails['hd']                     = $hd ? $filePath.'hd/'.$hd : $noUploadedDoc;
+                $applicantDetails['courses']                = Course::select('id','code')->get();
             }
 
             if($error_array){
@@ -268,18 +302,21 @@ class FrontContentsController extends Controller
         }
         
         if($searchId){
-            $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name')
+            $oldStudent = Profile::select('id','school_id','first_name', 'last_name','middle_name','courses.code as course')
                         ->where('school_id', $fname)
+                        ->join('courses','courses.ied','=','profiles.course')
+                        ->where('courses.id','profiles.course')
                         ->first();
         } else {
-            $oldStudent = Profile::select('school_id','first_name', 'last_name','middle_name','courses.code as course')
+            // dd($fname,$lname);
+            $oldStudent = Profile::select('id','school_id','first_name', 'last_name','middle_name','courses.code as course')
                         ->where('first_name', 'LIKE', '%'.$fname.'%')
                         ->orWhere('last_name', 'LIKE', '%'.$lname.'%')
                         ->join('courses','courses.id','=','profiles.course')
                         ->where('courses.id','profiles.course')
                         ->first();
         }
-        if(empty($oldStudent)){
+        if($oldStudent == null){
             return response()->json([
                 'error' => $error,
             ], 404);

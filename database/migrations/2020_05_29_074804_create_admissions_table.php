@@ -16,7 +16,7 @@ class CreateAdmissionsTable extends Migration
         Schema::create('admissions', function (Blueprint $table) {
             $table->id();
             $table->integer('profile_id');
-            $table->string('acedemic_year')->comment('e.g. 2020-2021');
+            $table->string('academic_year')->comment('e.g. 2020-2021');
             $table->integer('semester')->comment('0=summer, 1=first_semester, 2=second_semester');
             $table->integer('status')->comment('0=pending, 1=accepted, 2=rejected, 3=enrolled');
             $table->timestamps();

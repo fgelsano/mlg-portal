@@ -2,7 +2,8 @@
 <div class="d-none mt-5" id="admission">
     <form action="" method="POST" id="admission-form" enctype="multipart/form-data" class="multisteps-form__form">
         @csrf
-
+        <input type="hidden" name="studentType" id="student-type">
+        <input type="hidden" name="profileId" id="profile-id">
         <div class="container">
 
             <div class="multisteps-form">
@@ -127,13 +128,6 @@
                    </div>
                 </div>
               </div>
-        </div>
-
-        {{-- Error Box --}}
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="alert alert-danger d-none" id="error-box"></div>
-            </div>
         </div>
     </form>
 </div>
