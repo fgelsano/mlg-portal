@@ -1,14 +1,8 @@
 <script>
-    let subject = [];
-    function selectedSubject($id){
-        subject.push($id);
-        return subject;
-    }
 
     $(document).on('click', '.enrollSubject', function(e){
         e.preventDefault();
         let subjectId = $(this).attr('data-id');
-        let selectedSubjects = selectedSubject(subjectId);
         
         let routeUrl = "{{ route('subjects.pick','id') }}";
         let editUrl = routeUrl.replace('id', subjectId); 
@@ -42,12 +36,12 @@
 
                 if($('#empty-row').attr('data-stat') == 'empty'){
                     $('#enrolled-subjects').html('');
-                    $('#enrolled-subjects').html('<tr><td>'+code+'</td><td>'+desc.substr(0,20)+'...'+'</td><td>'+sched+'</td><td>'+instructor+'</td><td><button class="removeSubject btn btn-sm btn-danger" data-id="'+subjectId+'"><i class="fas fa-trash"></i></button></td></tr>');
+                    $('#enrolled-subjects').html('<tr class="addedSubject"><td>'+code+'</td><td>'+desc.substr(0,20)+'...'+'</td><td>'+sched+'</td><td>'+instructor+'</td><td><button class="removeSubject btn btn-sm btn-danger" data-id="'+subjectId+'"><i class="fas fa-trash"></i></button></td></tr>');
                     $('#enrolled-subjects').append('<input type="hidden" name="enrolledSubject[]" value="'+data[0].id+'">');
                     $('#enrolled-subjects').attr('data-empty', '1');
                 } else {
                     $('#enrolled-subjects').html($('#enrolled-subjects').html());
-                    $('#enrolled-subjects').append('<tr><td>'+code+'</td><td>'+desc.substr(0,20)+'...'+'</td><td>'+sched+'</td><td>'+instructor+'</td><td><button class="removeSubject btn btn-sm btn-danger" data-id="'+subjectId+'"><i class="fas fa-trash"></i></button></td></tr>');
+                    $('#enrolled-subjects').append('<tr class="addedSubject"><td>'+code+'</td><td>'+desc.substr(0,20)+'...'+'</td><td>'+sched+'</td><td>'+instructor+'</td><td><button class="removeSubject btn btn-sm btn-danger" data-id="'+subjectId+'"><i class="fas fa-trash"></i></button></td></tr>');
                     $('#enrolled-subjects').append('<input type="hidden" name="enrolledSubject[]" value="'+data[0].id+'">');
                     $('#enrolled-subjects').attr('data-empty', '1');
                 }
@@ -59,8 +53,12 @@
     });
 
     $(document).on('click', '.removeSubject', function(){
-       $(this).closest('tr').remove();
-       let subjectId = $(this).attr('data-id');
-       $('.enrollSubject[data-id="'+subjectId+'"]').removeClass('d-none'); 
+        $(this).closest('tr').remove();
+        let subjectId = $(this).attr('data-id');
+        $('.enrollSubject[data-id="'+subjectId+'"]').removeClass('d-none'); 
+        let addedSubject = $('#enrolled-subjects').find('.addedSubject');
+        if(addedSubject.length == 0){
+            $('#enrolled-subjects').append('<tr class="table-danger text-center text-white" id="empty-row" data-stat="empty"><td colspan="7">No Enrolled Subject</td></tr>');
+        }
     });
 </script>

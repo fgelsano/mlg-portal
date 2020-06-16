@@ -212,4 +212,12 @@
         bottom: 5px;
         width: 90%;
     }
+
+    #loading-spinner{
+        z-index: 999;
+        position: fixed;
+        left: 42%;
+        top: 25%;
+        visibility: hidden;
+    }
 </style>

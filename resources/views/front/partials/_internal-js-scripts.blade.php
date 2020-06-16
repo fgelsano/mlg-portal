@@ -268,7 +268,7 @@
 
     // Admission Form Submission
     $('#admission-form').on('submit',function(event){
-        
+        $('#loading-spinner').css('visibility','visible');
         let today = new Date();
         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         let time = today.getHours() + "." + today.getMinutes() + "." + today.getSeconds();
@@ -291,6 +291,7 @@
             processData: false,
             dataType: 'json',
             success: function(data){
+                $('#loading-spinner').css('visibility','hidden');
                 $('#admission-submitted').removeClass('d-none');
                 $('#admission-submitted').addClass('d-block');
                 $('#admission').addClass('d-none');

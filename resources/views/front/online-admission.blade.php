@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 
 <head>
     <meta charset="UTF-8">
@@ -15,10 +15,14 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css">
 
+    <meta property="og:image" content="{{ asset('admin/img/MLG_Logo-Since-1999.jpg')}}" />
+    <meta property="og:image:width" content="450"/>
+    <meta property="og:image:height" content="298"/>
+
 </head>
 
 <body>
-
+    <img src="{{ asset('front/images/loading-spinner.gif') }}" alt="Loading" id="loading-spinner">
     <div class="main">
         <div class="container">
             @include('front.partials._heading-block')

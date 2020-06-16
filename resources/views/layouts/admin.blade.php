@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 
 <head>
 
@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="This the MLGCL Portal where custom school management functions reside.">
   <meta name="author" content="Francis Gelsano">
-
+  <meta property="og:image" content="{{ asset('admin/img/MLG_Logo-Since-1999.jpg')}}" />
+  <meta property="og:image:width" content="450"/>
+  <meta property="og:image:height" content="298"/>
   <title>MLGCL | @yield('title')</title>
 
   <!-- Custom fonts for this template-->
