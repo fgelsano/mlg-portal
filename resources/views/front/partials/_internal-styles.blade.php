@@ -205,6 +205,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         border: 15px solid #fff;
+        background-position: 0px -45px;
     }
 
     .uploaded-doc p{

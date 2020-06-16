@@ -35,13 +35,12 @@
                     data: 'created_at',
                     name: 'created_at',
                     type: 'date',
-                    targets: [4],
                     visible: false,
                     orderable: false
                 }
 
             ],
-            "order": [[ 4, 'desc']]
+            "order": [[ 4, 'desc'],[6, 'asc']]
         });
     } );
 </script>

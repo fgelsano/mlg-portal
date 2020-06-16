@@ -15,13 +15,13 @@ use App\Models\Payment;
 class FrontContentsController extends Controller
 {
     public function index(){
-        // return view('front.index');
-        $requests = Admission::where('status',1)
-                                ->join('profiles','profiles.id','=','admissions.profile_id')
-                                ->join('courses','profiles.course','=','courses.id')
-                                ->select('courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','admissions.status','admissions.created_at','admissions.profile_id')
-                                ->get();
-        return $requests;
+        return view('front.index');
+        // $requests = Admission::where('status',1)
+        //                         ->join('profiles','profiles.id','=','admissions.profile_id')
+        //                         ->join('courses','profiles.course','=','courses.id')
+        //                         ->select('courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','admissions.status','admissions.created_at','admissions.profile_id')
+        //                         ->get();
+        // return $requests;
     }
     
     /**
@@ -302,14 +302,14 @@ class FrontContentsController extends Controller
         }
         
         if($searchId){
-            $oldStudent = Profile::select('id','school_id','first_name', 'last_name','middle_name','courses.code as course')
-                        ->where('school_id', $fname)
+            $oldStudent = Profile::select('profiles.id','profiles.school_id','profiles.first_name', 'profiles.last_name','profiles.middle_name','courses.code as course')
+                        ->where('profiles.school_id', $fname)
                         ->join('courses','courses.ied','=','profiles.course')
                         ->where('courses.id','profiles.course')
                         ->first();
         } else {
             // dd($fname,$lname);
-            $oldStudent = Profile::select('id','school_id','first_name', 'last_name','middle_name','courses.code as course')
+            $oldStudent = Profile::select('profiles.id','profiles.school_id','profiles.first_name', 'profiles.last_name','profiles.middle_name','courses.code as course')
                         ->where('first_name', 'LIKE', '%'.$fname.'%')
                         ->orWhere('last_name', 'LIKE', '%'.$lname.'%')
                         ->join('courses','courses.id','=','profiles.course')

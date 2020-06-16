@@ -34,9 +34,9 @@
                             
                                 @include('front.partials._personal-information')
                                 
-                            <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
-                            </div>
+                                <div class="button-row d-flex mt-4">
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                </div>
                             </div>
                         </div>
 
@@ -47,10 +47,10 @@
                             
                                 @include('front.partials._physical-address')
         
-                            <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
-                            </div>
+                                <div class="button-row d-flex mt-4">
+                                    <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                </div>
                             </div>
                         </div>
 
@@ -61,10 +61,10 @@
                             
                                 @include('front.partials._emergency-contact')
                             
-                            <div class="button-row d-flex mt-4 col-12">
-                                <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
-                            </div>
+                                <div class="button-row d-flex mt-4">
+                                    <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                </div>
                             
                             </div>
                         </div>
@@ -76,10 +76,10 @@
                             
                                 @include('front.partials._educational-history')
                                 
-                            <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
-                            </div>
+                                <div class="button-row d-flex mt-4">
+                                    <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                </div>
                             </div>
                         </div>
     
@@ -90,10 +90,10 @@
                             
                                 @include('front.partials._lrn')
                                 
-                            <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
-                            </div>
+                                <div class="button-row d-flex mt-4">
+                                    <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                </div>
                             </div>
                         </div>
     
@@ -104,10 +104,10 @@
                             
                                 @include('front.partials._course-details')
                                 
-                            <div class="button-row d-flex mt-4">
-                                <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
-                            </div>
+                                <div class="button-row d-flex mt-4">
+                                    <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                </div>
                             </div>
                         </div>
     

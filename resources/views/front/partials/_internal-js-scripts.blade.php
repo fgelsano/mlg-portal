@@ -172,6 +172,43 @@
         })
     });
 
+    // onBlur Last Name
+    $('#last-name').blur(function(){
+        let filled = true;
+        if($('#first-name').val() == ''){
+            filled = false;
+        }
+        if($('#last-name').val() == ''){
+            filled = false;
+        }
+        
+        if(filled == true){
+            let name = $('#last-name').val() + ',' + $('#first-name').val();
+            console.log(name);
+            let routeUrl = "{{ route('oldStudent.fetch','name') }}";
+            let fetchUrl = routeUrl.replace('name', name);
+            $.ajax({
+                url: fetchUrl,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(data){
+                    
+                    $('#consent-block').fadeIn();
+                    $('#admission').addClass('d-none');
+                    $('#admission').removeClass('d-block');
+                    $('#admission-form')[0].reset();
+                    
+                    Swal.fire({
+                        title: 'That name is already in the system! Please select \n"Old Student"',
+                        icon: 'error',
+                    })
+                }
+            });
+        }
+    })
+
     // Read URL Function
     function readUrl(input) {
         if (input.files && input.files[0]) {

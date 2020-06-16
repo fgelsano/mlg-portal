@@ -3,111 +3,100 @@
     <h4 class="mb-3">Thank you for applying at MLG College of Learning, Inc!</h4>
     <p class="mb-0">Your application request has been submitted and now pending review by the registrar's office.</p>
     <p>Please print your filled out admission form below and send or bring the original hard copies of your documents to the school together with the items included in the list down below:</p>
-    <ul>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    Medical Certificate [RHU]
-                </div>
-                <div class="col-12 col-md-6">
-                    All Applicants
-                </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                Medical Certificate [RHU]
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    PSA Birth Certificate
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+            <div class="col-12 col-md-6">
+                (All Applicants)
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    Good Moral Character
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                PSA Birth Certificate
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    SF-9 or Form 138 or Report Card [FRONT VIEW]
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    SF-9 or Form 138 or Report Card [BACK VIEW]
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                Good Moral Character
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    Honorable Dismissal [TRANFEREES] 
-                </div>
-                <div class="col-12 col-md-6">
-                    All Transfer Applicants
-                </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    2 pcs 2x2 Id Pictures
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                SF-9 or Form 138 or Report Card [FRONT VIEW]
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    1 Long Brown Envelope
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    2 pcs Long Folders
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                SF-9 or Form 138 or Report Card [BACK VIEW]
             </div>
-        </li>
-        <li>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    1 Long Mailing Envelope with Postage Stamp
-                </div>
-                <div class="col-12 col-md-6">
-                    Incoming First Years
-                </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
             </div>
-        </li>
-    </ul>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                (Honorable Dismissal [TRANFEREES] )
+            </div>
+            <div class="col-12 col-md-6">
+                All Transfer Applicants
+            </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                2 pcs 2x2 Id Pictures
+            </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
+            </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                1 Long Brown Envelope
+            </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
+            </div>
+        </div>
+    
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                2 pcs Long Folders
+            </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
+            </div>
+        </div>
+
+        <div class="row border-bottom mb-2 mb-md-0">
+            <div class="col-12 col-md-6">
+                1 Long Mailing Envelope with Postage Stamp
+            </div>
+            <div class="col-12 col-md-6">
+                (Incoming First Years)
+            </div>
+        </div>
+
     <hr>
     <h3 class="font-weight-bold text-danger">Important Reminder!</h3>
-    <div class="row">
+    <div class="row mb-3 mb-md-0">
         <div class="col-12 col-md-9">
             <p class="mb-0 font-weight-bold mb-3">Please pay your miscellaneous fee via the following payment options listed below. Once payment is confirmed, the registrar will start loading your subjects and activate your access to the school's student portal.</p>
             <div class="row">
