@@ -97,4 +97,6 @@
     @include('admin.enrollment.enroll.scripts.datatables')
 
     @include('admin.enrollment.enroll.scripts.action')
+
+    @include('admin.enrollment.enroll.scripts.confirmEnroll')
 @endsection

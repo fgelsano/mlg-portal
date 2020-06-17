@@ -104,10 +104,6 @@
                 <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-at-the-cashiers-office/</a></div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-3">GCash</div>
-                <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-gcash/</a></div>
-            </div>
-            <div class="row">
                 <div class="col-12 col-md-3">MLhuillier</div>
                 <div class="col-12 col-md-9"><a href="https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/" target="_blank">https://mlgcl.edu.ph/docs/how-to-pay-using-mlhuillier/</a></div>
             </div>
@@ -118,7 +114,7 @@
         </div>
         <div class="col-12 col-md-3">
             <p class="text-center bg-danger text-white py-1">Miscellaneous Fee</p>
-            <h1 class="text-center" id="totalMiscFee">₱ 3,500.00</h1>
+            <h1 class="text-center" id="totalMiscFee"></h1>
         </div>
     </div>
 </div>

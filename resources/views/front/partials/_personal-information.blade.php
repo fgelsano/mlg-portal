@@ -35,7 +35,7 @@
                 </select>
             </div>
             <div class="col-12 col-md-5 form-group">
-                <input type="number" name="contact-number" id="contact_number" placeholder="Contact Number" class="form-control" oninput="this.className = 'form-control'">
+                <input type="text" name="contact-number" id="contact_number" class="form-control" oninput="this.className = 'form-control'" placeholder="(09__)-___-____" data-slots="_">
             </div>
             <div class="col-12 form-group">
                 <input type="text" name="religion" id="religion" placeholder="Religion" class="form-control" onInput="this.className = 'form-control'">

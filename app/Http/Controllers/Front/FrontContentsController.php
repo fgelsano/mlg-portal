@@ -31,7 +31,7 @@ class FrontContentsController extends Controller
      */
     public function createAdmission()
     {
-        $courses = Course::all();
+        $courses = Course::where('id','!=','5')->get();
         return view('front.online-admission')->with('courses', $courses);
     }
 
@@ -164,6 +164,7 @@ class FrontContentsController extends Controller
                 $studentType = $request->input('studentType');
                 $profileId = $request->input('profile-id');
 
+                dd($studentType,$profileId);
                 if($studentType === 'old'){
                     $profile = Profile::where('id',$profileId)->first();
                 } else {
@@ -301,29 +302,28 @@ class FrontContentsController extends Controller
             ], 404);
         }
         
+        $courses = Course::where('id','!=','5')->get();
         if($searchId){
-            $oldStudent = Profile::select('profiles.id','profiles.school_id','profiles.first_name', 'profiles.last_name','profiles.middle_name','courses.code as course')
-                        ->where('profiles.school_id', $fname)
-                        ->join('courses','courses.ied','=','profiles.course')
-                        ->where('courses.id','profiles.course')
-                        ->first();
+            $oldStudent = Profile::where('profiles.school_id', $fname)->first();
         } else {
-            // dd($fname,$lname);
-            $oldStudent = Profile::select('profiles.id','profiles.school_id','profiles.first_name', 'profiles.last_name','profiles.middle_name','courses.code as course')
-                        ->where('first_name', 'LIKE', '%'.$fname.'%')
-                        ->orWhere('last_name', 'LIKE', '%'.$lname.'%')
-                        ->join('courses','courses.id','=','profiles.course')
-                        ->where('courses.id','profiles.course')
-                        ->first();
+            $oldStudent = Profile::where(function($query) use ($names) {
+                            $query->whereIn('first_name', $names);
+                            $query->orWhere(function($query) use ($names) {
+                                $query->whereIn('last_name', $names);
+                            });
+                        })
+                        ->get();
         }
+        
         if($oldStudent == null){
             return response()->json([
-                'error' => $error,
+                $error
             ], 404);
         }
 
         return response()->json([
-            'success' => $oldStudent,
+            'profiles' => $oldStudent,
+            'courses' => $courses
         ], 200);
     }
 }

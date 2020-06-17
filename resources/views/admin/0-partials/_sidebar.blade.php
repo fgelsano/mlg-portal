@@ -43,9 +43,9 @@
           <div class="collapse-divider"></div>
           <h6 class="collapse-header">Cashier:</h6>
           <a class="collapse-item {{ url()->current() === route('cashier.list') ? 'active' : '' }}" href="{{ route('cashier.list') }}">Cashier's Hold</a>
-          <div class="collapse-divider"></div>
+          {{-- <div class="collapse-divider"></div>
           <h6 class="collapse-header">Enrollments:</h6>
-          <a class="collapse-item {{ url()->current() === route('enroll.index') ? 'active' : '' }}" href="{{ route('enroll.index') }}">Enrollees</a>
+          <a class="collapse-item {{ url()->current() === route('enroll.index') ? 'active' : '' }}" href="{{ route('enroll.index') }}">Enrollees</a> --}}
         </div>
       </div>
     </li>

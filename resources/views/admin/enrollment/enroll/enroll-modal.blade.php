@@ -85,12 +85,17 @@
                                         <th>Description</th>
                                         <th>Schedule</th>
                                         <th>Instructor</th>
+                                        <th>Units</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody id="enrolled-subjects" data-empty='0'>
                                         
                                     </tbody>
                                 </table>
+                            </div>
+                            
+                            <div class="row" id="total">
+                                
                             </div>
                         </div>
                     </div>
@@ -109,6 +114,7 @@
                         <i class="fas fa-user-times mr-2"></i> Cancel
                     </button>
                     @csrf
+                    <input type="hidden" name="action" id="action" value="enroll"> {{-- else, editEnroll --}}
                     <input type="hidden" name="_method" value="">
                     <input type="hidden" name="applicant_id" id="applicant-id">
                 </div>

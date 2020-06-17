@@ -94,63 +94,147 @@
     $(document).on('click', '.acceptAdmission', function(e){
         e.preventDefault();
         let studentId = $(this).attr('data-id');
+        let balance = $(this).attr('data-balance');
 
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger mr-3'
-            },
-            buttonsStyling: false
-        })
+        if(balance != '0.00'){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger mr-3'
+                },
+                buttonsStyling: false
+            })
 
-        swalWithBootstrapButtons.fire({
-            title: 'Removing Cashier\'s Hold',
-            text: "Are you sure you want to accept this applicant for enrollment?",
-            icon: 'question',
-            confirmButtonText: 'Yes, Accept',
-            cancelButtonText: 'No, Not Yet',
-            showLoaderOnConfirm: true,
-            showCancelButton: true,
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                let formData = new FormData();
-                formData.append('requestType','CashierAccepted');
-                formData.append('_method','PUT');
-                let routeUrl = "{{ route('requests.update','id') }}";
-                let acceptUrl = routeUrl.replace('id', studentId);
+            swalWithBootstrapButtons.fire({
+                title: 'Unpaid Balance',
+                text: "This applicant still has an unpaid balance, are you sure you want to release Cashier's Hold?",
+                icon: 'question',
+                confirmButtonText: 'Yes, Accept',
+                cancelButtonText: 'No, Not Yet',
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if(result.value){
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger mr-3'
+                        },
+                        buttonsStyling: false
+                    })
 
-                $.ajax({
-                    url: acceptUrl,
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(data){
-                        console.log(data);
-                        alertify.success('Applicant accepted for enrollment!');        
-                        $('#payments').DataTable().ajax.reload();
-                    },
-                    error: function(err){
-                        console.log(err)
-                        let error_html = '<ul class="text-left">';
-                        for(let x = 0; x < err.responseJSON.error.length; x++){
-                            error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
-                            if(x==err.responseJSON.error.length){
-                                error_html += '</ul>';
-                            }
+                    swalWithBootstrapButtons.fire({
+                        title: 'Releasing Cashier\'s Hold',
+                        text: "Are you sure you want to accept this applicant for enrollment?",
+                        icon: 'question',
+                        confirmButtonText: 'Yes, Accept',
+                        cancelButtonText: 'No, Not Yet',
+                        showLoaderOnConfirm: true,
+                        showCancelButton: true,
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            let formData = new FormData();
+                            formData.append('requestType','CashierAccepted');
+                            formData.append('_method','PUT');
+                            let routeUrl = "{{ route('requests.update','id') }}";
+                            let acceptUrl = routeUrl.replace('id', studentId);
+
+                            $.ajax({
+                                url: acceptUrl,
+                                type: 'POST',
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                dataType: 'json',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function(data){
+                                    console.log(data);
+                                    alertify.success('Applicant accepted for enrollment!');        
+                                    $('#payments').DataTable().ajax.reload();
+                                },
+                                error: function(err){
+                                    console.log(err)
+                                    let error_html = '<ul class="text-left">';
+                                    for(let x = 0; x < err.responseJSON.error.length; x++){
+                                        error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                                        if(x==err.responseJSON.error.length){
+                                            error_html += '</ul>';
+                                        }
+                                    }
+                                    // toastr["error"](error_html);
+                                    alertify.error(error_html);
+                                }
+                            });
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            alertify.error('<p class="text-left"><strong>Accept Cancelled!</strong> <br>Just click Accept button again once you\'re ready to accept the applicant.</p>');
                         }
-                        // toastr["error"](error_html);
-                        alertify.error(error_html);
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                alertify.error('<p class="text-left"><strong>Accept Cancelled!</strong> <br>Just click Accept button again once you\'re ready to accept the applicant.</p>');
-            }
-        })
+                    })
+                } else {
+                    alertify.error('<p class="text-left"><strong>Accept Cancelled!</strong> <br>Just click Accept button again once you\'re ready to accept the applicant.</p>');
+                }
+            })
+        } else {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger mr-3'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Removing Cashier\'s Hold',
+                text: "Are you sure you want to accept this applicant for enrollment?",
+                icon: 'question',
+                confirmButtonText: 'Yes, Accept',
+                cancelButtonText: 'No, Not Yet',
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    let formData = new FormData();
+                    formData.append('requestType','CashierAccepted');
+                    formData.append('_method','PUT');
+                    let routeUrl = "{{ route('requests.update','id') }}";
+                    let acceptUrl = routeUrl.replace('id', studentId);
+
+                    $.ajax({
+                        url: acceptUrl,
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(data){
+                            console.log(data);
+                            alertify.success('Applicant accepted for enrollment!');        
+                            $('#payments').DataTable().ajax.reload();
+                        },
+                        error: function(err){
+                            console.log(err)
+                            let error_html = '<ul class="text-left">';
+                            for(let x = 0; x < err.responseJSON.error.length; x++){
+                                error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                                if(x==err.responseJSON.error.length){
+                                    error_html += '</ul>';
+                                }
+                            }
+                            // toastr["error"](error_html);
+                            alertify.error(error_html);
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    alertify.error('<p class="text-left"><strong>Accept Cancelled!</strong> <br>Just click Accept button again once you\'re ready to accept the applicant.</p>');
+                }
+            })
+        }
     })
 </script>

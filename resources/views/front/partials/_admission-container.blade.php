@@ -18,7 +18,7 @@
                         <button class="multisteps-form__progress-btn" type="button" title="Educational History">Educational History</button>
                         <button class="multisteps-form__progress-btn" type="button" title="LRN">Learner's Reference Number</button>
                         <button class="multisteps-form__progress-btn" type="button" title="Course">Course Information</button>
-                        <button class="multisteps-form__progress-btn" type="button" title="File Uploads">Documents File Uploads</button>
+                        <button class="multisteps-form__progress-btn" type="button" title="File Uploads" id="file-upload-btn">Documents File Uploads</button>
                         </div>
                     </div>
                 </div>
@@ -106,13 +106,14 @@
                                 
                                 <div class="button-row d-flex mt-4">
                                     <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next" id="course-details-next-btn">Next</button>
+                                    <button type="submit" class="btn btn-success btn-sm my-0 px-5 ml-auto d-none" id="submitAdmissionBtn-course-panel">Submit</button>
                                 </div>
                             </div>
                         </div>
     
                         <!--Documents File Uploads Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="file-uploads-panel">
                             <h3 class="multisteps-form__title mb-3">Documents File Uploads</h3>
                             <div class="multisteps-form__content">
                             

@@ -22,7 +22,26 @@
 </head>
 
 <body>
-    <img src="{{ asset('front/images/loading-spinner.gif') }}" alt="Loading" id="loading-spinner">
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId            : '954577641649557',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v7.0'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));       
+    </script>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <img src="{{ asset('front/images/loading-spinner.gif') }}" alt="Loading" id="loading-spinner" class="img-responsive" width="10%">
     <div class="main">
         <div class="container">
             @include('front.partials._heading-block')
@@ -47,6 +66,34 @@
 
     @include('front.partials._internal-js-scripts')
 
+    <div class="fb-customerchat"
+        page_id="116630946756485"
+        minimized="true">
+    </div>
+    <script>
+        window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '954577641649557',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.11'
+        });
+        };
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Your customer chat code -->
+    <div class="fb-customerchat"
+        attribution=setup_tool
+        page_id="116630946756485"
+        theme_color="#BE59B9">
+    </div>
 </body>
 
 </html>

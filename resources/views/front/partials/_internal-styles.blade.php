@@ -221,4 +221,9 @@
         top: 25%;
         visibility: hidden;
     }
+
+    .studentDetail:hover{
+        background-color:#D4E6F9;
+        cursor: pointer;
+    }
 </style>
