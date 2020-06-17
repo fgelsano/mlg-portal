@@ -8,6 +8,11 @@
             scrollCollapse: true,
 
             ajax: '{{ route('enroll-subjects.list') }}',
+            createdRow: 
+                function( row, data, dataIndex ) {
+                    $(row).attr('id', 'row-' + dataIndex);
+                    $(row).attr('data-selected','no');
+            },
             columns: [
                 {
                     data: 'code',
@@ -50,4 +55,5 @@
             }
         });
     } );
+    
 </script>

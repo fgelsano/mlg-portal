@@ -298,7 +298,7 @@ class SubjectsController extends Controller
                 })
                 ->addColumn('type', function($data){
                     if($data->type == 0){
-                        $type = '<span class="badge badge-primary">Lecure</span>';
+                        $type = '<span class="badge badge-primary">Lecture</span>';
                     } else {
                         $type = '<span class="badge badge-warning px-2">Lab</span>';
                     }
@@ -306,7 +306,7 @@ class SubjectsController extends Controller
                     return $type;
                 })
                 ->addColumn('action', function($data){
-                    $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-primary enrollSubject">
+                    $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-primary enrollSubject" data-show="true">
                                         <i class="fas fa-plus"></i> Enroll
                                       </a>';
                     return $actionButtons;

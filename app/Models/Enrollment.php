@@ -9,6 +9,9 @@ class Enrollment extends Model
     protected $table = 'enrollments';
     protected $fillable = [
         'profile_id',
-        'subject_id'
+        'subject_id',
+        'course',
+        'year_level',
+        'status'
     ];
 }

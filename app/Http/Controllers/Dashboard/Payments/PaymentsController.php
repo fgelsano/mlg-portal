@@ -194,7 +194,7 @@ class PaymentsController extends Controller
                     $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary" data-toggle="modal" data-target="#payment-modal">
                                         <i class="fas fa-money-bill-alt"></i> Payment
                                       </a>
-                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-success '.$display.'acceptAdmission '.$display.'">
+                                      <a href="" data-id="'.$data->id.'" data-balance="'.$data->balance.'" class="btn btn-sm btn-success '.$display.'acceptAdmission '.$display.'">
                                         <i class="fas fa-user-check"></i> Accept
                                       </a>';
                     return $actionButtons;

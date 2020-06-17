@@ -57,8 +57,8 @@
                 })
                 $('#course').text(courseSelected);
                 
-                let print_year_level = ['First Year','Second Year','Third Year','Fourth Year','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'];
-                $('#year-level').text(print_year_level[data.profile.year_level]);
+                let print_year_level = ['First Year','Second Year','Third Year','Fourth Year'];
+                $('#year-level').text(print_year_level[data.profile.year_level-1]);
                 $('#lrn').text(data.profile.lrn);
                 // let trans_id = data.profile.id;
                 // let request_id = trans_id.toString();

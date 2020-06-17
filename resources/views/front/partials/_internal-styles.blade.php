@@ -205,11 +205,25 @@
         background-size: cover;
         background-repeat: no-repeat;
         border: 15px solid #fff;
+        background-position: 0px -45px;
     }
 
     .uploaded-doc p{
         position: absolute;
         bottom: 5px;
         width: 90%;
+    }
+
+    #loading-spinner{
+        z-index: 999;
+        position: fixed;
+        left: 42%;
+        top: 25%;
+        visibility: hidden;
+    }
+
+    .studentDetail:hover{
+        background-color:#D4E6F9;
+        cursor: pointer;
     }
 </style>

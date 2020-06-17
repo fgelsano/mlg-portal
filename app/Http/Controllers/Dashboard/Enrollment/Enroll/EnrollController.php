@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Dashboard\Enrollment\Enroll;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use DataTables;
 
-use App\Models\Enrollee;
+use App\Models\Enrollment;
 use App\Models\Profile;
 use App\Models\Admission;
 use App\Models\Subject;
+use App\User;
 
 class EnrollController extends Controller
 {
@@ -43,33 +45,71 @@ class EnrollController extends Controller
 
         $error_array = array();
         $success_output = '';
-
+        
+        $studentDetails = Profile::select('course','year_level')->where('id',$request->applicant_id)->first();
 
         if($validation->fails()){
             foreach($validation->messages()->getMessages() as $field_name => $messages){
                 $error_array[] = $messages;
             }
+            return response()->json([
+                $error_array
+            ],414);
         } else {
             
-            if(is_array($request->input('enrolledSubject'))){
-                foreach($request->input('enrolledSubject') as $subject){
-                    $enrollee = new Enrollee;
-                    $enrollee->subject_id = $subject;
+            $schoolId = Profile::where('school_id','!=','')->where('school_id','!=','0')->orderBy('school_id','desc')->get();
+            $explodedId = explode('-',$schoolId[0]->school_id);
+            $incrementId = $explodedId[1]+1;
+            $studentId = '20-'.str_pad($incrementId,6,'0', STR_PAD_LEFT);
+
+            if($request->action == 'enroll'){
+                if(is_array($request->input('enrolledSubject'))){
+                    foreach($request->input('enrolledSubject') as $subject){
+                        $enrollee = new Enrollment;
+                        $enrollee->subject_id = $subject;
+                        $enrollee->profile_id = $request->input('applicant_id');
+                        $enrollee->course = $studentDetails->course;
+                        $enrollee->year_level = $studentDetails->year_level;
+                        $enrollee->status = 0;
+                        $enrollee->save();
+                    }
+                } else {
+                    $enrollee = new Enrollment;
+                    $enrollee->subject_id = $request->input('enrolledSubject');
                     $enrollee->profile_id = $request->input('applicant_id');
+                    $enrollee->course = $studentDetails->course;
+                    $enrollee->year_level = $studentDetails->year_level;
+                    $enrollee->status = 0;
                     $enrollee->save();
                 }
-            } else {
-                $enrollee = new Enrollee;
-                $enrollee->subject_id = $request->input('enrolledSubject');
-                $enrollee->profile_id = $request->input('applicant_id');
-                $enrollee->save();
+
+                $enroll = Admission::where('profile_id', $request->input('applicant_id'))->first();
+                $enroll->status = '4';
+                $enroll->save();
+
+                $profile = Profile::where('id',$request->input('applicant_id'))->first();
+                $profile->school_id = $studentId;
+                $profile->save();
+
+                $user = new User;
+                $user->name = $profile->first_name.' '.$profile->last_name;
+
+                $fname = strtolower(str_replace(' ','.',$profile->first_name));
+                $lname = strtolower(str_replace(' ','.',$profile->last_name));                
+                $user->email = $fname.'.'.$lname.'@mlgcl.edu.ph';
+
+                $user->password = Hash::make($profile->school_id);
+                $user->role = 3;
+                $user->profile_id = $profile->id;
+                $user->save();
+
+                return response()->json([
+                    'enrolment' => $enrollee,
+                    'admission' => $enroll,
+                    'profile' => $profile,
+                    'user' => $user
+                ],200);
             }
-
-            $profile = Admission::where('id', $request->input('applicant_id'))->first();
-            $profile->status = '5';
-            $profile->save();
-
-            $success_output = '<p class="m-0">Applicant Enrolled!</p>';
         }
 
         $output = array(

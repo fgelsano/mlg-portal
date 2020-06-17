@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 
 <head>
 
@@ -21,7 +21,9 @@
 
   {{-- Favicon --}}
   <link rel="icon" type="image/png" href="{{ asset('admin/img/favicon.png') }}">
-
+  <meta property="og:image" content="{{ asset('admin/img/MLG_Logo-Since-1999.jpg')}}" />
+  <meta property="og:image:width" content="450"/>
+  <meta property="og:image:height" content="298"/>
   @yield('styles')
 </head>
 

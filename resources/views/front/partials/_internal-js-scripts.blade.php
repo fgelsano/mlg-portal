@@ -1,5 +1,57 @@
 <script>
+    // Input Mask
+    document.addEventListener('DOMContentLoaded', () => {
+        for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
+            const pattern = el.getAttribute("placeholder"),
+                slots = new Set(el.dataset.slots || "_"),
+                prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                first = [...pattern].findIndex(c => slots.has(c)),
+                accept = new RegExp(el.dataset.accept || "\\d", "g"),
+                clean = input => {
+                    input = input.match(accept) || [];
+                    return Array.from(pattern, c =>
+                        input[0] === c || slots.has(c) ? input.shift() || c : c
+                    );
+                },
+                format = () => {
+                    const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
+                        i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
+                        return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
+                    });
+                    el.value = clean(el.value).join``;
+                    el.setSelectionRange(i, j);
+                    back = false;
+                };
+            let back = false;
+            el.addEventListener("keydown", (e) => back = e.key === "Backspace");
+            el.addEventListener("input", format);
+            el.addEventListener("focus", format);
+            el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+        }
+    });
 
+    $(document).on('click','.studentDetail', function(){
+        $('#consent-block').fadeOut();
+        $('#admission').animate();
+        $('#admission').addClass('d-block');
+        $('#admission').removeClass('d-none');
+        $('#first-name').val($(this).attr('data-fname'));
+        $('#middle-name').val($(this).attr('data-mname'));
+        $('#last-name').val($(this).attr('data-lname'));
+        $('#student-type').val('old');
+        $('#profile-id').val($(this).attr('data-id'));
+        $('#course-details-next-btn').addClass('d-none');
+        $('#submitAdmissionBtn-course-panel').removeClass('d-none');
+        $('#file-uploads-panel').addClass('d-none');
+        $('#file-upload-btn').addClass('d-none');
+        let firstName = $(this).attr('data-fname');
+        Swal.close();
+        Swal.fire(
+            'Welcome Back '+firstName+'!',
+            'Please fill-out the form below.',
+            'success'
+        )
+    })
     // Consent Button
     $('#consent-btn').click(function(){
         const swalWithBootstrapButtons = Swal.mixin({
@@ -54,111 +106,163 @@
                                 processData: false,
                                 dataType: 'json',
                                 success: function(data){   
-                                    console.log(data);
-                                    Swal.fire({
-                                        icon: 'question',
-                                        title: 'Is this correct?',
-                                        html: 
-                                        '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.success.school_id+'</strong></p>' +
-                                        '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.success.first_name+'</strong></p>' +
-                                        '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.success.middle_name+'</strong></p>' +
-                                        '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.success.last_name+'</strong></p>' +
-                                        '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.success.course+'</strong></p>',
-                                        showCancelButton: true,
-                                        confirmButtonText: 'Yes, that\'s me!',
-                                        cancelButtonText: 'No, that\'s not me!',
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            $('#consent-block').fadeOut();
-                                            $('#admission').animate();
-                                            $('#admission').addClass('d-block');
-                                            $('#admission').removeClass('d-none');
-                                            $('#first-name').val(data.success.first_name);
-                                            $('#middle-name').val(data.success.middle_name);
-                                            $('#last-name').val(data.success.last_name);
-                                            $('#student-type').val('old');
-                                            $('#profile-id').val(data.success.id);
-                                            swalWithBootstrapButtons.fire(
-                                                'Welcome Back '+data.success.first_name+'!',
-                                                'Please fill-out the form below.',
-                                                'success'
-                                            )
-                                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                            Swal.fire({
-                                                title: 'Try Again using your Id number!',
-                                                icon: 'info',
-                                                html:
-                                                    '<input id="id_number" class="form-control my-3" placeholder="Enter your Id number">',
-                                                inputAttributes: {
-                                                    autocapitalize: 'off'
-                                                },
-                                                showCancelButton: true,
-                                                confirmButtonText: 'Look up',
-                                                showLoaderOnConfirm: true,
-                                                preConfirm: () => {
-                                                    let id = 'id,'+$('#id_number').val();
-                                                    
-                                                    let routeUrl = "{{ route('oldStudent.fetch','name') }}";
-                                                    let fetchUrl = routeUrl.replace('name', id);
-                                                    $.ajax({
-                                                        url: fetchUrl,
-                                                        type: 'GET',
-                                                        contentType: false,
-                                                        processData: false,
-                                                        dataType: 'json',
-                                                        success: function(data){
-                                                            Swal.fire({
-                                                                icon: 'question',
-                                                                title: 'Is this correct?',
-                                                                html: 
-                                                                '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.success.school_id+'</strong></p>' +
-                                                                '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.success.first_name+'</strong></p>' +
-                                                                '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.success.middle_name+'</strong></p>' +
-                                                                '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.success.last_name+'</strong></p>'+
-                                                                '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.success.course+'</strong></p>',
-                                                                showCancelButton: true,
-                                                                confirmButtonText: 'Yes, that\'s me!',
-                                                                cancelButtonText: 'No, that\'s not me!',
-                                                            }).then((result) => {
-                                                                if (result.value) {
-                                                                    $('#consent-block').fadeOut();
-                                                                    $('#admission').animate();
-                                                                    $('#admission').addClass('d-block');
-                                                                    $('#admission').removeClass('d-none');
-                                                                    $('#first-name').val(data.success.first_name);
-                                                                    $('#middle-name').val(data.success.middle_name);
-                                                                    $('#last-name').val(data.success.last_name);
-                                                                    $('#student-type').val('old');
-                                                                    $('#profile-id').val(data.success.id);
-                                                                    swalWithBootstrapButtons.fire(
-                                                                        'Welcome Back '+data.success.first_name+'!',
-                                                                        'Please fill-out the form below.',
-                                                                        'success'
-                                                                    )
-                                                                } else {
-                                                                    swalWithBootstrapButtons.fire(
-                                                                        'Sorry we can\'t find your student details',
-                                                                        'Please try searching again or you may register as NEW STUDENT instead.',
-                                                                        'info'
-                                                                    )
-                                                                }
-                                                            });
-                                                        },
-                                                        error: function(err){
-                                                            swalWithBootstrapButtons.fire(
-                                                                'Sorry we can\'t find your student details',
-                                                                'Please try searching again or you may register as NEW STUDENT instead.',
-                                                                'info'
-                                                            )
-                                                        }
-                                                    })
-                                                }
-                                            });
-                                        }
-                                    });
+                                    console.log(data.profiles);
+                                    let student = '';
+                                    let courses = data.courses;
+                                    
+                                    if(data.profiles.length == 1) {
+                                        let studentCourse = '';
+                                        $.each(courses, function(key, course){
+                                            if(course.id == data.profiles[0].course ){
+                                                studentCourse = course.code;
+                                            }
+                                        })
+                                        student = '<div class="row mt-3 py-3 mx-3 studentDetail border" data-id="'+data.profiles[0].id+'" data-fname="'+data.profiles[0].first_name+'" data-lname="'+data.profiles[0].last_name+'" data-mname="'+data.profiles[0].middle_name+'" data-course="'+studentCourse+'"">'+
+                                                        '<div class="col-12 text-left">'+
+                                                            '<p class="text-left text-lead mb-0">Id Number: <strong class="float-right">'+data.profiles[0].school_id+'</strong></p>' +
+                                                            '<p class="text-left text-lead my-0">First Name: <strong class="float-right">'+data.profiles[0].first_name+'</strong></p>' +
+                                                            '<p class="text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.profiles[0].middle_name+'</strong></p>' +
+                                                            '<p class="text-left text-lead my-0">Last Name: <strong class="float-right">'+data.profiles[0].last_name+'</strong></p>' +
+                                                            '<p class="text-left text-lead my-0">Course: <strong class="float-right">'+studentCourse+'</strong></p>'+
+                                                        '</div>'+
+                                                    '</div>';
+                                    } else if(data.profiles.length > 1){
+                                        $.each(data.profiles, function(key,profile){
+                                                let studentCourse = '';
+                                                $.each(courses, function(key, course){
+                                                    if(course.id == profile.course ){
+                                                        studentCourse = course.code;
+                                                    }
+                                                })
+                                                console.log(studentCourse);
+                                                student = student + '<div class="row mt-3 py-3 mx-3 studentDetail border" data-id="'+profile.id+'" data-fname="'+profile.first_name+'" data-lname="'+profile.last_name+'" data-mname="'+profile.middle_name+'" data-course="'+studentCourse+'"">'+
+                                                                        '<div class="col-12 text-left">'+
+                                                                            '<p class="text-left text-lead mb-0">Id Number: <strong class="float-right">'+profile.school_id+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">First Name: <strong class="float-right">'+profile.first_name+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">Middle Name: <strong class="float-right">'+profile.middle_name+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">Last Name: <strong class="float-right">'+profile.last_name+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">Course: <strong class="float-right">'+studentCourse+'</strong></p>'+
+                                                                        '</div>'+
+                                                                    '</div>';
+                                        })
+                                        $('.swal2-confirm').hide();
+                                    }  
+                                    
+                                    if(data.profiles.length == 0){
+                                        Swal.fire({
+                                            title: 'Sorry, no record found!',
+                                            icon: 'error'
+                                        })
+                                    } else  {
+                                        Swal.fire({
+                                            icon: 'question',
+                                            title: 'See your name below? \nPlease click it!',
+                                            html: student,
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Yes, that\'s me!',
+                                            cancelButtonText: 'No, that\'s not me!',
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                $('#consent-block').fadeOut();
+                                                $('#admission').animate();
+                                                $('#admission').addClass('d-block');
+                                                $('#admission').removeClass('d-none');
+                                                $('#first-name').val(data.profiles[0].first_name);
+                                                $('#middle-name').val(data.profiles[0].middle_name);
+                                                $('#last-name').val(data.profiles[0].last_name);
+                                                $('#student-type').val('old');
+                                                $('#profile-id').val(data.profiles[0].id);
+                                                $('#course-details-next-btn').addClass('d-none');
+                                                $('#submitAdmissionBtn-course-panel').removeClass('d-none');
+                                                $('#file-uploads-panel').addClass('d-none');
+                                                $('#file-upload-btn').addClass('d-none');
+                                                Swal.fire(
+                                                    'Welcome Back '+data.profiles[0].first_name+'!',
+                                                    'Please fill-out the form below.',
+                                                    'success'
+                                                )
+                                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                                Swal.fire({
+                                                    title: 'Try Again using your Id number!',
+                                                    icon: 'info',
+                                                    html:
+                                                        '<input id="id_number" class="form-control my-3" placeholder="Enter your Id number">',
+                                                    inputAttributes: {
+                                                        autocapitalize: 'off'
+                                                    },
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'Look up',
+                                                    showLoaderOnConfirm: true,
+                                                    preConfirm: () => {
+                                                        let id = 'id,'+$('#id_number').val();
+                                                        
+                                                        let routeUrl = "{{ route('oldStudent.fetch','name') }}";
+                                                        let fetchUrl = routeUrl.replace('name', id);
+                                                        $.ajax({
+                                                            url: fetchUrl,
+                                                            type: 'GET',
+                                                            contentType: false,
+                                                            processData: false,
+                                                            dataType: 'json',
+                                                            success: function(data){
+                                                                Swal.fire({
+                                                                    icon: 'question',
+                                                                    title: 'Is this correct?',
+                                                                    html: 
+                                                                    '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.profiles.school_id+'</strong></p>' +
+                                                                    '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.profiles.first_name+'</strong></p>' +
+                                                                    '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.profiles.middle_name+'</strong></p>' +
+                                                                    '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.profiles.last_name+'</strong></p>'+
+                                                                    '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.profiles.course+'</strong></p>',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonText: 'Yes, that\'s me!',
+                                                                    cancelButtonText: 'No, that\'s not me!',
+                                                                }).then((result) => {
+                                                                    if (result.value) {
+                                                                        $('#consent-block').fadeOut();
+                                                                        $('#admission').animate();
+                                                                        $('#admission').addClass('d-block');
+                                                                        $('#admission').removeClass('d-none');
+                                                                        $('#first-name').val(data.profiles.first_name);
+                                                                        $('#middle-name').val(data.profiles.middle_name);
+                                                                        $('#last-name').val(data.profiles.last_name);
+                                                                        $('#student-type').val('old');
+                                                                        $('#profile-id').val(data.profiles.id);
+                                                                        $('#course-details-next-btn').addClass('d-none');
+                                                                        $('#submitAdmissionBtn-course-panel').removeClass('d-none');
+                                                                        $('#file-uploads-panel').addClass('d-none');
+                                                                        $('#file-upload-btn').addClass('d-none');
+                                                                        swalWithBootstrapButtons.fire(
+                                                                            'Welcome Back '+data.profiles.first_name+'!',
+                                                                            'Please fill-out the form below.',
+                                                                            'success'
+                                                                        )
+                                                                    } else {
+                                                                        swalWithBootstrapButtons.fire(
+                                                                            'Sorry we can\'t find your student details',
+                                                                            'Please try searching again or you may register as NEW STUDENT instead.',
+                                                                            'info'
+                                                                        )
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function(err){
+                                                                swalWithBootstrapButtons.fire(
+                                                                    'Sorry we can\'t find your student details',
+                                                                    'Please try searching again or you may register as NEW STUDENT instead.',
+                                                                    'info'
+                                                                )
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
                                     
                                 },
                                 error: function(error){
+                                    console.log(error);
                                     Swal.fire({
                                         title: error.responseJSON.error,
                                         icon: 'error'
@@ -171,6 +275,44 @@
             )}
         })
     });
+
+    // onBlur Last Name
+    $('#last-name').blur(function(){
+        let filled = true;
+        if($('#first-name').val() == ''){
+            filled = false;
+        }
+        if($('#last-name').val() == ''){
+            filled = false;
+        }
+        
+        if(filled == true){
+            let name = $('#last-name').val() + ',' + $('#first-name').val();
+            console.log(name);
+            let routeUrl = "{{ route('oldStudent.fetch','name') }}";
+            let fetchUrl = routeUrl.replace('name', name);
+            $.ajax({
+                url: fetchUrl,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(data){
+                    if(data.profiles.length > 0){
+                        $('#consent-block').fadeIn();
+                        $('#admission').addClass('d-none');
+                        $('#admission').removeClass('d-block');
+                        $('#admission-form')[0].reset();
+                        
+                        Swal.fire({
+                            title: 'That name is already in the system! Please select \n"Old Student"',
+                            icon: 'error',
+                        })
+                    }
+                }
+            });
+        }
+    })
 
     // Read URL Function
     function readUrl(input) {
@@ -268,7 +410,7 @@
 
     // Admission Form Submission
     $('#admission-form').on('submit',function(event){
-        
+        $('#loading-spinner').css('visibility','visible');
         let today = new Date();
         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         let time = today.getHours() + "." + today.getMinutes() + "." + today.getSeconds();
@@ -291,6 +433,7 @@
             processData: false,
             dataType: 'json',
             success: function(data){
+                $('#loading-spinner').css('visibility','hidden');
                 $('#admission-submitted').removeClass('d-none');
                 $('#admission-submitted').addClass('d-block');
                 $('#admission').addClass('d-none');

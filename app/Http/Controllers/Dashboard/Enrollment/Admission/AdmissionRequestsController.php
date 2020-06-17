@@ -153,7 +153,7 @@ class AdmissionRequestsController extends Controller
                         $status = '<span class="badge badge-pill badge-success">Accepted</span>';
                     } else if($data->status === 3){
                         $status = '<span class="badge badge-pill badge-danger">Rejected</span>';
-                    }
+                    } 
 
                     return $status;
                 })

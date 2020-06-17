@@ -144,7 +144,7 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-            <img class="img-profile rounded-circle" src="https://scontent.fmnl7-1.fna.fbcdn.net/v/t1.0-1/p160x160/64344572_303777233835900_5763779809821851648_n.jpg?_nc_cat=109&_nc_sid=dbb9e7&_nc_eui2=AeG6G0x2cIJcRgRxYDcmYcots8oAWjBdbrmzygBaMF1uuf4yKpkc2F04T7jEEyIgGoWM-v3Dxe400zALFxf68Cri&_nc_ohc=Rr4UhHzcfcEAX_qF8QT&_nc_ht=scontent.fmnl7-1.fna&_nc_tp=6&oh=1d926eef3d8b4d3708924118aa62e032&oe=5EEEEA98">
+            <img class="img-profile rounded-circle" src="/admin/img/empty-profile-img.png">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

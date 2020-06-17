@@ -15,7 +15,7 @@
             success: function(data){
                 $('#rejectAdmission').attr('data-id', data.profile.id);
                 $('#enrollAdmission').attr('data-id', data.profile.id);
-                
+                $('#applicant-id').val(data.profile.id);
                 let fullname = data.profile.first_name+' '+data.profile.middle_name+' '+data.profile.last_name;
                 $('#applicant-name').text(fullname);
                 
@@ -66,8 +66,10 @@
                 $('#enroll-profile-pic').css('background-image', 'url("'+profile_pic+'")');
                 $('#profile-pic-link').attr('data-img',profile_pic);
 
-                $('#enrolled-subjects').append('<tr class="table-danger text-center text-white" id="empty-row" data-stat="empty"><td colspan="7">No Enrolled Subject</td></tr>');
-                getSubjects();
+                let addedSubject = $('#enrolled-subjects').find('.addedSubject');
+                if(addedSubject.length == 0){
+                    $('#enrolled-subjects').html('<tr class="table-danger text-center text-white" id="empty-row" data-stat="empty"><td colspan="7">No Enrolled Subject</td></tr>');
+                }
                 $('#enroll-modal').modal('show');
             }
         })
