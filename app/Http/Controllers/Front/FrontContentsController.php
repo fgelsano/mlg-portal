@@ -187,6 +187,7 @@ class FrontContentsController extends Controller
             $profile->course                  = $request->input('course');
             $profile->year_level              = $request->input('year-level');
             $profile->complete_profile        = 0;
+            $profile->dpa_agreement           = $request->input('dpa-agreement-date');
             $profile->save();
 
             $documents = new Document;

@@ -14,7 +14,7 @@ class AddDpaAgreementDateToProfilesTable extends Migration
     public function up()
     {
         Schema::table('profiles', function (Blueprint $table) {
-            //
+            $table->string('dpa_agreement')->after('complete_profile')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddDpaAgreementDateToProfilesTable extends Migration
     public function down()
     {
         Schema::table('profiles', function (Blueprint $table) {
-            //
+            $table->dropColumn('dpa_agreement');
         });
     }
 }

@@ -369,7 +369,7 @@
 
     function camPrompt(){
         Swal.fire({
-            title: 'Reminder',
+            title: 'Selfie Reminder',
             text: 'Please make sure to wear a proper outfit and choose a good background before taking a selfie. Your selfie will be recorded in our system and will be evaluated by the registrar.',
             icon: 'info',
             confirmButtonText: 'Cool'
