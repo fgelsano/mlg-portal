@@ -226,4 +226,18 @@
         background-color:#D4E6F9;
         cursor: pointer;
     }
+
+    #dpa-agree{
+        height: 30px;
+    }
+
+    .nav-tabs > li {
+        float:none;
+        display:inline-block;
+        zoom:1;
+    }
+
+    .nav-tabs {
+        text-align:center;
+    }
 </style>

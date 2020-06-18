@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Response;
 use Closure;
 
 class SuperAdminMiddleware
@@ -17,7 +18,7 @@ class SuperAdminMiddleware
     {
         if($request->user() && $request->user()->role != 0)
         {
-            return new Response(view('Unauthorized')->with('role',0));
+            return new Response(view('admin.unauthorized.index')->with('role',0));
         }
         return $next($request);
     }

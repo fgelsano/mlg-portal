@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Response;
 use Closure;
 
 class CashierMiddleware
@@ -17,7 +18,7 @@ class CashierMiddleware
     {
         if($request->user() && $request->user()->role != 2)
         {
-            return new Response(view('Unauthorized')->with('role',2));
+            return new Response(view('admin.unauthorized.index')->with('role',2));
         }
         return $next($request);
     }

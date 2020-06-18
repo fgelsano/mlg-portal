@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Response;
 use Closure;
 
 class SchoolAdministratorMiddleware
@@ -17,7 +18,7 @@ class SchoolAdministratorMiddleware
     {
         if($request->user() && $request->user()->role != 7)
         {
-            return new Response(view('Unauthorized')->with('role',7));
+            return new Response(view('admin.unauthorized.index')->with('role',7));
         }
         return $next($request);
     }

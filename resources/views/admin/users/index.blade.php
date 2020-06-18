@@ -5,7 +5,14 @@
 
 @section('styles')
 <style>
-    
+    .profile-pic{
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        border-radius: 100px;
+        background-position: center;
+        margin: 0 auto;
+    }
 </style>
 @endsection
 
@@ -15,12 +22,16 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Users</h1>
-        </div> --}}
+        @include('admin.users.partials.sections.table')
+
+        @include('admin.users.partials.sections.modal')
 
     </div>
     <!-- /.container-fluid -->
 
+@endsection
+
+@section('scripts')
+    @include('admin.users.partials.scripts.datatables')
+    @include('admin.users.partials.scripts.actions')
 @endsection

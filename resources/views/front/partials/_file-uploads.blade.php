@@ -34,6 +34,6 @@
     </div>
     <div class="col-12 col-md-4  form-group ">
         <input type="file" class="dropify" id="hon-d" name="hd">
-        <p class="text-center mb-0 bg-danger text-white py-2">Upload Honorable Dismissal</p>
+        <p class="text-center mb-0 bg-danger text-white py-2">Upload Honorable Dismissal <br>(College Transferees Only)</p>
     </div>
 </div>

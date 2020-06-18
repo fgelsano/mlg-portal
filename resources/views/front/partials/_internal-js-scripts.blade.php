@@ -40,10 +40,11 @@
         $('#last-name').val($(this).attr('data-lname'));
         $('#student-type').val('old');
         $('#profile-id').val($(this).attr('data-id'));
-        $('#course-details-next-btn').addClass('d-none');
         $('#submitAdmissionBtn-course-panel').removeClass('d-none');
         $('#file-uploads-panel').addClass('d-none');
         $('#file-upload-btn').addClass('d-none');
+        $('#data-privacy-agreement-course-panel').removeClass('d-none');
+        $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
         let firstName = $(this).attr('data-fname');
         Swal.close();
         Swal.fire(
@@ -51,6 +52,7 @@
             'Please fill-out the form below.',
             'success'
         )
+        openCam();
     })
     // Consent Button
     $('#consent-btn').click(function(){
@@ -77,11 +79,14 @@
                     $('#admission').animate();
                     $('#admission').addClass('d-block');
                     $('#admission').removeClass('d-none');
+                    $('#profile-pic').attr('src','/admin/img/empty-profile-img.png');
+                    $('#profile-pic').attr('data-imng','empty');
                     swalWithBootstrapButtons.fire(
                         'Thanks for enrolling at MLGCL!',
                         'Please fill-out the form below.',
                         'success'
                     )
+                    openCam();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire({
                         title: 'Enter your name',
@@ -172,15 +177,19 @@
                                                 $('#last-name').val(data.profiles[0].last_name);
                                                 $('#student-type').val('old');
                                                 $('#profile-id').val(data.profiles[0].id);
-                                                $('#course-details-next-btn').addClass('d-none');
                                                 $('#submitAdmissionBtn-course-panel').removeClass('d-none');
                                                 $('#file-uploads-panel').addClass('d-none');
                                                 $('#file-upload-btn').addClass('d-none');
+                                                $('#profile-pic').attr('src','/admin/img/empty-profile-img.png');
+                                                $('#profile-pic').attr('data-imng','empty');;
+                                                $('#data-privacy-agreement-course-panel').removeClass('d-none');
+                                                $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
                                                 Swal.fire(
                                                     'Welcome Back '+data.profiles[0].first_name+'!',
                                                     'Please fill-out the form below.',
                                                     'success'
                                                 )
+                                                openCam();
                                             } else if (result.dismiss === Swal.DismissReason.cancel) {
                                                 Swal.fire({
                                                     title: 'Try Again using your Id number!',
@@ -228,15 +237,19 @@
                                                                         $('#last-name').val(data.profiles.last_name);
                                                                         $('#student-type').val('old');
                                                                         $('#profile-id').val(data.profiles.id);
-                                                                        $('#course-details-next-btn').addClass('d-none');
                                                                         $('#submitAdmissionBtn-course-panel').removeClass('d-none');
                                                                         $('#file-uploads-panel').addClass('d-none');
                                                                         $('#file-upload-btn').addClass('d-none');
+                                                                        $('#profile-pic').attr('src','/admin/img/empty-profile-img.png');
+                                                                        $('#profile-pic').attr('data-imng','empty');;
+                                                                        $('#data-privacy-agreement-course-panel').removeClass('d-none');
+                                                                        $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
                                                                         swalWithBootstrapButtons.fire(
                                                                             'Welcome Back '+data.profiles.first_name+'!',
                                                                             'Please fill-out the form below.',
                                                                             'success'
                                                                         )
+                                                                        openCam();
                                                                     } else {
                                                                         swalWithBootstrapButtons.fire(
                                                                             'Sorry we can\'t find your student details',
@@ -275,6 +288,19 @@
             )}
         })
     });
+
+    $('#dpa-agree').click(function(){
+        var date = new Date();
+        date = date.getDate() + "/"
+                + (date.getMonth()+1)  + "/" 
+                + date.getFullYear() + " - "  
+                + date.getHours() + ":"  
+                + date.getMinutes() + ":" 
+                + date.getSeconds();
+        $('#dpa-agree-date').text('Agreed date: '+date);
+        $('#dpa-agreement-date').val(date);
+        
+    })
 
     // onBlur Last Name
     $('#last-name').blur(function(){
@@ -329,14 +355,8 @@
 
     // Webcam
     function openCam(){
-        
-        Swal.fire({
-            title: 'Reminder',
-            text: 'Please make sure to wear a proper outfit before taking a selfie. Your selfie will be recorded in our system and will be evaluated by the registrar.',
-            icon: 'info',
-            confirmButtonText: 'Cool'
-        })
-
+        $('#selfieModal').modal('show');
+        camPrompt();
         Webcam.set({
             width: 470,
             height: 390,
@@ -346,6 +366,15 @@
     
         Webcam.attach( '#camera' );
     };
+
+    function camPrompt(){
+        Swal.fire({
+            title: 'Reminder',
+            text: 'Please make sure to wear a proper outfit and choose a good background before taking a selfie. Your selfie will be recorded in our system and will be evaluated by the registrar.',
+            icon: 'info',
+            confirmButtonText: 'Cool'
+        })
+    }
 
     // Capture Selfie
     function takeSnapshot() {
@@ -410,113 +439,127 @@
 
     // Admission Form Submission
     $('#admission-form').on('submit',function(event){
-        $('#loading-spinner').css('visibility','visible');
-        let today = new Date();
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + "." + today.getMinutes() + "." + today.getSeconds();
-        let dateTime = date+'_'+time;
-        let fileName = 'profile-'+ dateTime +'.png';
-        let dataURI = $('.img-tag').val();
-        let file = dataURItoFile(dataURI, fileName);
-
         event.preventDefault();
 
-        let form = $('#admission-form')[0];
-        let formData = new FormData(form);
-        formData.append('applicant-img', file);
-        
-        $.ajax({
-            url: '{{ route("admission.store") }}',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(data){
-                $('#loading-spinner').css('visibility','hidden');
-                $('#admission-submitted').removeClass('d-none');
-                $('#admission-submitted').addClass('d-block');
-                $('#admission').addClass('d-none');
-                $('#admission').removeClass('d-block');
-                $('#submitted-form').addClass('d-block');
-                $('#submitted-form').removeClass('d-none');
-                
-                $('#print-fullname').text(data.success.first_name+' '+data.success.middle_name+' '+data.success.last_name);
-                $('#print-contact').text(data.success.contact_number);
-                let print_gender = ['Male','Female']
-                $('#print-gender').text(print_gender[data.success.gender]);
-                let print_civil_status = ['Single','Married','Widow','Widower'];
-                $('#print-civil-status').text(print_civil_status[data.success.civil_status]);
-                $('#print-religion').text(data.success.religion);
-                let print_purok = '';
-                if(data.success.purok){
-                    print_purok = 'Purok '+data.success.purok
-                }
-                let print_sitio = '';
-                if(data.success.sitio){
-                    print_sitio = 'Sitio '+data.success.sitio;
-                }
+        if(!$('input[name="dpa-agree"]:checked').length > 0){
+            Swal.fire({
+                title: 'Agreement not Signed!',
+                text: 'Please agree to Data Privacy first.',
+                icon: 'error'
+            })
+        } else {
 
-                let purokSitio = '';
-                if(print_purok == '' || print_sitio == ''){
-                    purokSitio = '';
-                } else if(print_purok == ''){
-                    purokSitio = print_sition;
-                } else {
-                    purokSitio = print_purok+' '+print_sitio+', ';
-                }
+            $('#loading-spinner').css('visibility','visible');
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time = today.getHours() + "." + today.getMinutes() + "." + today.getSeconds();
+            let dateTime = date+'_'+time;
+            let fileName = 'profile-'+ dateTime +'.png';
+            let dataURI = $('.img-tag').val();
+            let file = dataURItoFile(dataURI, fileName);
 
-                $('#print-physical-address').text(purokSitio+data.success.street_barangay+','+data.success.municipality+','+data.success.province+', Philippines '+data.success.zip_code);
-                
-                let courseSelected = '';
-                let courseList = data.success.courses;
-                $.each(courseList, function(key,value){
-                    if(value.id == data.success.course){
-                        courseSelected = value.code;
+            let form = $('#admission-form')[0];
+            let formData = new FormData(form);
+            formData.append('applicant-img', file);
+            
+            $.ajax({
+                url: '{{ route("admission.store") }}',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(data){
+                    $('#loading-spinner').css('visibility','hidden');
+                    $('#admission-submitted').removeClass('d-none');
+                    $('#admission-submitted').addClass('d-block');
+                    $('#admission').addClass('d-none');
+                    $('#admission').removeClass('d-block');
+                    $('#submitted-form').addClass('d-block');
+                    $('#submitted-form').removeClass('d-none');
+                    
+                    $('#print-fullname').text(data.success.first_name+' '+data.success.middle_name+' '+data.success.last_name);
+                    $('#print-contact').text(data.success.contact_number);
+                    let print_gender = ['Male','Female']
+                    $('#print-gender').text(print_gender[data.success.gender]);
+                    let print_civil_status = ['Single','Married','Widow','Widower'];
+                    $('#print-civil-status').text(print_civil_status[data.success.civil_status]);
+                    $('#print-religion').text(data.success.religion);
+                    let print_purok = '';
+                    if(data.success.purok){
+                        print_purok = 'Purok '+data.success.purok
                     }
-                })
-                $('#print-course').text(courseSelected);
-                let print_year_level = ['First Year','Second Year','Third Year','Fourth Year','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'];
-                $('#print-year-level').text(print_year_level[data.success.year_level]);
-                $('#print-lrn').text(data.success.lrn);
-                // let trans_id = data.success.id;
-                // let id = trans_id.toString();
-                // $('#print-trans-id').text(id.padStart(6,'0'));
-                $('#print-parent-name').text(data.success.parent_guardian_name);
-                $('#print-parent-contact').text(data.success.parent_guardian_contact);
-                $('#print-school-graduated').text(data.success.school_graduated);
-                $('#print-school-address').text(data.success.school_address);
-                $('#print-year-graduated').text(data.success.year_graduated);
-
-                $('#print-gmc').css('background-image','url('+data.success.gmc+')');
-                $('#print-sf9-front').css('background-image','url('+data.success.sf9_front+')');
-                $('#print-sf9-back').css('background-image','url('+data.success.sf9_back+')');
-                $('#print-med-cert').css('background-image','url('+data.success.med_cert+')');
-                $('#print-psa-bc').css('background-image','url('+data.success.psa_bc+')');
-                $('#print-hd').css('background-image','url('+data.success.hd+')');
-
-                $('#print-applicant-img').attr('src', data.success.applicant_img);
-                
-                let initialFee = '₱ 3,200.00';
-                if(data.success.year_level == 1){
-                    initialFee = '₱ 3,500.00';
-                } 
-                $('#totalMiscFee').text(initialFee);
-                $('html,body').animate({scrollTop: $('#admission-submitted').offset().top},'slow');
-                
-            },
-            error: function(err){
-                let error_html = '<ul class="text-left">';
-                for(let x = 0; x < err.responseJSON.error.length; x++){
-                    error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
-                    if(x==err.responseJSON.error.length){
-                        error_html += '</ul>';
+                    let print_sitio = '';
+                    if(data.success.sitio){
+                        print_sitio = 'Sitio '+data.success.sitio;
                     }
+
+                    let purokSitio = '';
+                    if(print_purok == '' || print_sitio == ''){
+                        purokSitio = '';
+                    } else if(print_purok == ''){
+                        purokSitio = print_sition;
+                    } else {
+                        purokSitio = print_purok+' '+print_sitio+', ';
+                    }
+
+                    $('#print-physical-address').text(purokSitio+data.success.street_barangay+','+data.success.municipality+','+data.success.province+', Philippines '+data.success.zip_code);
+                    
+                    let courseSelected = '';
+                    let courseList = data.success.courses;
+                    $.each(courseList, function(key,value){
+                        if(value.id == data.success.course){
+                            courseSelected = value.code;
+                        }
+                    })
+                    $('#print-course').text(courseSelected);
+                    let print_year_level = ['','First Year','Second Year','Third Year','Fourth Year'];
+                    $('#print-year-level').text(print_year_level[data.success.year_level]);
+                    $('#print-lrn').text(data.success.lrn);
+                    // let trans_id = data.success.id;
+                    // let id = trans_id.toString();
+                    // $('#print-trans-id').text(id.padStart(6,'0'));
+                    $('#print-parent-name').text(data.success.parent_guardian_name);
+                    $('#print-parent-contact').text(data.success.parent_guardian_contact);
+                    $('#print-school-graduated').text(data.success.school_graduated);
+                    $('#print-school-address').text(data.success.school_address);
+                    $('#print-year-graduated').text(data.success.year_graduated);
+
+                    $('#print-gmc').css('background-image','url('+data.success.gmc+')');
+                    $('#print-sf9-front').css('background-image','url('+data.success.sf9_front+')');
+                    $('#print-sf9-back').css('background-image','url('+data.success.sf9_back+')');
+                    $('#print-med-cert').css('background-image','url('+data.success.med_cert+')');
+                    $('#print-psa-bc').css('background-image','url('+data.success.psa_bc+')');
+                    $('#print-hd').css('background-image','url('+data.success.hd+')');
+
+                    $('#print-applicant-img').attr('src', data.success.applicant_img);
+                    
+                    let initialFee = '₱ 3,200.00';
+                    if(data.success.year_level == 1){
+                        initialFee = '₱ 3,500.00';
+                    } 
+                    $('#totalMiscFee').text(initialFee);
+                    $('html,body').animate({scrollTop: $('#admission-submitted').offset().top},'slow');
+                    
+                },
+                error: function(err){
+                    console.log(err);
+                    if(err.responseJSON){
+                        let error_html = '<ul class="text-left">';
+                        for(let x = 0; x < err.responseJSON.error.length; x++){
+                            error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                            if(x==err.responseJSON.error.length){
+                                error_html += '</ul>';
+                            }
+                        }   
+                    } else {
+                        error_html = err.responseText;
+                    }
+                    // toastr["error"](error_html);
+                    alertify.error(error_html);
                 }
-                // toastr["error"](error_html);
-                alertify.error(error_html);
-            }
-        });  
+            });  
+        }
 
     });
 </script>
@@ -635,7 +678,6 @@
             return;
         }
         
-        console.log($('#applicant-img').val());
         let valid = validateForm();
         
             //find active panel
@@ -660,26 +702,33 @@
         input = panel.getElementsByTagName("input");
         select = panel.getElementsByTagName("select");
         textarea = panel.getElementsByTagName("textarea");
-        console.log(input);
-        // A loop that checks every input field in the current tab:
-        if(input.length > 0){
-            if(input[0].name == 'purok'){
-                i = 2;
-            }   
-        }   
 
         for (i; i < input.length; i++) {
+            console.log(input[i]);
             // If a field is empty...
             if (input[i].value == "") {
-                // add an "invalid" class to the field:
-                input[i].className = "invalid form-control";
-                // and set the current valid status to false:
-                valid = false;
+                if(input[i].name == 'middle-name'){
+                    input[i].className = 'form-control';
+                } else if(input[i].name == 'purok'){
+                    input[i].className = 'form-control';
+                } else if(input[i].name == 'sitio'){
+                    input[i].className = 'form-control';
+                } else if(input[i].name == 'gwa-grade'){
+                    input[i].className = 'form-control';
+                } else if(input[i].type == 'file'){
+                    input[i].className = 'form-control';
+                } else {
+                    // add an "invalid" class to the field:
+                    input[i].className = "invalid form-control";
+                    // and set the current valid status to false:
+                    valid = false;
+                }
             } else {
                 valid = true;
             }
         }
         console.log(valid);
+        
         for (i = 0; i < select.length; i++){
             if(select[i].value == 'Gender'){
                 select[i].className = " invalid form-control";
@@ -687,7 +736,13 @@
             } else if(select[i].value == 'Civil Status') {
                 select[i].className = " invalid form-control";
                 valid = false;
-            } 
+            } else if(select[i].value == 'Select Year Level'){
+                select[i].className = " invalid form-control";
+                valid = false;
+            } else if(select[i].value == 'Select a Course'){
+                select[i].className = " invalid form-control";
+                valid = false;
+            }
         }
         
         for (i = 0; i < textarea.length; i++){

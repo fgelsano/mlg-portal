@@ -110,6 +110,74 @@
 
         </div>
 
+        <!-- Content Column -->
+        <div class="">
+
+            <!-- Announcements -->
+            <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
+            </div>
+            <div class="card-body px-3">
+                <!-- Color System -->
+                <div class="mb-4">
+                    <h5>Announcement Title</h5>
+                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
+                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
+                </div>
+                <div class="mb-4">
+                    <div class="card bg-primary text-white shadow">
+                        <div class="card-body">
+                            Primary<div class="text-white-50 small">#4e73df</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="card bg-success text-white shadow">
+                    <div class="card-body">
+                        Success
+                        <div class="text-white-50 small">#1cc88a</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="card bg-info text-white shadow">
+                    <div class="card-body">
+                        Info
+                        <div class="text-white-50 small">#36b9cc</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="card bg-warning text-white shadow">
+                    <div class="card-body">
+                        Warning
+                        <div class="text-white-50 small">#f6c23e</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        Danger
+                        <div class="text-white-50 small">#e74a3b</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="card bg-secondary text-white shadow">
+                    <div class="card-body">
+                        Secondary
+                        <div class="text-white-50 small">#858796</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
         <!-- Content Row -->
         <div class="row">
 

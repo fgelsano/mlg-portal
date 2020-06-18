@@ -10,23 +10,23 @@
     <div class="col-12 col-md-8">
         <div class="row">
             <div class="col-12 form-group">
-                <input type="text" name="first-name" id="first-name" placeholder="First Name" class="form-control" onInput="this.className = 'form-control'">
+                <input type="text" name="first-name" id="first-name" placeholder="First Name" class="form-control" onInput="this.className = 'form-control'" required>
             </div>
             <div class="col-12 form-group">
                 <input type="text" name="middle-name" id="middle-name" placeholder="Middle Name" class="form-control" onInput="this.className = 'form-control'">
             </div>
             <div class="col-12 form-group">
-                <input type="text" name="last-name" id="last-name" placeholder="Last Name" class="form-control" onInput="this.className = 'form-control'">
+                <input type="text" name="last-name" id="last-name" placeholder="Last Name" class="form-control" onInput="this.className = 'form-control'" required>
             </div>
             <div class="col-12 col-md-3 form-group">
-                <select name="gender" id="gender" class="form-control" onInput="this.className = 'form-control'">
+                <select name="gender" id="gender" class="form-control" onInput="this.className = 'form-control'" required>
                     <option disabled selected>Gender</option>
                     <option value="0">Male</option>
                     <option value="1">Female</option>
                 </select>
             </div>
             <div class="col-12 col-md-4 form-group">
-                <select name="civil-status" id="civil-status" class="form-control" onInput="this.className = 'form-control'">
+                <select name="civil-status" id="civil-status" class="form-control" onInput="this.className = 'form-control'" required>
                     <option disabled selected>Civil Status</option>
                     <option value="0">Single</option>
                     <option value="1">Married</option>
@@ -35,10 +35,10 @@
                 </select>
             </div>
             <div class="col-12 col-md-5 form-group">
-                <input type="text" name="contact-number" id="contact_number" class="form-control" oninput="this.className = 'form-control'" placeholder="(09__)-___-____" data-slots="_">
+                <input type="text" name="contact-number" id="contact_number" class="form-control" oninput="this.className = 'form-control'" placeholder="(09__)-___-____" data-slots="_" required>
             </div>
             <div class="col-12 form-group">
-                <input type="text" name="religion" id="religion" placeholder="Religion" class="form-control" onInput="this.className = 'form-control'">
+                <input type="text" name="religion" id="religion" placeholder="Religion" class="form-control" onInput="this.className = 'form-control'" required>
             </div>
         </div>
     </div>

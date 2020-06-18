@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Admin;
+namespace App\Http\Controllers\Dashboard\Profile;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+Use App\Models\Profile;
+
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        return view('admin.profile.index');
     }
 
     /**
@@ -46,7 +48,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $profile = Profile::where('id',$id)->first();
+        // dd($profile);
+        return view('admin.profile.index')->with('profile');
     }
 
     /**

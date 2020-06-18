@@ -9,7 +9,7 @@
     <h1 class="h4 mb-0 text-gray-800 px-3">@yield('menu-title')</h1>
 
     <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto" id="page-top">
 
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">

@@ -27,18 +27,16 @@ Route::get('/fetchOldStudent/{name}', 'Front\FrontContentsController@fetchOldStu
 
 Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( function(){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::resource('/dashboard/profile','Profile\ProfileController');    
 
     Route::resource('/dashboard/enrollment/admission/requests', 'Enrollment\Admission\AdmissionRequestsController');
     Route::post('/dashboard/enrollment/admission/requests/accept', 'Enrollment\Admission\AdmissionRequestsController@markAccept')->name('requests.accept');
-    
     Route::get('/dashboard/enrollment/cashier/lists','Enrollment\Cashier\CashierController@index')->name('cashier.list');
-    Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists');
-    Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
     Route::resource('/dashboard/enrollment/enroll', 'Enrollment\Enroll\EnrollController');
 
     Route::resource('/dashboard/instructors', 'Instructors\InstructorsController');
     Route::get('/dashboard/instructors-list', 'Instructors\InstructorsController@instructorList')->name('instructors.list');
-    
+
     Route::resource('/dashboard/students', 'Students\StudentsController');
 
     Route::get('/dashboard/subjects/enroll-subjects', 'Subjects\SubjectsController@enrollSubjects')->name('enroll-subjects.list');
@@ -47,5 +45,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
 
     Route::resource('/dashboard/payments','Payments\PaymentsController');
 
-    Route::resource('/dashboard/users', 'Admin\UsersController');
+    Route::resource('/dashboard/users', 'Users\UsersController')->middleware('admin.super');
+    Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController')->middleware('admin.super');
+    Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists')->middleware('admin.super');
 });
