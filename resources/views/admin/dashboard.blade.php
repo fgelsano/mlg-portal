@@ -24,6 +24,8 @@
         {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
         {{-- </div> --}}
 
+        @if (Auth::user()->role == 0 || Auth::user()->role == 1)
+            
         <!-- Content Row -->
         <div class="row">
             
@@ -109,6 +111,7 @@
             </div>
 
         </div>
+        @endif
 
         <!-- Content Column -->
         <div class="">
@@ -121,55 +124,11 @@
             <div class="card-body px-3">
                 <!-- Color System -->
                 <div class="mb-4">
-                    <h5>Announcement Title</h5>
-                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
-                </div>
-                <div class="mb-4">
-                    <div class="card bg-primary text-white shadow">
-                        <div class="card-body">
-                            Primary<div class="text-white-50 small">#4e73df</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="card bg-success text-white shadow">
-                    <div class="card-body">
-                        Success
-                        <div class="text-white-50 small">#1cc88a</div>
-                    </div>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="card bg-info text-white shadow">
-                    <div class="card-body">
-                        Info
-                        <div class="text-white-50 small">#36b9cc</div>
-                    </div>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="card bg-warning text-white shadow">
-                    <div class="card-body">
-                        Warning
-                        <div class="text-white-50 small">#f6c23e</div>
-                    </div>
-                    </div>
-                </div>
-                <div class="mb-4">
                     <div class="card bg-danger text-white shadow">
-                    <div class="card-body">
-                        Danger
-                        <div class="text-white-50 small">#e74a3b</div>
-                    </div>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="card bg-secondary text-white shadow">
-                    <div class="card-body">
-                        Secondary
-                        <div class="text-white-50 small">#858796</div>
-                    </div>
+                        <div class="card-body text-white">
+                            <h5>No Announcements at the moment.</h5>
+                            <p>This section will just automatically update once an announcement becomes available for you to view.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,7 +137,7 @@
 
         </div>
 
-        <!-- Content Row -->
+        {{-- <!-- Content Row -->
         <div class="row">
 
         <!-- Content Column -->
@@ -295,7 +254,7 @@
             </div>
 
         </div>
-        </div>
+        </div> --}}
 
     </div>
     <!-- /.container-fluid -->

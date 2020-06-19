@@ -173,11 +173,7 @@ class OptionsController extends Controller
                                     ->orWhere('type','ay')
                                     ->get();
             
-            $instructors = Profile::select('profiles.id','profiles.first_name','profiles.last_name','users.role')
-                                ->join('users','profiles.id','=','users.profile_id')
-                                ->where('users.role',4)
-                                ->orWhere('users.role',5)
-                                ->get();
+            $instructors = Profile::where('role','5')->orWhere('role','4')->get();
             
             $schedules = Schedule::where('status',0)->get();
         }

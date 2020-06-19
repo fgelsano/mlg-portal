@@ -24,7 +24,16 @@
                         <input type="password" name="user-confirm-password" id="user-confirm-password" placeholder="Confirm Password" class="form-control">
                     </div>
                     <div class="form-group">
-                        <select name="user-role" id="user-role" class="form-control"></select>
+                        <select name="user-role" id="user-role" class="form-control">
+                            <option disabled selected>User Role</option>
+                            <option value="1">Registrar</option>
+                            <option value="2">Cashier</option>
+                            <option value="3">Student</option>
+                            <option value="4">Fulltime Instructor</option>
+                            <option value="5">Parttime Instructor</option>
+                            <option value="6">Parent</option>
+                            <option value="7">School Administrator</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

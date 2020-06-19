@@ -201,11 +201,7 @@ class InstructorsController extends Controller
 
     public function generateDatatables()
     {
-        $instructors = Profile::select('profiles.last_name','profiles.first_name','users.role','profiles.id','profiles.school_id')
-                                ->join('users','profiles.id','=','users.profile_id')
-                                ->where('users.role',4)
-                                ->orWhere('users.role',5)
-                                ->get();
+        $instructors = Profile::where('role',4)->orWhere('role',5)->get();
         return DataTables::of($instructors)
                 ->addColumn('status', function($data){
                     $status = '';
@@ -234,7 +230,7 @@ class InstructorsController extends Controller
     public function instructorList()
     {
         if(request()->ajax()){
-            $instructors = Profile::select('id','first_name','last_name')->where('type', '1')->get();
+            $instructors = Profile::select('id','first_name','last_name')->where('role', 4)->orWhere('role',5)->get();
         }
 
         return response()->json($instructors);

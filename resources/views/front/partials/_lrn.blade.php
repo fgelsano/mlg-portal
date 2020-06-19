@@ -6,4 +6,10 @@
     <div class="col-12 col-md-2 mb-2">
         <input type="text" name="gwa-grade" id="gwa-grade" placeholder="GWA" class="form-control">
     </div>
+    <div class="col-12">
+        <div class="alert alert-danger">
+            <strong>Note:</strong>
+            <p>Put zero (0) if you don't remember.</p>
+        </div>
+    </div>
 </div>

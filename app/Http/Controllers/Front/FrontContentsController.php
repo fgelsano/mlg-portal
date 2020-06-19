@@ -73,7 +73,7 @@ class FrontContentsController extends Controller
         if($validation->fails()){
             $errors = $validation->errors();
             return response()->json([
-                'validation' => $errors
+                'errors' => $validation->getMessageBag()->toArray()
             ],414);
         } else {
             // file upload
@@ -188,6 +188,7 @@ class FrontContentsController extends Controller
             $profile->year_level              = $request->input('year-level');
             $profile->complete_profile        = 0;
             $profile->dpa_agreement           = $request->input('dpa-agreement-date');
+            $profile->role                    = 3;
             $profile->save();
 
             $documents = new Document;
@@ -255,12 +256,6 @@ class FrontContentsController extends Controller
             $applicantDetails['med_cert']               = $med_cert ? $filePath.'med-cert/'.$med_cert : $noUploadedDoc;
             $applicantDetails['hd']                     = $hd ? $filePath.'hd/'.$hd : $noUploadedDoc;
             $applicantDetails['courses']                = Course::select('id','code')->get();
-
-            if($error_array){
-                return response()->json([
-                    'errors' => $errors
-                ], 400);
-            }
 
             return response()->json([
                 'success' => $applicantDetails

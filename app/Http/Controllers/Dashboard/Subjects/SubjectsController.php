@@ -232,11 +232,11 @@ class SubjectsController extends Controller
                     return $subjectCategory;
                 })
                 ->addColumn('instructor',function($data){
-                    $instructors = User::select('id','profile_id','name')->where('role', 4)->orWhere('role',5)->get();
+                    $instructors = Profile::select('id','first_name','last_name')->where('role', 4)->orWhere('role',5)->get();
                     $subjectInstructor = '';
                     foreach($instructors as $instructor){
-                        if($instructor->profile_id == $data->instructor){
-                            $subjectInstructor = $instructor->name;
+                        if($instructor->id == $data->instructor){
+                            $subjectInstructor = $instructor->first_name.' '.$instructor->last_name;
                         }
                     }
                     return $subjectInstructor;

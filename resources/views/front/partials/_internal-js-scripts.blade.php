@@ -101,7 +101,6 @@
                         showLoaderOnConfirm: true,
                         preConfirm: () => {
                             let name = $('#lastName').val() + ',' + $('#firstName').val();
-                            console.log(name);
                             let routeUrl = "{{ route('oldStudent.fetch','name') }}";
                             let fetchUrl = routeUrl.replace('name', name);
                             $.ajax({
@@ -111,7 +110,6 @@
                                 processData: false,
                                 dataType: 'json',
                                 success: function(data){   
-                                    console.log(data.profiles);
                                     let student = '';
                                     let courses = data.courses;
                                     
@@ -139,7 +137,6 @@
                                                         studentCourse = course.code;
                                                     }
                                                 })
-                                                console.log(studentCourse);
                                                 student = student + '<div class="row mt-3 py-3 mx-3 studentDetail border" data-id="'+profile.id+'" data-fname="'+profile.first_name+'" data-lname="'+profile.last_name+'" data-mname="'+profile.middle_name+'" data-course="'+studentCourse+'"">'+
                                                                         '<div class="col-12 text-left">'+
                                                                             '<p class="text-left text-lead mb-0">Id Number: <strong class="float-right">'+profile.school_id+'</strong></p>' +
@@ -275,7 +272,6 @@
                                     
                                 },
                                 error: function(error){
-                                    console.log(error);
                                     Swal.fire({
                                         title: error.responseJSON.error,
                                         icon: 'error'
@@ -314,7 +310,6 @@
         
         if(filled == true){
             let name = $('#last-name').val() + ',' + $('#first-name').val();
-            console.log(name);
             let routeUrl = "{{ route('oldStudent.fetch','name') }}";
             let fetchUrl = routeUrl.replace('name', name);
             $.ajax({
@@ -440,7 +435,21 @@
     // Admission Form Submission
     $('#admission-form').on('submit',function(event){
         event.preventDefault();
-
+        $('input[required]').each(function(){
+            if($(this).val() == ""){
+                alertify.error($(this)[0].name + ' requires an entry');
+            }
+        })
+        $('select[required]').each(function(){
+            if($(this).val() == ""){
+                alertify.error($(this)[0].name + ' requires an entry');
+            }
+        })
+        $('textarea[required]').each(function(){
+            if($(this).val() == ""){
+                alertify.error($(this)[0].name + ' requires an entry');
+            }
+        })
         if(!$('input[name="dpa-agree"]:checked').length > 0){
             Swal.fire({
                 title: 'Agreement not Signed!',
@@ -543,20 +552,13 @@
                     
                 },
                 error: function(err){
-                    console.log(err);
-                    if(err.responseJSON){
-                        let error_html = '<ul class="text-left">';
-                        for(let x = 0; x < err.responseJSON.error.length; x++){
-                            error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
-                            if(x==err.responseJSON.error.length){
-                                error_html += '</ul>';
-                            }
-                        }   
-                    } else {
-                        error_html = err.responseText;
-                    }
-                    // toastr["error"](error_html);
-                    alertify.error(error_html);
+                    let error_html = '<ul class="text-left">';
+                    for(let x = 0; x < err.length; x++){
+                        error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                        if(x==err.responseJSON.error.length){
+                            error_html += '</ul>';
+                        }
+                    }   
                 }
             });  
         }
@@ -677,7 +679,7 @@
         {
             return;
         }
-        
+
         let valid = validateForm();
         
             //find active panel
@@ -704,30 +706,30 @@
         textarea = panel.getElementsByTagName("textarea");
 
         for (i; i < input.length; i++) {
-            console.log(input[i]);
             // If a field is empty...
             if (input[i].value == "") {
                 if(input[i].name == 'middle-name'){
                     input[i].className = 'form-control';
+                    valid = true;
                 } else if(input[i].name == 'purok'){
                     input[i].className = 'form-control';
+                    valid = true;
                 } else if(input[i].name == 'sitio'){
                     input[i].className = 'form-control';
+                    valid = true;
                 } else if(input[i].name == 'gwa-grade'){
                     input[i].className = 'form-control';
+                    valid = true;
                 } else if(input[i].type == 'file'){
                     input[i].className = 'form-control';
+                    valid = true;
                 } else {
-                    // add an "invalid" class to the field:
-                    input[i].className = "invalid form-control";
-                    // and set the current valid status to false:
-                    valid = false;
+                    input[i].className = "invalid form-control"; // add an "invalid" class to the field:
+                    valid = false; // and set the current valid status to false:
                 }
-            } else {
-                valid = true;
+                console.log(input[i].name + '=' + valid);
             }
         }
-        console.log(valid);
         
         for (i = 0; i < select.length; i++){
             if(select[i].value == 'Gender'){
@@ -749,8 +751,6 @@
             if(textarea[i].value == ""){
                 textarea[i].className = " invalid form-control";
                 valid = false;
-            } else {
-                valid = true;
             }
         }
         
@@ -763,7 +763,7 @@
             alertify.error('Selfie is required!');
             valid = false;
         }
-
+        alert(valid);
         return valid;
     }
 

@@ -18,8 +18,11 @@
                 console.log(data);
                 $('#rejectAdmission').attr('data-id', data.profile.id);
                 $('#enrollAdmission').attr('data-id', data.profile.id);
-                
-                let fullname = data.profile.first_name+' '+data.profile.middle_name+' '+data.profile.last_name;
+                let middleName = data.profile.middle_name;
+                if(data.profile.middle_name == null){
+                    middleName = '';
+                }
+                let fullname = data.profile.first_name+' '+middleName+' '+data.profile.last_name;
                 $('#fullname').text(fullname);
                 $('#requested-by').text(fullname);
                 let print_gender = ['Male','Female']
