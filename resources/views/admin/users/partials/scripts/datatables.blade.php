@@ -3,7 +3,7 @@
     $(document).ready( function () {
         $('#users').DataTable({
             initComplete: function(){
-                $('.dataTables_filter ').append('<button type="button" id="addUser" class="btn btn-sm btn-primary ml-3" data-toggle="modal" data-target="#users-modal"><i class="fas fa-user"></i> Add User</button>');
+                $('.dataTables_filter ').append('<button type="button" id="addUser" class="btn btn-sm btn-primary ml-3"><i class="fas fa-user"></i> Add User</button>');
             },
             processing: true,
             serverSide: true,

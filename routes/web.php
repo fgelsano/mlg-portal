@@ -45,7 +45,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
 
     Route::resource('/dashboard/payments','Payments\PaymentsController');
 
+    Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists');
     Route::resource('/dashboard/users', 'Users\UsersController')->middleware('admin.super');
-    Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController')->middleware('admin.super');
-    Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists')->middleware('admin.super');
+    Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
 });
