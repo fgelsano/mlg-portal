@@ -1,18 +1,27 @@
 <script>
+    // Initialize Dropify
+    $('.dropify').dropify();
+
     $(document).on('click', '#addUser', function(e){
         e.preventDefault();
+        $('#userForm')[0].reset();
+        $('#userSave').attr('data-action','save');
+        $('#userSave').html('<i class="fas fa-save"></i> Save');
+        $('#userTitle').html('<i class="fas fa-user"></i> New User');
+
+        let imageUrl = '';
+        initDropify(imageUrl);
+
+        $('#users-modal').modal('show');
         $('#users-modal').modal('show');
     });
-
     
-    $(document).on('click', '.editSubject', function(e){
+    $(document).on('click', '.editUser', function(e){
         e.preventDefault();
-        $('#alerts').addClass('d-none');
-        $('#alerts').removeClass('d-block');
-        getOptionsList()
-        let subjectId = $(this).attr('data-id');
-        let routeUrl = "{{ route('subjects.edit','id') }}";
-        let editUrl = routeUrl.replace('id', subjectId);
+        
+        let userId = $(this).attr('data-id');
+        let routeUrl = "{{ route('users.show','id') }}";
+        let editUrl = routeUrl.replace('id', userId);
         $.ajax({
             url: editUrl,
             type: 'GET',
@@ -20,135 +29,150 @@
             processData: false,
             dataType: 'json',
             success: function(data){
-                console.log('Edit Subject');
                 console.log(data);
-                fillSelectedItem(data);
-                
-                $('#subjectTitle').html('<i class="fas fa-book"></i> Edit Subject');
-                
-                $('#code').val(data.code);
-                $('#description').val(data.description);
-                $('#url').val(data.url);
+                $('#userTitle').html('<i class="fas fa-user"></i> Edit User');
 
-                $('#alerts').addClass('d-none');
-                $('#subjectSave').attr('data-action','Update');
-                $('#subjectForm').attr('data-id',data.id);
-                $('#subjectSave').html('<i class="fas fa-save"></i> Update');
-                $('#formMethod').val('PUT');
+                let image = data.user.profile_pic == 'none' ? 'empty-profile-img.png' : data.user.profile_pic;
+                let imageUrl = '{{ asset("storage/uploads/applicant-img") }}'+'/'+image;
+                initDropify(imageUrl);
 
-                $('#subjects-modal').modal('show');
+                $('#first-name').val(data.user.first_name);
+                $('#last-name').val(data.user.last_name);
+                $('#user-email').val(data.user.email);
+
+                let selectedRole = data.user.role;
+                $('select#user-role option').each(function(){
+                    if($(this).val() == selectedRole){
+                        $(this).attr('selected','selected');
+                    }
+                });
+
+                $('#userSave').attr('data-action','update');
+                $('#userForm').attr('data-id',data.user.id);
+                $('#userSave').html('<i class="fas fa-save"></i> Update');
+
+                $('#users-modal').modal('show');
             }
         })
     });
 
-    function getOptionsList(){
-        let listUrl = "{{ route('options.lists') }}";
-        
-        $.ajax({
-            url: listUrl,
-            type: 'GET',
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function(data){
-                console.log('Get Options');
-                console.log(data);
-                let instructors = '<option selected disabled>Instructor</option>';
-                $.each(data.instructors,function(key,value){
-                    instructors = instructors + '<option value="'+value.id+'">'+value.first_name+' '+value.last_name+'</option>';
-                });
-                $('#instructor').html(instructors);
+    $(document).on('submit','#userForm',function(e){
+        e.preventDefault();
+        let method = '';
+        let action = $('#userSave').attr('data-action');
+        if(action == 'save'){
+            method = 'POST';
+            let form = $('#userForm')[0];
+            let formData = new FormData(form);
+            formData.append('_method',method);
+            formData.append('user-email',$('#user-email').val());
 
-                fillDropBoxes(data);
-                
-                $('#subjectTitle').html('<i class="fas fa-book"></i> Add Subject');
-                $('#alerts').addClass('d-none');
-                $('#instructorSave').attr('data-action','Update');
-                $('#instructorForm').attr('data-id',data.id);
-                $('#instructorSave').html('<i class="fas fa-save"></i> Update');
-                $('#formMethod').val('');
-                $('#subjects-modal').modal('show');
-            }
-        })
+            let routeUrl = "{{ route('users.store') }}";
+
+            $.ajax({
+                url: routeUrl,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(data){
+                    $('#users-modal').modal('hide');
+                    $('#users').DataTable().ajax.reload();
+                    alertify.success(data.success);
+                },
+                error: function(err){
+                    console.log(err)
+                        let error_html = '<ul class="text-left">';
+                        for(let x = 0; x < err.responseJSON.length; x++){
+                            error_html += '<li class="text-left">'+err.responseJSON[x]+'</li>';
+                            if(err.responseJSON.message){
+                                error_html += err.responseJSON.message;
+                            }
+                            if(x==err.responseJSON.length){
+                                error_html += '</ul>';
+                            }
+                        }
+                        alertify.error(error_html);
+                }
+            });
+        }
+        if(action == 'update'){
+            method = 'PUT';
+            let userId = $('#userForm').attr('data-id');
+            let form = $('#userForm')[0];
+            let formData = new FormData(form);
+            formData.append('_method',method);
+            formData.append('user-id',userId);
+            formData.append('user-email',$('#user-email').val());
+
+            let routeUrl = "{{ route('users.update','id') }}";
+            let editUrl = routeUrl.replace('id', userId);
+
+            $.ajax({
+                url: editUrl,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(data){
+                    $('#users-modal').modal('hide');
+                    $('#users').DataTable().ajax.reload();
+                    alertify.success(data.success);
+                },
+                error: function(err){
+                    console.log(err)
+                        let error_html = '<ul class="text-left">';
+                        for(let x = 0; x < err.responseJSON.length; x++){
+                            error_html += '<li class="text-left">'+err.responseJSON[x]+'</li>';
+                            if(err.responseJSON.message){
+                                error_html += err.responseJSON.message;
+                            }
+                            if(x==err.responseJSON.length){
+                                error_html += '</ul>';
+                            }
+                        }
+                        alertify.error(error_html);
+                }
+            });
+        }
+    })
+
+    function initDropify(image){
+        let dropify = $('.dropify').dropify({
+            defaultFile: image
+        });
+        dropifyEvent = dropify.data('dropify');
+        dropifyEvent.resetPreview();
+        dropifyEvent.clearElement();
+        dropifyEvent.settings.defaultFile = image;
+        dropifyEvent.destroy();
+        dropifyEvent.init();
     }
 
-    function fillSelectedItem(data){
-        let selectedCategory = data.category;
-        $('select#category option').each(function(){
-            if($(this).val() == selectedCategory){
-                $(this).attr('selected','selected');
-            }
-        });
+    let firstName = '';
+    let lastName = '';
+    $(document).on('keyup','#first-name',function(){
+        if($('#userSave').attr('data-action') == 'save'){
+            let getfirstName = $('#first-name').val();
+            firstName = getfirstName.toLowerCase().replace(/\s/g,'.');
 
-        let selectedInstructor = data.instructor;
-        $('select#instructor option').each(function(){
-            if($(this).val() == selectedInstructor){
-                $(this).attr('selected','selected');
-            }
-        });
-
-        let selectedSchedule = data.schedule;
-        $('select#schedule option').each(function(){
-            if($(this).val() == selectedSchedule){
-                $(this).attr('selected','selected');
-            }
-        });
-
-        let selectedSY = data.academic_year;
-        $('select#ay option').each(function(){
-            if($(this).val() == selectedSY){
-                $(this).attr('selected','selected');
-            }
-        });
-
-        let selectedSem = data.semester;
-        $('select#sem option').each(function(){
-            if($(this).val() == selectedSem){
-                $(this).attr('selected','selected');
-            }
-        });
-
-        let selectedSubType = data.type;
-        $('select#subject-type option').each(function(){
-            if($(this).val() == selectedSubType){
-                $(this).attr('selected','selected');
-            }
-        });
-
-        $('#units').val(data.units);
-    }
-
-    function fillDropBoxes(data){
-        let categories = '<option selected disabled>Subject Category</option>';
-        $.each(data.subjectDetails,function(key,value){
-            if(value.type == 'subject-category'){
-                categories = categories + '<option value="'+value.id+'">'+value.name+'</option>';
-            }
-        });
-        $('#category').html(categories);
-
-        let schedules = '<option selected disabled>Schedule</option>';
-        $.each(data.schedules,function(key,value){
-            let locType = '';
-            if(value.type == 0){
-                locType = 'Room';
-            } else if(value.type == 1){
-                locType = 'Lab';
-            } else {
-                locType = 'Home';
-            }
-            schedules = schedules + '<option value="'+value.id+'">'+value.day+', '+locType+' '+value.location+' ('+value.time+')</option>';
-        });
-        $('#schedule').html(schedules);
-
-        let ay = '<option selected disabled>School Year</option>';
-        $.each(data.subjectDetails,function(key,value){
-            if(value.type == 'ay'){
-                ay = ay + '<option value="'+value.id+'">'+value.name+'</option>';
-            }            
-        })
-        $('#ay').html(ay);
-        $('#sem').html('<option value="" disabled selected>Semester</option><option value="0">Summer</option><option value="1">First Semester</option><option value="2">Second Semester</option>');
-        $('#subject-type').html('<option value="" disabled selected>Subject Type</option><option value="0">Lecture</option><option value="1">Lab</option>');
-    }
+            let firstLetter = firstName.split('.');
+            let getFirstLetters = '';
+            $.each(firstLetter, function(key, value){
+                getFirstLetters = getFirstLetters+value.substring(0,1);
+                firstName = getFirstLetters;
+                $('#user-email').val(firstName+'.'+lastName+'@mlgcl.edu.ph');
+            })
+        }
+    })
+    
+    $(document).on('keyup','#last-name',function(){
+        if($('#userSave').attr('data-action') == 'save'){
+            let getLastName = $('#last-name').val();
+            lastName = getLastName.toLowerCase().replace(/\s/g,'.');
+            $('#user-email').val(firstName+'.'+lastName+'@mlgcl.edu.ph');
+        }
+    })
 </script>

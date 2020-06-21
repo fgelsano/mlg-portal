@@ -143,8 +143,9 @@
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-            <img class="img-profile rounded-circle" src="/admin/img/empty-profile-img.png">
+            
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{\App\Models\Profile::where('id',Auth::user()->profile_id)->first()->first_name.' '.\App\Models\Profile::where('id',Auth::user()->profile_id)->first()->last_name}}</span>
+            <img class="img-profile rounded-circle" src="{{ \App\Models\Profile::where('id',Auth::user()->profile_id)->first()->profile_pic == 'No Data' ? asset('admin/img/empty-profile-img.png') : asset('storage/uploads/applicant-img/'.\App\Models\Profile::where('id',Auth::user()->profile_id)->first()->profile_pic) }}">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

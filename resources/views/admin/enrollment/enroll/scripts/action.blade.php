@@ -24,6 +24,7 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
+                    console.log(data);
                     let code = data[0].code;
                     let desc = data[0].description;
                     let units = data[0].units;

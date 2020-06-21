@@ -9,19 +9,23 @@
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
-            <form action="" id="userForm">
+            <form action="" id="userForm" data-id="">
+                @csrf
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-8 offset-md-2 form-group ">
+                            <input type="file" class="dropify" id="profile-pic" name="profile-pic" data-default-file="">
+                            <p class="text-center mb-0 bg-danger text-white py-2">Profile Picture<br><small>Recommended Dimension: 200x200 pixels</small></p>
+                        </div>           
+                    </div>   
                     <div class="form-group">
-                        <input type="text" name="user-name" id="user-name" class="form-control" placeholder="Full Name" class="form-control">
+                        <input type="text" name="first-name" id="first-name" class="form-control" placeholder="First Name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="email" name="user-email" id="user-email" placeholder="Email Address" class="form-control">
+                        <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Last Name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="password" name="user-password" id="user-password" placeholder="Password" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="user-confirm-password" id="user-confirm-password" placeholder="Confirm Password" class="form-control">
+                        <input type="email" name="user-email" id="user-email" placeholder="Email Address" class="form-control" readonly="readonly" disabled>
                     </div>
                     <div class="form-group">
                         <select name="user-role" id="user-role" class="form-control">
@@ -29,8 +33,8 @@
                             <option value="1">Registrar</option>
                             <option value="2">Cashier</option>
                             <option value="3">Student</option>
-                            <option value="4">Fulltime Instructor</option>
-                            <option value="5">Parttime Instructor</option>
+                            <option value="4">Full Time Instructor</option>
+                            <option value="5">Part Time Instructor</option>
                             <option value="6">Parent</option>
                             <option value="7">School Administrator</option>
                         </select>
@@ -38,11 +42,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success px-5" id="userSave" data-action="Save">
-                    <i class="fas fa-save"></i> Save
-                </button>
-                <button type="button" class="btn btn-danger px-5" data-dismiss="modal">
-                    <i class="fas fa-times"></i> Close
-                </button>
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <button type="button" class="btn btn-danger px-5" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Close
+                    </button>
                 </div>          
             </form>
         </div>

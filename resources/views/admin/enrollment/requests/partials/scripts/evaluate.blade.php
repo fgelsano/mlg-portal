@@ -25,10 +25,10 @@
                 let fullname = data.profile.first_name+' '+middleName+' '+data.profile.last_name;
                 $('#fullname').text(fullname);
                 $('#requested-by').text(fullname);
-                let print_gender = ['Male','Female']
+                let print_gender = ['Gender','Male','Female']
                 $('#gender').text(print_gender[data.profile.gender]);
                 $('#contact').text(data.profile.contact_number);
-                let print_civil_status = ['Single','Married','Widow','Widower'];
+                let print_civil_status = ['Civil Status','Single','Married','Widow','Widower'];
                 $('#civil-status').text(print_civil_status[data.profile.civil_status]);
                 $('#religion').text(data.profile.religion);
                 let print_purok = '';
@@ -60,8 +60,8 @@
                 })
                 $('#course').text(courseSelected);
                 
-                let print_year_level = ['First Year','Second Year','Third Year','Fourth Year'];
-                $('#year-level').text(print_year_level[data.profile.year_level-1]);
+                let print_year_level = ['Year Level','First Year','Second Year','Third Year','Fourth Year'];
+                $('#year-level').text(print_year_level[data.profile.year_level]);
                 $('#lrn').text(data.profile.lrn);
                 // let trans_id = data.profile.id;
                 // let request_id = trans_id.toString();
@@ -75,31 +75,31 @@
                 let filePath = '/storage/uploads/';
                 let noDoc = '/no-document-uploaded.jpg';
 
-                let gmc = data.profile.documents[0].good_moral ? filePath+'gmc/'+data.profile.documents[0].good_moral : filePath+'gmc'+noDoc;
+                let gmc = data.profile.documents[0].good_moral != 'No Data' ? filePath+'gmc/'+data.profile.documents[0].good_moral : filePath+'gmc'+noDoc;
                 $('#gmc').css('background-image','url("'+gmc+'")');
                 $('#gmc-link').attr('data-img',gmc);
 
-                let sf9_front = data.profile.documents[0].report_card_front ? filePath+'sf9-front/'+data.profile.documents[0].report_card_front : filePath+'sf9-front'+noDoc;
+                let sf9_front = data.profile.documents[0].report_card_front != 'No Data' ? filePath+'sf9-front/'+data.profile.documents[0].report_card_front : filePath+'sf9-front'+noDoc;
                 $('#sf9-front').css('background-image','url("'+sf9_front+'")');
                 $('#sf9-front-link').attr('data-img',sf9_front);
 
-                let sf9_back = data.profile.documents[0].report_card_back ? filePath+'sf9-back/'+data.profile.documents[0].report_card_back : filePath+'sf9-back'+noDoc;
+                let sf9_back = data.profile.documents[0].report_card_back != 'No Data' ? filePath+'sf9-back/'+data.profile.documents[0].report_card_back : filePath+'sf9-back'+noDoc;
                 $('#sf9-back').css('background-image','url("'+sf9_back+'")');
                 $('#sf9-back-link').attr('data-img',sf9_back);
 
-                let med_cert = data.profile.documents[0].med_cert ? filePath+'med-cert/'+data.profile.documents[0].med_cert : filePath+'med-cert'+noDoc;
+                let med_cert = data.profile.documents[0].med_cert != 'No Data' ? filePath+'med-cert/'+data.profile.documents[0].med_cert : filePath+'med-cert'+noDoc;
                 $('#med-cert').css('background-image','url("'+med_cert+'")');
                 $('#med-cert-link').attr('data-img',med_cert);
 
-                let psa_bc = data.profile.documents[0].psa_birth_cert ? filePath+'psa-bc/'+data.profile.documents[0].psa_birth_cert : filePath+'psa-bc'+noDoc;
+                let psa_bc = data.profile.documents[0].psa_birth_cert != 'No Data' ? filePath+'psa-bc/'+data.profile.documents[0].psa_birth_cert : filePath+'psa-bc'+noDoc;
                 $('#psa-bc').css('background-image','url("'+psa_bc+'")');
                 $('#psa-bc-link').attr('data-img',psa_bc);
 
-                let hd = data.profile.documents[0].honorable_dismissal ? filePath+'hd/'+data.profile.documents[0].honorable_dismissal : filePath+'hd'+noDoc;
+                let hd = data.profile.documents[0].honorable_dismissal != 'No Data' ? filePath+'hd/'+data.profile.documents[0].honorable_dismissal : filePath+'hd'+noDoc;
                 $('#hd').css('background-image','url("'+hd+'")');
                 $('#hd-link').attr('data-img',hd);
 
-                let profile_pic = data.profile.profile_pic ? filePath+'applicant-img/'+data.profile.profile_pic : filePath+'applicant-img'+noDoc;
+                let profile_pic = data.profile.profile_pic != 'No Data' ? filePath+'applicant-img/'+data.profile.profile_pic : filePath+'applicant-img'+noDoc;
                 
                 $('#profile-pic').css('background-image', 'url("'+profile_pic+'")');
                 $('#profile-pic-link').attr('data-img',profile_pic);

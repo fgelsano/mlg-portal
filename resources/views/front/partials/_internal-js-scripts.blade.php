@@ -365,7 +365,7 @@
     function camPrompt(){
         Swal.fire({
             title: 'Selfie Reminder',
-            text: 'Please make sure to wear a proper outfit and choose a good background before taking a selfie. Your selfie will be recorded in our system and will be evaluated by the registrar.',
+            text: 'Please make sure to wear a proper outfit and choose a good background before taking a selfie. \nYour selfie will be recorded in our system and will be evaluated by the registrar. \nMake sure your face is clear and well lit up. \nUncentered and unclear selfies could cause the registrar to reject your admission request.',
             icon: 'info',
             confirmButtonText: 'Cool'
         })
@@ -435,21 +435,6 @@
     // Admission Form Submission
     $('#admission-form').on('submit',function(event){
         event.preventDefault();
-        $('input[required]').each(function(){
-            if($(this).val() == ""){
-                alertify.error($(this)[0].name + ' requires an entry');
-            }
-        })
-        $('select[required]').each(function(){
-            if($(this).val() == ""){
-                alertify.error($(this)[0].name + ' requires an entry');
-            }
-        })
-        $('textarea[required]').each(function(){
-            if($(this).val() == ""){
-                alertify.error($(this)[0].name + ' requires an entry');
-            }
-        })
         if(!$('input[name="dpa-agree"]:checked').length > 0){
             Swal.fire({
                 title: 'Agreement not Signed!',
@@ -489,9 +474,9 @@
                     
                     $('#print-fullname').text(data.success.first_name+' '+data.success.middle_name+' '+data.success.last_name);
                     $('#print-contact').text(data.success.contact_number);
-                    let print_gender = ['Male','Female']
+                    let print_gender = ['Gender','Male','Female']
                     $('#print-gender').text(print_gender[data.success.gender]);
-                    let print_civil_status = ['Single','Married','Widow','Widower'];
+                    let print_civil_status = ['Civil Status','Single','Married','Widow','Widower'];
                     $('#print-civil-status').text(print_civil_status[data.success.civil_status]);
                     $('#print-religion').text(data.success.religion);
                     let print_purok = '';
@@ -522,7 +507,7 @@
                         }
                     })
                     $('#print-course').text(courseSelected);
-                    let print_year_level = ['','First Year','Second Year','Third Year','Fourth Year'];
+                    let print_year_level = ['Year Level','First Year','Second Year','Third Year','Fourth Year'];
                     $('#print-year-level').text(print_year_level[data.success.year_level]);
                     $('#print-lrn').text(data.success.lrn);
                     // let trans_id = data.success.id;
@@ -727,7 +712,6 @@
                     input[i].className = "invalid form-control"; // add an "invalid" class to the field:
                     valid = false; // and set the current valid status to false:
                 }
-                console.log(input[i].name + '=' + valid);
             }
         }
         
@@ -763,7 +747,6 @@
             alertify.error('Selfie is required!');
             valid = false;
         }
-        alert(valid);
         return valid;
     }
 

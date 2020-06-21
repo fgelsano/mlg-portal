@@ -38,6 +38,51 @@
     .pass_show .ptxt:hover{
         color: #333333;
     } 
+
+    .first-name-label .ptxt,
+    .middle-name-label .ptxt,
+    .last-name-label .ptxt,
+    .religion-label .ptxt,
+    .purok-label .ptxt,
+    .sitio-label .ptxt,
+    .barangay-label .ptxt,
+    .municipality-label .ptxt,
+    .province-label .ptxt,
+    .zipcode-label .ptxt,
+    .emergency-contact-label .ptxt,
+    .contact-label .ptxt,
+    .school-graduated-label .ptxt,
+    .school-address-label .ptxt,
+    .year-graduated-label .ptxt,
+    .lrn-label .ptxt,
+    .gwa-label .ptxt {
+        position: absolute !important;
+        top: 20% !important;
+        right: 35px !important;
+    }
+
+    @media (max-width: 575.98px) { 
+        .first-name-label .ptxt,
+        .middle-name-label .ptxt,
+        .last-name-label .ptxt,
+        .religion-label .ptxt,
+        .purok-label .ptxt,
+        .sitio-label .ptxt,
+        .barangay-label .ptxt,
+        .municipality-label .ptxt,
+        .province-label .ptxt,
+        .zipcode-label .ptxt,
+        .emergency-contact-label .ptxt,
+        .contact-label .ptxt,
+        .school-graduated-label .ptxt,
+        .school-address-label .ptxt,
+        .year-graduated-label .ptxt,
+        .lrn-label .ptxt,
+        .gwa-label .ptxt {
+            display: none;
+        }
+     }
+
 </style>
 @endsection
 
@@ -64,4 +109,5 @@
 
 @section('scripts')
     @include('admin.profile.scripts.onload-scripts')    
+    @include('admin.profile.scripts.actions')    
 @endsection

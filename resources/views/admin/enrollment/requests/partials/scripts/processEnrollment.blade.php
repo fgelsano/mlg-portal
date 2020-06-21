@@ -20,11 +20,11 @@
                 $('#applicant-name').text(fullname);
                 
                 
-                let print_gender = ['Male','Female']
+                let print_gender = ['Gender','Male','Female']
                 $('#enrollee-gender').text(print_gender[data.profile.gender]);
                 $('#enrollee-contact').text(data.profile.contact_number);
 
-                let print_civil_status = ['Single','Married','Widow','Widower'];
+                let print_civil_status = ['Civil Status','Single','Married','Widow','Widower'];
                 $('#enrollee-civil-status').text(print_civil_status[data.profile.civil_status]);
                 $('#enrollee-religion').text(data.profile.religion);
 
@@ -57,7 +57,7 @@
                 })
                 $('#enrollee-course').text(courseSelected);
                 
-                let print_year_level = ['First Year','Second Year','Third Year','Fourth Year'];
+                let print_year_level = ['Year Level','First Year','Second Year','Third Year','Fourth Year'];
                 $('#enrollee-year-level').text(print_year_level[data.profile.year_level-1]);
 
                 let filePath = '/storage/uploads/';

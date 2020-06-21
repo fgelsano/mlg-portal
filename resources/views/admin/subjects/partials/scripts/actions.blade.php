@@ -27,8 +27,6 @@
             processData: false,
             dataType: 'json',
             success: function(data){
-                console.log('Edit Subject');
-                console.log(data);
                 fillSelectedItem(data);
                 
                 $('#code').val(data.code);

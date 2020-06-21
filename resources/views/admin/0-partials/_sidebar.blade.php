@@ -181,7 +181,16 @@
           <span class="ml-2">Web Mail</span></a>
       </li>        
     @endif
-
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    @if (Auth::user()->role == 0)
+        <!-- Nav Item - Online Admission -->
+      <li class="nav-item">
+        <a class="nav-link" href="/online-admission" target="_blank">
+          <i class="fas fa-user"></i>
+          <span class="ml-2">Online Admission</span></a>
+      </li>
+    @endif
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

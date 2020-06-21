@@ -82,87 +82,88 @@ class FrontContentsController extends Controller
 
             if($request->has('applicant-img')){
                 $applicant_Img_WithExt = $request->file('applicant-img')->getClientOriginalName();
-                $applicant_Img_filename = pathinfo($applicant_Img_WithExt, PATHINFO_FILENAME);
+                $applicant_Img_filename = str_replace(' ','_',pathinfo($applicant_Img_WithExt, PATHINFO_FILENAME));
                 $applicant_Img_extension = $request->file('applicant-img')->getClientOriginalExtension();
                 $applicant_img = $applicant_Img_filename.'-'.$date.'.'.$applicant_Img_extension;
                 $path_applicant_img = $request->file('applicant-img')->storeAs('public/uploads/applicant-img', $applicant_img);
             } else {
-                $applicant_img = '';
+                $applicant_img = 'No Data';
             }
             
             // DOCUMENTS BLOCK
             if($request->has('sf9-front')){
                 $sf9_front_WithExt = $request->file('sf9-front')->getClientOriginalName();
-                $sf9_front_filename = pathinfo($sf9_front_WithExt, PATHINFO_FILENAME);
+                $sf9_front_filename = str_replace(' ','_',pathinfo($sf9_front_WithExt, PATHINFO_FILENAME));
                 $sf9_front_extension = $request->file('sf9-front')->getClientOriginalExtension();
                 $sf9_front = $sf9_front_filename.'-'.$date.'.'.$sf9_front_extension;
                 $path_sf9_front = $request->file('sf9-front')->storeAs('public/uploads/sf9-front', $sf9_front);
             } else {
-                $sf9_front = '';
+                $sf9_front = 'No Data';
             }
 
             if($request->has('sf9-back')){
                 $sf9_back = $request->file('sf9-back')->getClientOriginalName();
-                $sf9_back = pathinfo($sf9_back, PATHINFO_FILENAME);
+                $sf9_back = str_replace(' ','_',pathinfo($sf9_back, PATHINFO_FILENAME));
                 $sf9_back_extension = $request->file('sf9-back')->getClientOriginalExtension();
                 $sf9_back = $sf9_back.'-'.$date.'.'.$sf9_back_extension;
                 $path_sf9_back = $request->file('sf9-back')->storeAs('public/uploads/sf9-back', $sf9_back);
             } else {
-                $sf9_back = '';
+                $sf9_back = 'No Data';
             }
 
             if($request->has('gmc')){
                 $gmc_WithExt = $request->file('gmc')->getClientOriginalName();
-                $gmc_filename = pathinfo($gmc_WithExt, PATHINFO_FILENAME);
+                $gmc_filename = str_replace(' ','_',pathinfo($gmc_WithExt, PATHINFO_FILENAME));
                 $gmc_extension = $request->file('gmc')->getClientOriginalExtension();
                 $gmc = $gmc_filename.'-'.$date.'.'.$gmc_extension;
                 $path_gmc = $request->file('gmc')->storeAs('public/uploads/gmc', $gmc);
             } else {
-                $gmc = '';
+                $gmc = 'No Data';
             }
 
             if($request->has('psa-bc')){
                 $psa_bc_WithExt = $request->file('psa-bc')->getClientOriginalName();
-                $psa_bc_filename = pathinfo($psa_bc_WithExt, PATHINFO_FILENAME);
+                $psa_bc_filename = str_replace(' ','_',pathinfo($psa_bc_WithExt, PATHINFO_FILENAME));
                 $psa_bc_extension = $request->file('psa-bc')->getClientOriginalExtension();
                 $psa_bc = $psa_bc_filename.'-'.$date.'.'.$psa_bc_extension;
                 $path_psa_bc = $request->file('psa-bc')->storeAs('public/uploads/psa-bc', $psa_bc);
             } else {
-                $psa_bc = '';
+                $psa_bc = 'No Data';
             }
 
             if($request->has('med-cert')){
                 $med_cert_WithExt = $request->file('med-cert')->getClientOriginalName();
-                $med_cert_filename = pathinfo($med_cert_WithExt, PATHINFO_FILENAME);
+                $med_cert_filename = str_replace(' ','_',pathinfo($med_cert_WithExt, PATHINFO_FILENAME));
                 $med_cert_extension = $request->file('med-cert')->getClientOriginalExtension();
                 $med_cert = $med_cert_filename.'-'.$date.'.'.$med_cert_extension;
                 $path_med_cert = $request->file('med-cert')->storeAs('public/uploads/med-cert', $med_cert);
             } else {
-                $med_cert = '';
+                $med_cert = 'No Data';
             }
 
             if($request->has('hd')){
                 $hd_WithExt = $request->file('hd')->getClientOriginalName();
-                $hd_filename = pathinfo($hd_WithExt, PATHINFO_FILENAME);
+                $hd_filename = str_replace(' ','_',pathinfo($hd_WithExt, PATHINFO_FILENAME));
                 $hd_extension = $request->file('hd')->getClientOriginalExtension();
                 $hd = $hd_filename.'-'.$date.'.'.$hd_extension;
                 $path_hd = $request->file('hd')->storeAs('public/uploads/hd', $hd);
             } else {
-                $hd = '';
+                $hd = 'No Data';
             }
             // END OF DOCUMENTS BLOCK
         
-
+            // dd($request->all());
             // create admission
             $studentType = $request->input('studentType');
-            $profileId = $request->input('profile-id');
+            $profileId = $request->input('profileId');
 
             // dd($studentType,$profileId);
             if($studentType === 'old'){
                 $profile = Profile::where('id',$profileId)->first();
+                // dd($profile);
             } else {
                 $profile = new Profile;
-                $profile->school_id               = '0';
+                $profile->school_id               = 'No Data';
             }
             $profile->profile_pic             = $applicant_img;
             $profile->first_name              = $request->input('first-name');
@@ -186,7 +187,7 @@ class FrontContentsController extends Controller
             $profile->lrn                     = $request->input('lrn');
             $profile->course                  = $request->input('course');
             $profile->year_level              = $request->input('year-level');
-            $profile->complete_profile        = 0;
+            $profile->complete_profile        = 1;
             $profile->dpa_agreement           = $request->input('dpa-agreement-date');
             $profile->role                    = 3;
             $profile->save();
@@ -211,7 +212,7 @@ class FrontContentsController extends Controller
             if($profile->year_level == 1){
                 $initialBalance = 3500.00;
             } else {
-                $initialBalance = 3300.00;
+                $initialBalance = 3200.00;
             }
             $payment = new Payment;
             $payment->profile_id = $profile->id;
