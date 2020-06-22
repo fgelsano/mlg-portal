@@ -1,6 +1,7 @@
 <div class="tab-pane fade" id="edit-profile" role="tabpanel" aria-labelledby="edit-profile-tab">
     <form id="editProfileForm" data-id="" data-course="" data-year-level="">
         @csrf
+        <input type="hidden" name="role" value="{{ Auth::user()->role }}">
         {{-- Personal Information --}}
         <div class="row py-3">
             <div class="col-12 col-md-4 mb-3" id="profile-pic-container">
@@ -47,11 +48,13 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 mb-2 lrn-label">
-                <input type="number" name="lrn" id="lrn" placeholder="Learner's Reference Number (LRN)" class="form-control">
+        @if (Auth::user()->role == 3)
+            <div class="row">
+                <div class="col-12 mb-2 lrn-label">
+                    <input type="number" name="lrn" id="lrn" placeholder="Learner's Reference Number (LRN)" class="form-control">
+                </div>
             </div>
-        </div>
+        @endif
         <div class="row my-3">
             <div class="col-12 col-md-6 mb-2 purok-label">
                 <input type="text" name="purok" id="purok" placeholder="Purok" class="form-control" onInput="this.className = 'form-control'">
@@ -73,14 +76,6 @@
             </div>
         </div>
         <div class="row my-3">
-            <div class="col-12 col-md-9 form-group emergency-contact-label">
-                <input type="text" name="emergency-contact-name" id="emergency-contact-name" class="form-control" placeholder="Parent / Guardian Name">
-            </div>
-            <div class="col-12 col-md-3 form-group contact-label">
-                <input type="text" name="emergency-contact-number" id="emergency-contact-number" class="form-control" placeholder="(09__)-___-____" data-slots="_">
-            </div>
-        </div>
-        <div class="row my-3">
             <div class="col-12 col-md-9 mb-2 school-graduated-label">
                 <input type="text" name="school-graduated" id="school-graduated" placeholder="School Graduated (Complete School Name)" class="form-control">
             </div>
@@ -89,6 +84,14 @@
             </div>
             <div class="col-12 mb-2 school-address-label">
                 <textarea name="school-address" id="school-address" cols="30" rows="2" class="form-control" placeholder="School Address"></textarea>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-12 col-md-9 form-group emergency-contact-label">
+                <input type="text" name="emergency-contact-name" id="emergency-contact-name" class="form-control" placeholder="Parent / Guardian Name">
+            </div>
+            <div class="col-12 col-md-3 form-group contact-label">
+                <input type="text" name="emergency-contact-number" id="emergency-contact-number" class="form-control" placeholder="(09__)-___-____" data-slots="_">
             </div>
         </div>
         @if (Auth::user()->role == 3)
@@ -150,8 +153,8 @@
                     <div class="row my-3">
                         <div class="col-12 col-md-4 offset-md-4 text-center">
                             <p class="font-weight-bold"><input type="checkbox" name="dpa-agree" id="dpa-agree" {{$profile->dpa_agreement != 0 ? 'checked' : ''}}> Yes, I Agree.</p>
-                            <p class="font-weight-bold mt-3 text-danger text-center" id="dpa-agree-date"></p>
-                            <input type="hidden" name="dpa-agreement-date" id="dpa-agreement-date">
+                            <p class="font-weight-bold mt-3 text-danger text-center" id="dpa-agree-date">{{ $profile->dpa_agreement ? 'Agreed Date: '.$profile->dpa_agreement : 'Agreed Date : Not Yet Agreed' }}</p>
+                            <input type="hidden" name="dpa-agreement-date" id="dpa-agreement-date" value="{{ $profile->dpa_agreement }}">
                         </div>
                     </div>
                 </div>

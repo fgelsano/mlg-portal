@@ -35,7 +35,7 @@
                         type = 'Lab';
                     }
                     let sched = data[0].day+' '+data[0].time+' at '+type+' '+data[0].location;
-                    let instructor = data[0].instructor_name;
+                    let instructor = data[0].first_name + ' ' + data[0].last_name;
 
                     if($('#empty-row').attr('data-stat') == 'empty'){
                         $('#enrolled-subjects').html('');

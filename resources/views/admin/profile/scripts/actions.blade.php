@@ -120,6 +120,7 @@
 
                 $('#dpa-agree-date').text('Agreed date: '+data.dpa_agreement);
                 $('#dpa-agreement-date').val(data.dpa_agreement);
+
                 $('.nav-tabs a[href="#edit-profile"]').tab('show');
             }
         })
@@ -149,21 +150,32 @@
             success: function(data){
                 Swal.fire({
                     icon: 'success',
-                    text: 'Profile Updated!'
-                })
-                location.reload();
+                    text: 'Profile Updated!!'
+                }).then(function(){
+                    let route = "{{ route('profile.show','id') }}";
+                    let profileRoute = route.replace('id', data.id);
+                    window.location.href = profileRoute;
+                });
             },
             error: function(err){
-                    let error_html = '<ul class="text-left">';
+                console.log(err.responseJSON);
+                // let error_html = '<ul class="text-left">';
+                let error_html = '';
+                if(err.responseJSON == 'Profile Pic is required'){
+                    alertify.error(err.responseJSON);
+                } else {
                     $.each(err.responseJSON, function(key, response){
                         $.each(response, function(key, value){
-                            error_html += '<li class="text-left">'+value+'</li>';
-                            if(value == err.responseJSON.length){
-                                error_html += '</ul>'
-                            }
+                            error_html += '<p class="text-left">'+value+'</p>';
+                            // if(value == err.responseJSON.length){
+                            //     error_html += '</ul>'
+                            // }
+                            alertify.error(error_html);
                         })
-                    })
-                    alertify.error(error_html);
+                    }) 
+                }
+
+                
             }
         });
         
@@ -180,4 +192,39 @@
         dropifyEvent.destroy();
         dropifyEvent.init();
     }
+
+    $(document).on('submit','#resetPassForm', function(e){
+        e.preventDefault();
+        let form = $('#resetPassForm')[0];
+        let formData = new FormData(form);
+        
+        let routeUrl = "{{ route('reset.password') }}";
+
+        $.ajax({
+            url: routeUrl,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },            
+            success: function(data){
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Password Successfully Changed!'
+                }).then(function(){
+                    window.location.href = "{{ route('dashboard') }}";
+                });
+            },
+            error: function(err){
+                console.log(err);
+                Swal.fire({
+                    icon: 'error',
+                    text: err.responseJSON
+                })
+            }
+        })
+    })
 </script>

@@ -212,7 +212,7 @@ class FrontContentsController extends Controller
             if($profile->year_level == 1){
                 $initialBalance = 3500.00;
             } else {
-                $initialBalance = 3200.00;
+                $initialBalance = 2800.00;
             }
             $payment = new Payment;
             $payment->profile_id = $profile->id;

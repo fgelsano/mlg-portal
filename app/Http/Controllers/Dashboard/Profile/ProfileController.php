@@ -51,7 +51,7 @@ class ProfileController extends Controller
     public function show($id)
     {
         $profile = Profile::where('id',$id)->with('documents')->first();
-        // dd($profile->documents[0]);
+        // dd($profile);
         return view('admin.profile.index')->with('profile', $profile);
     }
 
@@ -78,7 +78,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        // dd($request->all(), $id);
         $validation = Validator::make($request->all(),[
             'profile-pic'             => 'image|mimes:jpeg,png,jpg,gif,svg',
             'first-name'              => 'required',
@@ -124,8 +124,6 @@ class ProfileController extends Controller
                 $profile_pic_extension = $request->file('profile-pic')->getClientOriginalExtension();
                 $profile_pic = $profile_pic_filename.'-'.$date.'.'.$profile_pic_extension;
                 $path_profile_pic_img = $request->file('profile-pic')->storeAs('public/uploads/applicant-img', $profile_pic);
-            } else {
-                $profile_pic = 'No Data';
             }
             
             // DOCUMENTS BLOCK
@@ -192,13 +190,15 @@ class ProfileController extends Controller
         
 
             $profile = Profile::where('id',$request->input('profile-id'))->first();
-            if($profile_pic == 'No Data' && $profile->profile_pic == 'No Data'){
-
+            if($profile->profile_pic == 'No Data'){
                 return response()->json(
-                    'Profile Fic is required'
-                , 200);
+                    'Profile Pic is required'
+                , 400);
             }
-            $profile->profile_pic             = $profile_pic;
+            // dd($profile);
+            if($request->has('profile-pic')){
+                $profile->profile_pic             = $profile_pic;
+            }
             $profile->first_name              = $request->input('first-name');
             $profile->middle_name             = $request->input('middle-name');
             $profile->last_name               = $request->input('last-name');
@@ -217,22 +217,26 @@ class ProfileController extends Controller
             $profile->school_graduated        = $request->input('school-graduated');
             $profile->school_address          = $request->input('school-address');
             $profile->year_graduated          = $request->input('year-graduated');
-            $profile->lrn                     = $request->input('lrn');
+            $profile->lrn                     = $request->input('lrn') ? $request->input('lrn') : 0;
             $profile->course                  = $request->input('course');
             $profile->year_level              = $request->input('year_level');
             $profile->complete_profile        = 1;
             $profile->dpa_agreement           = $request->input('dpa-agreement-date');
-            $profile->role                    = 3;
+            $profile->role                    = $request->input('role');
+            $profile->save();
 
-
-            $documents = Document::where('profile_id',$request->input('profile-id'))->first();
-            $documents->report_card_front = $sf9_front;
-            $documents->report_card_back = $sf9_back;
-            $documents->good_moral = $gmc;
-            $documents->psa_birth_cert = $psa_bc;
-            $documents->med_cert = $med_cert;
-            $documents->honorable_dismissal = $hd;
-            $documents->save();
+            if($request->input('role') == 3){
+                $documents = Document::where('profile_id',$id)->first();
+                $documents = [
+                    'report_card_front' => $sf9_front,
+                    'report_card_back' => $sf9_back,
+                    'good_moral' => $gmc,
+                    'psa_birth_cert' => $psa_bc,
+                    'med_cert' => $med_cert,
+                    'honorable_dismissal' => $hd
+                ];
+                $profile->documents()->save($documents);
+            }
 
             return response()->json(
                 $profile

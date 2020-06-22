@@ -40,6 +40,76 @@
         
     $(document).on('click','.pass_show .ptxt', function(){ 
         $(this).text($(this).text() == "Show" ? "Hide" : "Show"); 
-        $(this).prev().attr('type', function(index, attr){return attr == 'password' ? 'text' : 'password'; }); 
+        $(this).prev().attr('type', function(index, attr){
+            return attr == 'password' ? 'text' : 'password'; 
+            console.log(attr);
+        }); 
     });  
+
+    $(document).on('click','.ptxt', function(){
+        let input = $(this).closest('input');
+        input.attr('type','text');
+    })
+
+    let entries = false;
+    let match = false;
+
+    $('#password').on('keyup',function(){
+        let password = $('#password').val();
+        let validLength = /.{8}/.test(password);
+        let hasCaps = /[A-Z]/.test(password);
+        let hasNums = /\d/.test(password);
+        let hasSpecials = /[~!,@#%&_\$\^\*\?\-]/.test(password);
+
+        if(validLength == true){
+            $('#char').removeClass('text-danger');
+            $('#char').addClass('text-success');
+        } else {
+            $('#char').removeClass('text-success');
+            $('#char').addClass('text-danger');
+        }
+
+        if(hasCaps == true){
+            $('#caps').removeClass('text-danger');
+            $('#caps').addClass('text-success');
+        } else {
+            $('#caps').removeClass('text-success');
+            $('#caps').addClass('text-danger');
+        }
+
+        if(hasNums == true){
+            $('#num').removeClass('text-danger');
+            $('#num').addClass('text-success');
+        } else {
+            $('#num').removeClass('text-success');
+            $('#num').addClass('text-danger');
+        }
+        
+        if(hasSpecials == true){
+            $('#spec').removeClass('text-danger');
+            $('#spec').addClass('text-success');
+        } else {
+            $('#spec').removeClass('text-success');
+            $('#spec').addClass('text-danger');
+        }
+
+        entries = validLength && hasCaps && hasNums && hasSpecials;
+    });
+    $('#password-confirm').on('keyup',function(){
+        if($('#password').val() == $('#password-confirm').val()){
+            $('#password-confirm').css('outline','2px solid green');
+            $('#password').css('outline','2px solid green');
+            match = true;
+        } else {
+            $('#password-confirm').css('outline','2px solid red');
+            $('#password').css('outline','2px solid red');
+            match = false;
+        }
+
+        if(match && entries){
+            $('#resetBtn').removeClass('d-none')
+        } else {
+            $('#resetBtn').addClass('d-none');
+        }
+    })
 </script>

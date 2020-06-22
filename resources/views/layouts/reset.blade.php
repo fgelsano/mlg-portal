@@ -24,6 +24,8 @@
   <meta property="og:image" content="{{ asset('admin/img/MLG_Logo-Since-1999.jpg')}}" />
   <meta property="og:image:width" content="450"/>
   <meta property="og:image:height" content="298"/>
+  {{-- SweetAlert --}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.4/dist/sweetalert2.min.css">
   @yield('styles')
 </head>
 
@@ -45,6 +47,8 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+  {{-- SweetAlert --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.4/dist/sweetalert2.all.min.js"></script>
 
   @yield('scripts')
 

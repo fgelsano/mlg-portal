@@ -97,8 +97,9 @@
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 3 || Auth::user()->role == 6)
       <!-- Nav Item - Subjects -->
-      <li class="nav-item">
-        <a class="nav-link" href="">
+      <li class="nav-item
+        {{ url()->current() === route('student-subjects.show',Auth::user()->profile_id) ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('student-subjects.show', Auth::user()->profile_id) }}">
           <i class="fas fa-book"></i>
           <span class="ml-2">Subjects & Schedules</span></a>
       </li>
@@ -106,26 +107,36 @@
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 7)
       <!-- Nav Item - Subject Loads -->
-      <li class="nav-item">
-        <a class="nav-link" href="">
+      <li class="nav-item
+          {{ url()->current() === route('instructor-subjects.show',Auth::user()->profile_id) ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('instructor-subjects.show',Auth::user()->profile_id) }}">
           <i class="fas fa-book"></i>
           <span class="ml-2">Subject Loads</span></a>
       </li>
     @endif
 
-    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3 || Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 6 || Auth::user()->role == 7)
+    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
       <!-- Nav Item - Grades -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('student-grades.index') }}">
           <i class="fas fa-percentage"></i>
           <span class="ml-2">Grades</span></a>
       </li>
     @endif
 
-    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
+    @if (Auth::user()->role == 0 || Auth::user()->role == 4 || Auth::user()->role == 5)
+      <!-- Nav Item - Grades -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('instructor-grades.index') }}">
+          <i class="fas fa-percentage"></i>
+          <span class="ml-2">Grades</span></a>
+      </li>
+    @endif
+
+    @if (Auth::user()->role == 0 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
       <!-- Nav Item - Billing -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('student-billings.index') }}">
           <i class="fas fa-money-bill-alt"></i>
           <span class="ml-2">Billing</span></a>
       </li>
@@ -134,19 +145,38 @@
     @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 7)
       <!-- Nav Item - Announcements -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('announcements.index') }}">
           <i class="fas fa-bullhorn"></i>
           <span class="ml-2">Announcements</span></a>
       </li>
     @endif
 
-    <!-- Nav Item - eClearance -->
-    <li class="nav-item">
-      <a class="nav-link" href="">
-        <i class="fas fa-spell-check"></i>
-        <span class="ml-2">eClearance</span></a>
-    </li>
+    @if (Auth::user()->role == 0 || Auth::user()->role == 3 ||  Auth::user()->role == 6 ||  Auth::user()->role == 7)
+      <!-- Nav Item - eClearance -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('student-clearances.index') }}">
+          <i class="fas fa-spell-check"></i>
+          <span class="ml-2">eClearance</span></a>
+      </li>
+    @endif
 
+    @if (Auth::user()->role == 0 || Auth::user()->role == 4 ||  Auth::user()->role == 5)
+      <!-- Nav Item - eClearance -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('instructor-clearances.index') }}">
+          <i class="fas fa-spell-check"></i>
+          <span class="ml-2">eClearance</span></a>
+      </li>
+    @endif
+
+    @if (Auth::user()->role == 2)
+      <!-- Nav Item - eClearance -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('cashier-clearances.index') }}">
+          <i class="fas fa-spell-check"></i>
+          <span class="ml-2">eClearance</span></a>
+      </li>
+    @endif
     
     @if(Auth::user()->role == 0)
       <!-- Heading -->

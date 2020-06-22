@@ -17,14 +17,20 @@
             <div class="card">
                 <div class="row card-body p-0">
                     <div class="col-12 col-md-6">
-                        <div class="p-5">
+                        <div class="px-5 py-3">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900">Hi {{ $user->first_name }}!</h1>
-                                <h1 class="h4 text-grey-900 mb-4">Let's Reset your Password First</h1>
+                                <h3 class="text-gray-900">Hi {{ $user->first_name }}!</h3>
+                                <h5 class="text-grey-900">Let's Reset your Password First</h5>
                             </div>
-                            <form id="resetForm">
+                            <form id="initialPasswordChange">
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $user->id }}">
+                                <input type="hidden" name="userId" value="{{ $user->profile_id }}">
+                                <ul>
+                                    <li class="my-0 small text-danger" id="char">At least 8 characters long</li>
+                                    <li class="my-0 small text-danger" id="caps">At least 1 Capital letter</li>
+                                    <li class="my-0 small text-danger" id="num">At least 1 Number</li>
+                                    <li class="my-0 small text-danger" id="spec">At least 1 Special character</li>
+                                </ul>
                                 <div class="form-group">
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="New Password">
 
@@ -35,21 +41,18 @@
                                     @enderror
                                 </div>
                                 <div class="form-group mb-3">                            
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm Password">
+                                        <input id="password-confirm" type="password" class="form-control" name="password-confirmation" required autocomplete="new-password" placeholder="Confirm Password">
                                 </div>
                                 
-                                <ul>
-                                    <li class="my-0 small text-danger" id="char">At least 8 characters long</li>
-                                    <li class="my-0 small text-danger" id="caps">At least 1 Capital letter</li>
-                                    <li class="my-0 small text-danger" id="num">At least 1 Number</li>
-                                    <li class="my-0 small text-danger" id="spec">At least 1 Special character</li>
-                                </ul>
-                                
-                                
-                                <button type="submit" class="btn btn-primary btn-user btn-block mt-3 d-none" id="resetBtn">
+                                <button type="submit" class="btn btn-primary btn-user btn-block my-3 d-none" id="resetBtn">
                                     {{ __('Reset Password') }}
                                 </button>
                             </form>
+                            <div class="alert alert-danger">
+                                <strong>Reminder:</strong>
+                                <p class="small">Make sure to write down your new password somewhere safe.</p>
+                                <p class="small">Password reset via the <span class="font-weight-bold">system administrator</span> will cost you <strong>₱200</strong> per reset request so be sure to remember your new password.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 d-none d-lg-block bg-login-image" style="background-image: url({{asset('admin/img/mlg1.jpg')}})"></div>
@@ -123,29 +126,39 @@
             }
         })
 
-        $(document).on('submit','#resetForm', function(e){
+        $(document).on('submit','#initialPasswordChange', function(e){
             e.preventDefault();
-
-            let form = $('#resetForm')[0];
+            let form = $('#initialPasswordChange')[0];
             let formData = new FormData(form);
-
-            let resetUrl = "{{ route('reset.password') }}";
+            
+            let routeUrl = "{{ route('reset.password') }}";
 
             $.ajax({
-                url: resetUrl,
+                url: routeUrl,
                 type: 'POST',
                 data: formData,
                 contentType: false,
                 processData: false,
                 dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },            
                 success: function(data){
                     Swal.fire({
                         icon: 'success',
-                        text: 'Password reset successful!'
+                        text: 'Password Successfully Changed!'
+                    }).then(function(){
+                        window.location.href = "{{ route('dashboard') }}";
+                    });
+                },
+                error: function(err){
+                    console.log(err);
+                    Swal.fire({
+                        icon: 'error',
+                        text: err.responseJSON
                     })
-                    window.location.replace('/dashboard');
                 }
-            });
+            })
         })
     </script>
 @endsection

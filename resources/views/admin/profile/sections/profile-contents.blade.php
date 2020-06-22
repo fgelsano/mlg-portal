@@ -24,7 +24,7 @@
                     Contact:
                 </div>
                 <div class="col-12 col-md-9 font-weight-bold" id="print-contact">
-                    {{ $profile->contact_number == 0 ? 'No Data' : $profile->contact_number }}
+                    {{ $profile->contact_number }}
                 </div>
             </div>
             <div class="row">
@@ -72,7 +72,7 @@
                     Address:
                 </div>
                 <div class="col-12 col-md-9 font-weight-bold" id="print-physical-address">
-                    {{ $profile->purok ? $profile->purok.',' : '' }} {{ $profile->sitio ? $profile->sitio.',' : '' }} {{ $profile->barangay }}, {{ $profile->municipality }}, {{ $profile->province }} {{ $profile->zipcode }}
+                    {{ $profile->purok ? 'Purok '.$profile->purok.',' : '' }} {{ $profile->sitio ? 'Sitio '.$profile->sitio.',' : '' }} {{ $profile->barangay }}, {{ $profile->municipality }}, {{ $profile->province }} {{ $profile->zipcode }}
                 </div>
             </div>
             <div class="row">
@@ -87,45 +87,60 @@
                 <div class="col-12 font-weight-bold">
                     <h4 class="text-danger my-0 font-weight-bold" id="print-course">
                         <div class="d-md-block d-none">
-                            @if($profile->course == 0)
-                                No Data
-                            @elseif($profile->course == 1)
-                                Bachelor of Science in Information Technology | BSIT
-                            @elseif($profile->course == 2)
-                                Bachelor in Elementary Education | BEED
-                            @elseif($profile->course == 3)
-                                Bachelor in Secondary Education major in Mathematics | BSED-Math
-                            @elseif($profile->course == 4)
-                                Bachelor in Secondary Education major in Social Studies | BSED-SocStu
+                            @if(Auth::user()->role == 3)
+                                @if($profile->course == 0)
+                                    No Data
+                                @elseif($profile->course == 1)
+                                    Bachelor of Science in Information Technology | BSIT
+                                @elseif($profile->course == 2)
+                                    Bachelor in Elementary Education | BEED
+                                @elseif($profile->course == 3)
+                                    Bachelor in Secondary Education major in Mathematics | BSED-Math
+                                @elseif($profile->course == 4)
+                                    Bachelor in Secondary Education major in Social Studies | BSED-SocStu
+                                @endif
+                            @endif
+                            @if(Auth::user()->role == 0)
+                                System Administrator
+                            @endif
+                            @if(Auth::user()->role == 4)
+                                Full Time Instructor
+                            @endif
+                            @if(Auth::user()->role == 5)
+                                Part Time Instructor
                             @endif
                         </div>
                         <div class="d-block d-md-none">
-                            @if($profile->course == 0)
-                                No Data
-                            @elseif($profile->course == 1)
-                                BSIT
-                            @elseif($profile->course == 2)
-                                BEED
-                            @elseif($profile->course == 3)
-                                BSED-Math
-                            @elseif($profile->course == 4)
-                                BSED-SocStu
+                            @if(Auth::user()->role == 3)
+                                @if($profile->course == 0)
+                                    No Data
+                                @elseif($profile->course == 1)
+                                    BSIT
+                                @elseif($profile->course == 2)
+                                    BEED
+                                @elseif($profile->course == 3)
+                                    BSED-Math
+                                @elseif($profile->course == 4)
+                                    BSED-SocStu
+                                @endif
                             @endif
                         </div>
                     </h4>
                 </div>
-                <div class="col-12 font-weight-bold my-0" id="print-gender">
+                <div class="col-12 font-weight-bold my-0">
                     <h5 class="my-0" id="print-year-level">
-                        @if($profile->year_level == 0)
-                            No Data
-                        @elseif($profile->year_level == 1)
-                            First Year
-                        @elseif($profile->year_level == 2)
-                            Second Year
-                        @elseif($profile->year_level == 3)
-                            Third Year
-                        @elseif($profile->year_level == 4)
-                            Fourth Year
+                        @if(Auth::user()->role == 3)
+                            @if($profile->year_level == 0)
+                                No Data
+                            @elseif($profile->year_level == 1)
+                                First Year
+                            @elseif($profile->year_level == 2)
+                                Second Year
+                            @elseif($profile->year_level == 3)
+                                Third Year
+                            @elseif($profile->year_level == 4)
+                                Fourth Year
+                            @endif
                         @endif
                     </h5>
                 </div>
@@ -150,12 +165,15 @@
         <div class="col-12 border-bottom">
             <h5>Educational History</h5>
         </div>
-        <div class="col-12 col-md-2 d-none d-md-block print-show">
-            LRN:
-        </div>
-        <div class="col-12 col-md-10 font-weight-bold text-danger" id="print-lrn">
-            {{ $profile->lrn }}
-        </div>
+
+        @if (Auth::user()->role == 3)
+            <div class="col-12 col-md-2 d-none d-md-block print-show">
+                LRN:
+            </div>
+            <div class="col-12 col-md-10 font-weight-bold text-danger" id="print-lrn">
+                {{ $profile->lrn }}
+            </div>
+        @endif
         
         <div class="col-12 col-md-2 d-none d-md-block print-show">
             School Graduated:

@@ -58,7 +58,7 @@
                 $('#enrollee-course').text(courseSelected);
                 
                 let print_year_level = ['Year Level','First Year','Second Year','Third Year','Fourth Year'];
-                $('#enrollee-year-level').text(print_year_level[data.profile.year_level-1]);
+                $('#enrollee-year-level').text(print_year_level[data.profile.year_level]);
 
                 let filePath = '/storage/uploads/';
                 let noDoc = '/no-document-uploaded.jpg';

@@ -36,4 +36,14 @@ class Admission extends Model
         'med_cert',
         'hd'
     ];
+
+    public function profile()
+    {
+        return $this->belongsTo('App\Models\Profile');
+    }
+
+    public function payment()
+    {
+        return $this->hasMany('App\Models\Payment');
+    }
 }

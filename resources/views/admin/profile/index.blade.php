@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Profile')
-@section('menu-title', 'Profile')
+@section('title', 'Profile - '.$profile->first_name.' '.$profile->last_name)
+@section('menu-title', 'Profile | '.$profile->first_name.' '.$profile->last_name)
 
 @section('styles')
 <style>
@@ -21,7 +21,7 @@
     }
 
     .pass_show{
-        position: relative
+        position: relative;
     } 
 
     .pass_show .ptxt { 
@@ -34,6 +34,10 @@
         cursor: pointer; 
         transition: .3s ease all; 
     } 
+
+    #current-pass .ptxt{
+        right: 100px;
+    }
 
     .pass_show .ptxt:hover{
         color: #333333;

@@ -156,7 +156,7 @@ class PaymentsController extends Controller
         $requests = Admission::where('status',1)   
                                 ->orWhere('status',2)
                                 ->orWhere('status',4)
-                                ->select('payments.balance','courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','admissions.status','admissions.created_at','admissions.profile_id','admissions.id')
+                                ->select('payments.balance','courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','profiles.year_level','admissions.status','admissions.created_at','admissions.profile_id','admissions.id')
                                 ->join('profiles','profiles.id','=','admissions.profile_id')
                                 ->join('courses','profiles.course','=','courses.id')
                                 ->join('payments','profiles.id','payments.profile_id')
@@ -186,9 +186,22 @@ class PaymentsController extends Controller
 
                     return $status;
                 })
+                ->addColumn('year_level', function($data){
+                    $year = '';
+                    if($data->year_level == 1){
+                        $year = '1st Year';
+                    } else if($data->year_level == 2){
+                        $year = '2nd Year';
+                    } else if($data->year_level == 3){
+                        $year = '3rd Year';
+                    } else if($data->year_level == 4){
+                        $year = '4th Year';
+                    }
+                    return $year;
+                })
                 ->addColumn('action', function($data){
                     $display = '';
-                    if($data->status == 2){
+                    if($data->status != 1){
                         $display = 'invisible';
                     }
                     $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary" data-toggle="modal" data-target="#payment-modal">
@@ -199,7 +212,7 @@ class PaymentsController extends Controller
                                       </a>';
                     return $actionButtons;
                 })
-                ->rawColumns(['action','status','balance'])
+                ->rawColumns(['action','status','balance','year_level'])
                 ->make(true);
     }
 }

@@ -16,4 +16,9 @@ class Subject extends Model
         'sy',
         'sem'
     ];
+
+    public function enrollment()
+    {
+        return $this->belongsTo('App\Models\Enrollment');
+    }
 }

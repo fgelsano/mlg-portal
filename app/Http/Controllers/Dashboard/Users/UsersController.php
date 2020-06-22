@@ -292,22 +292,16 @@ class UsersController extends Controller
 
     public function resetPassword(Request $request)
     {
-        $validation = Validator::make($request->all(),[
-            'password'    => 'required|confirmed:min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
-        ]);
-
-        if($validation->fails()){
-            return response()->json(
-                $validation->errors()->toArray()
-            ,400);
-        } else {
-            $user = User::where('id',$request->input('id'))->first();
+        if($request->input('password') == $request->input('password-confirmation')){
+            // dd($request->all());
+            $user = User::where('profile_id',$request->input('userId'))->first();
+            // dd($user);
             $user->password = Hash::make($request->input('password'));
             $user->password_changed = 1;
             $user->save();
             return response()->json(
                 $user
             ,200);
-        }
+        }         
     }
 }
