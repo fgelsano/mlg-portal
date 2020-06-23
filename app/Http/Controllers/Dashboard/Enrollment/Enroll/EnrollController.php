@@ -57,8 +57,10 @@ class EnrollController extends Controller
             ],414);
         } else {
             
-            $schoolId = Profile::where('school_id','!=','No Data')->where('school_id','!=','0')->orderBy('school_id','desc')->get();
-            $explodedId = explode('-',$schoolId[0]->school_id);
+            $schoolId = Profile::where('school_id','<>','No Data')->orderBy('school_id','desc')->get();
+            
+            $explodedId = explode('-',$schoolId[1]->school_id);
+            
             $incrementId = $explodedId[1]+1;
             $studentId = '20-'.str_pad($incrementId,6,'0', STR_PAD_LEFT);
 

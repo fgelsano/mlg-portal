@@ -13,8 +13,10 @@
             processData: false,
             dataType: 'json',
             success: function(data){
+                console.log(data);
                 $('#rejectAdmission').attr('data-id', data.profile.id);
                 $('#enrollAdmission').attr('data-id', data.profile.id);
+                $('#enrollee-school-id').text(data.profile.school_id);
                 $('#applicant-id').val(data.profile.id);
                 let fullname = data.profile.first_name+' '+data.profile.middle_name+' '+data.profile.last_name;
                 $('#applicant-name').text(fullname);

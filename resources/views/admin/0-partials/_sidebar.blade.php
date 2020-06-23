@@ -172,7 +172,7 @@
     @if (Auth::user()->role == 2)
       <!-- Nav Item - eClearance -->
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('cashier-clearances.index') }}">
+        <a class="nav-link" href="{{ route('cashier-clearances.show',Auth::user()->profile_id) }}">
           <i class="fas fa-spell-check"></i>
           <span class="ml-2">eClearance</span></a>
       </li>

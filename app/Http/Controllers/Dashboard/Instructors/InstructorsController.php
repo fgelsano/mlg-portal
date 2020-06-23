@@ -59,38 +59,39 @@ class InstructorsController extends Controller
             // create instructor
             $instructor = new Profile;
             $instructor->school_id = $request->input('instructor-id');
-            $instructor->profile_pic = 'none';
+            $instructor->profile_pic = 'No Data';
             $instructor->last_name = $request->input('last-name');
             $instructor->first_name = $request->input('first-name');
-            $instructor->middle_name = 'none';
+            $instructor->middle_name = 'No Data';
             $instructor->gender = 0;
             $instructor->civil_status = 0;
             $instructor->contact_number = '0';
             $instructor->email = $request->input('email');
-            $instructor->religion = 'none';
-            $instructor->purok = 'none';
-            $instructor->sitio = 'none';
-            $instructor->barangay = 'none';
-            $instructor->municipality = 'none';
-            $instructor->province = 'none';
+            $instructor->religion = 'No Data';
+            $instructor->purok = 'No Data';
+            $instructor->sitio = 'No Data';
+            $instructor->barangay = 'No Data';
+            $instructor->municipality = 'No Data';
+            $instructor->province = 'No Data';
             $instructor->zipcode = 0;
-            $instructor->emergency_contact_name = 'none';
-            $instructor->emergency_contact_number = 'none';
-            $instructor->school_graduated = 'none';
-            $instructor->year_graduated = 'none';
-            $instructor->school_address = 'none';
-            $instructor->lrn = 'none';
-            $instructor->course = 'none';
-            $instructor->year_level = 'none';
+            $instructor->emergency_contact_name = 'No Data';
+            $instructor->emergency_contact_number = 'No Data';
+            $instructor->school_graduated = 'No Data';
+            $instructor->year_graduated = 0;
+            $instructor->school_address = 'No Data';
+            $instructor->lrn = 0;
+            $instructor->course = '0';
+            $instructor->year_level = '0';
             $instructor->complete_profile = 0;
             $instructor->save();
 
             $user = new User;
-            $user->name = $request->input('first-name').' '.$request->input('last-name');
             $user->email = $request->input('email');
-            $user->password = $this->generateRandomString();
+            $user->password = Hash::make('WelcomeInstructor123!');
             $user->role = $request->input('status');
             $user->profile_id = $instructor->id;
+            $user->password_changed = 0;
+            $user->email_created = 0;
             $user->save();
 
             $success_output = [

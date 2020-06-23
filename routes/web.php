@@ -36,6 +36,8 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/enrollment/cashier/lists','Enrollment\Cashier\CashierController@index')->name('cashier.list');
     Route::resource('/dashboard/enrollment/enroll', 'Enrollment\Enroll\EnrollController');
 
+    Route::resource('/dashboard/cashier-clearances','Cashier\CashierClearancesController');
+
     Route::resource('/dashboard/instructors', 'Instructors\InstructorsController');
     Route::get('/dashboard/instructors-list', 'Instructors\InstructorsController@instructorList')->name('instructors.list');
     Route::resource('/dashboard/instructor-subjects','Instructors\InstructorSubjectsController');

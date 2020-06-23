@@ -18,6 +18,7 @@
                 console.log(data);
                 $('#rejectAdmission').attr('data-id', data.profile.id);
                 $('#enrollAdmission').attr('data-id', data.profile.id);
+                $('#schoolId').text(data.profile.school_id);
                 let middleName = data.profile.middle_name;
                 if(data.profile.middle_name == null){
                     middleName = '';

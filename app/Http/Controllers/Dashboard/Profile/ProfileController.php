@@ -191,13 +191,13 @@ class ProfileController extends Controller
 
             $profile = Profile::where('id',$request->input('profile-id'))->first();
             if($profile->profile_pic == 'No Data'){
-                return response()->json(
-                    'Profile Pic is required'
-                , 400);
-            }
-            // dd($profile);
-            if($request->has('profile-pic')){
-                $profile->profile_pic             = $profile_pic;
+                if($request->has('profile-pic')){
+                    $profile->profile_pic             = $profile_pic;
+                } else {
+                    return response()->json(
+                        'Profile Pic is required'
+                    , 400);
+                }
             }
             $profile->first_name              = $request->input('first-name');
             $profile->middle_name             = $request->input('middle-name');
@@ -218,8 +218,8 @@ class ProfileController extends Controller
             $profile->school_address          = $request->input('school-address');
             $profile->year_graduated          = $request->input('year-graduated');
             $profile->lrn                     = $request->input('lrn') ? $request->input('lrn') : 0;
-            $profile->course                  = $request->input('course');
-            $profile->year_level              = $request->input('year_level');
+            $profile->course                  = $request->input('course') ? $request->input('course') : $profile->course;
+            $profile->year_level              = $request->input('year_level') ? $request->input('year_level') : $profile->year_level;
             $profile->complete_profile        = 1;
             $profile->dpa_agreement           = $request->input('dpa-agreement-date');
             $profile->role                    = $request->input('role');

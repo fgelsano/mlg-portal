@@ -39,13 +39,14 @@
                                     <th scope="col" class="py-3">Description</th>
                                     <th scope="col" class="py-3">Schedule</th>
                                     <th scope="col" class="py-3">Units</th>
+                                    <th scope="col" class="py-3">Link</th>
                                     <th scope="col" class="py-3 no-print">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($subjects as $key => $subject)
                                     <tr>
-                                        <td>{{ $key }}</td>
+                                        <td>{{ $key+1 }}</td>
                                         <td>{{ $subject->code }}</td>
                                         <td>{{ $subject->description }}</td>
                                         <td>
@@ -63,6 +64,7 @@
                                             @endforeach
                                         </td>
                                         <td>{{ $subject->units }}</td>
+                                        <td><a href="{{ $subject->url }}" target="_blank">{{ $subject->url }}</a></td>
                                         <td class="no-print">
                                             <a href="" class="btn btn-warning btn-sm editSubject">
                                                 <i class="fas fa-edit"></i> Edit

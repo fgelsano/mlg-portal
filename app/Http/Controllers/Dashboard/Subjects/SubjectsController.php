@@ -123,11 +123,11 @@ class SubjectsController extends Controller
     {
         if(request()->ajax()){
             $subject = Subject::select('subjects.id','subjects.code','subjects.description','subjects.units','profiles.last_name','profiles.first_name','schedules.*')
-                                ->join('users','subjects.instructor','=','users.profile_id')
-                                ->join('schedules','subjects.schedule','=','schedules.id')
+                                ->join('schedules','subjects.schedule','=','subjects.schedule')
                                 ->join('profiles','subjects.instructor','=','profiles.id')
                                 ->where('subjects.id',$id)
                                 ->get();
+            // $schedules = Schedule::all();
             return response()->json($subject);
         }
     }
