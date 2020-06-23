@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Admin;
+namespace App\Http\Controllers\Dashboard\Instructors;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class InstructorClearancesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        return view('admin.instructor-view.clearances.index');
     }
 
     /**

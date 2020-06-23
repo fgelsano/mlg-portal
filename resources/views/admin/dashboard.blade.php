@@ -24,6 +24,8 @@
         {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
         {{-- </div> --}}
 
+        @if (Auth::user()->role == 0 || Auth::user()->role == 1)
+            
         <!-- Content Row -->
         <div class="row">
             
@@ -109,8 +111,33 @@
             </div>
 
         </div>
+        @endif
 
-        <!-- Content Row -->
+        <!-- Content Column -->
+        <div class="">
+
+            <!-- Announcements -->
+            <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
+            </div>
+            <div class="card-body px-3">
+                <!-- Color System -->
+                <div class="mb-4">
+                    <div class="card bg-danger text-white shadow">
+                        <div class="card-body text-white">
+                            <h5>No Announcements at the moment.</h5>
+                            <p>This section will just automatically update once an announcement becomes available for you to view.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        {{-- <!-- Content Row -->
         <div class="row">
 
         <!-- Content Column -->
@@ -227,7 +254,7 @@
             </div>
 
         </div>
-        </div>
+        </div> --}}
 
     </div>
     <!-- /.container-fluid -->

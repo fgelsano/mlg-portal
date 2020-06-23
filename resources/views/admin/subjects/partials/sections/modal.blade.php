@@ -3,17 +3,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="subjectTitle"><i class="fas fa-book"></i> New Subject</h5>
+          <h5 class="modal-title" id="subjectTitle"><i class="fas fa-book"></i></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="" id="subjectForm">
             <div class="modal-body">
-                <div id="alerts" class="d-none p-3 my-3">
-                    <p class="font-weight-bold text-danger m-0" id="alert-title"></p>
-                    <div id="alerts-message"></div>
-                </div>
                   @csrf
                   <div class="form-group">
                     <input type="text" name="code" id="code" class="form-control" placeholder="Enter Subject Code">

@@ -122,11 +122,12 @@ class SubjectsController extends Controller
     public function pickedSubjects($id)
     {
         if(request()->ajax()){
-            $subject = Subject::select('subjects.id','subjects.code','subjects.description','subjects.units','users.name as instructor_name','schedules.*')
-                                ->join('users','subjects.instructor','=','users.profile_id')
-                                ->join('schedules','subjects.schedule','=','schedules.id')
+            $subject = Subject::select('subjects.id','subjects.code','subjects.description','subjects.units','profiles.last_name','profiles.first_name','schedules.*')
+                                ->join('schedules','subjects.schedule','=','subjects.schedule')
+                                ->join('profiles','subjects.instructor','=','profiles.id')
                                 ->where('subjects.id',$id)
                                 ->get();
+            // $schedules = Schedule::all();
             return response()->json($subject);
         }
     }
@@ -232,11 +233,11 @@ class SubjectsController extends Controller
                     return $subjectCategory;
                 })
                 ->addColumn('instructor',function($data){
-                    $instructors = User::select('id','profile_id','name')->where('role', 4)->orWhere('role',5)->get();
+                    $instructors = Profile::select('id','first_name','last_name')->where('role', 4)->orWhere('role',5)->get();
                     $subjectInstructor = '';
                     foreach($instructors as $instructor){
-                        if($instructor->profile_id == $data->instructor){
-                            $subjectInstructor = $instructor->name;
+                        if($instructor->id == $data->instructor){
+                            $subjectInstructor = $instructor->first_name.' '.$instructor->last_name;
                         }
                     }
                     return $subjectInstructor;
@@ -279,10 +280,9 @@ class SubjectsController extends Controller
         {
             return DataTables::of(Subject::latest()->get())
                 ->addColumn('instructor',function($data){
-                    $instructors = Profile::select('profiles.id','profiles.first_name','profiles.last_name','users.role')
-                                            ->join('users','profiles.id','=','users.profile_id')
-                                            ->where('users.role', 4)
-                                            ->orWhere('users.role',5)
+                    $instructors = Profile::select('id','first_name','last_name','role')
+                                            ->where('role', 4)
+                                            ->orWhere('role',5)
                                             ->get();
                     $subjectInstructor = '';
                     foreach($instructors as $instructor){

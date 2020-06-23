@@ -24,6 +24,14 @@
                         <div class="col-12 col-md-9 print-col-8">
                             <div class="row">
                                 <div class="col-12 col-md-3 d-none d-md-block print-show">
+                                    School Id:
+                                </div>
+                                <div class="col-12 col-md-9 font-weight-bold text-danger" id="enrollee-school-id">
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-3 d-none d-md-block print-show">
                                     Contact:
                                 </div>
                                 <div class="col-12 col-md-9 font-weight-bold" id="enrollee-contact">

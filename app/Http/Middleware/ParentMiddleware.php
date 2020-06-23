@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Response;
 use Closure;
 
 class ParentMiddleware
@@ -17,7 +18,7 @@ class ParentMiddleware
     {
         if($request->user() && $request->user()->role != 6)
         {
-            return new Response(view('Unauthorized')->with('role',6));
+            return new Response(view('admin.unauthorized.index')->with('role',6));
         }
         return $next($request);
     }

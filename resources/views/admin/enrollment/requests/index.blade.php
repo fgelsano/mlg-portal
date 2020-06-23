@@ -53,6 +53,10 @@
     #reject-reason{
         width: 100%;
     }
+
+    #course{
+        font-size: 2em;
+    }
 </style>
 @endsection
 

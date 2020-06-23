@@ -14,4 +14,14 @@ class Enrollment extends Model
         'year_level',
         'status'
     ];
+
+    public function profile()
+    {
+        return $this->belongsTo('App\Models\Profile');
+    }
+
+    public function subject()
+    {
+        return $this->hasOne('App\Models\Subject');
+    }
 }

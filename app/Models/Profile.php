@@ -38,4 +38,19 @@ class Profile extends Model
     {
         return $this->hasMany('App\Models\Document');
     }
+
+    public function admission()
+    {
+        return $this->hasMany('App\Models\Admission');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Models\Payment');
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany('App\Models\Enrollment');
+    }
 }

@@ -24,6 +24,14 @@
                         <h5 class="border-bottom">Personal Information</h5>
                         <div class="row">
                             <div class="col-12 col-md-3 d-none d-md-block">
+                                School Id:
+                            </div>
+                            <div class="col-12 col-md-9 font-weight-bold text-danger" id="schoolId">
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-3 d-none d-md-block">
                                 Name:
                             </div>
                             <div class="col-12 col-md-9 font-weight-bold" id="fullname">

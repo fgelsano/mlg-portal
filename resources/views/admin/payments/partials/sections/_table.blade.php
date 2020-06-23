@@ -11,6 +11,7 @@
                                 <th>Last Name</th>
                                 <th>First Name</th>
                                 <th>Course</th>
+                                <th>Year</th>
                                 <th>Balance</th>
                                 <th>Status</th>
                                 <th>Action</th>

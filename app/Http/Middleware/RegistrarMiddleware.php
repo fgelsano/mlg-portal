@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Response;
 use Closure;
 
 class RegistrarMiddleware
@@ -17,7 +18,7 @@ class RegistrarMiddleware
     {
         if($request->user() && $request->user()->role != 1)
         {
-            return new Response(view('Unauthorized')->with('role',1));
+            return new Response(view('admin.unauthorized.index')->with('role',1));
         }
         return $next($request);
     }

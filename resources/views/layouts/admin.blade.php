@@ -41,6 +41,9 @@
   {{-- SweetAlert --}}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.4/dist/sweetalert2.min.css">
 
+  {{-- Dropify --}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css">
+
   <style>
     .sidebar-dark .nav-item.active{
       background: #6885D9;
@@ -98,11 +101,9 @@
   {{-- SweetAlert --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.4/dist/sweetalert2.all.min.js"></script>
 
-  {{-- <script>
-    $(document).ready(function(){
-      alertify.alert('Welcome to the Portal!', 'All System now online!');
-    })
-  </script> --}}
+  {{-- Dropify --}}
+  <script src="https://cdn.jsdelivr.net/npm/dropify@0.2.2/src/js/dropify.min.js"></script>
+
   @yield('scripts')
 
 </body>

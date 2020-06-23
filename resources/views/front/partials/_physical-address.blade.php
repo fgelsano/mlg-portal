@@ -15,6 +15,6 @@
         <input type="text" name="province" id="province" placeholder="Province" class="form-control" onInput="this.className = 'form-control'">
     </div>
     <div class="col-12 col-md-4 mb-2">
-        <input type="text" name="zip-code" id="zip-code" placeholder="Zip Code" class="form-control" onInput="this.className = 'form-control'">
+        <input type="number" name="zip-code" id="zip-code" placeholder="Zip Code" class="form-control" onInput="this.className = 'form-control'" maxlength="4">
     </div>
 </div>
