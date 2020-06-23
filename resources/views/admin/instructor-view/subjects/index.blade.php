@@ -39,6 +39,7 @@
                                     <th scope="col" class="py-3">Description</th>
                                     <th scope="col" class="py-3">Schedule</th>
                                     <th scope="col" class="py-3">Units</th>
+                                    <th scope="col" class="py-3">Status</th>
                                     <th scope="col" class="py-3">Link</th>
                                     <th scope="col" class="py-3 no-print">Action</th>
                                 </tr>
@@ -64,8 +65,14 @@
                                             @endforeach
                                         </td>
                                         <td>{{ $subject->units }}</td>
+                                        <td>
+
+                                        </td>
                                         <td><a href="{{ $subject->url }}" target="_blank">{{ $subject->url }}</a></td>
                                         <td class="no-print">
+                                            <a href="" class="btn btn-success btn-sm acceptSubject {{ $subject->status == 3 ? 'd-none' : ''}}">
+                                                <i class="fas fa-clipboard-check"></i> Accept
+                                            </a>
                                             <a href="" class="btn btn-warning btn-sm editSubject">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
@@ -99,9 +106,9 @@
 
     </div>
     <!-- /.container-fluid -->
-
+    @include('admin.instructor-view.subjects.partials.sections.editSubject-modal')
 @endsection
 
 @section('scripts')
-    
+    @include('admin.instructor-view.subjects.partials.scripts.actions')
 @endsection

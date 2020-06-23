@@ -56,13 +56,15 @@ class EnrollController extends Controller
                 $error_array
             ],414);
         } else {
-            
-            $schoolId = Profile::where('school_id','<>','No Data')->orderBy('school_id','desc')->get();
-            
-            $explodedId = explode('-',$schoolId[1]->school_id);
-            
-            $incrementId = $explodedId[1]+1;
-            $studentId = '20-'.str_pad($incrementId,6,'0', STR_PAD_LEFT);
+            $schoolId = $studentDetails->school_id;
+            if($schoolId == 'No Data'){
+                $currentSchoolId = Profile::where('school_id','<>','No Data')->orderBy('school_id','desc')->get();
+                
+                $explodedId = explode('-',$currentSchoolId[1]->school_id);
+                
+                $incrementId = $explodedId[1]+1;
+                $studentId = '20-'.str_pad($incrementId,6,'0', STR_PAD_LEFT);
+            }
 
             if($request->action == 'enroll'){
                 if(is_array($request->input('enrolledSubject'))){

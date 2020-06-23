@@ -12,6 +12,7 @@
                                 <th>Category</th>
                                 <th>Instructor</th>
                                 <th>Schedule</th>
+                                <th>Type</th>
                                 <th>Action</th>
                                 {{-- School Year --}}
                                 {{-- Semester --}}

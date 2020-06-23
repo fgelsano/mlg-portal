@@ -30,6 +30,10 @@
                     name: 'schedule'
                 },
                 {
+                    data: 'type',
+                    name: 'type'
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false

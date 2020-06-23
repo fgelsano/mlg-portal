@@ -261,6 +261,16 @@ class SubjectsController extends Controller
                     }
                     return $subjectSchedule;
                 })
+                ->addColumn('type', function($data){
+                    $type = '';
+                    
+                    if($data->type == 0){
+                        $type = '<span class="badge badge-primary">Lec</span>';
+                    } else if($data->type == 1){
+                        $type = '<span class="badge badge-warning">Lab</span>';
+                    }
+                    return $type;
+                })
                 ->addColumn('action', function($data){
                     $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
                                         <i class="fas fa-edit"></i>
@@ -270,7 +280,7 @@ class SubjectsController extends Controller
                                       </a>';
                     return $actionButtons;
                 })
-                ->rawColumns(['action','category','instructor','schedule'])
+                ->rawColumns(['action','category','instructor','schedule','type'])
                 ->make(true);
     }
 

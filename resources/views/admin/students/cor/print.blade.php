@@ -56,6 +56,10 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+    #registrarSignature{
+        position: relative;
+        top: 25px;
+    }
     @media print {
         .no-print{
             display: none;
@@ -326,8 +330,17 @@
         
         <p class="text-center bg-danger text-white py-2">This is a system generated report.</p>
         
+        <div class="row mt-5">
+            <div class="col-12 col-md-4">
+                <h5>Approved by:</h5>
+                <img src="{{ asset('admin/img/registrar-signature-no-bg.png') }}" alt="Registrar's Signature" width="50%" id="registrarSignature">
+                <h5 class="m-0 text-uppercase font-weight-bold border-bottom">Emma Roa Wagas, MBA</h5>
+                <p class="m-0">School Registrar</p>
+            </div>
+        </div>
+
         <div class="row my-5 no-print">
-            <div class="col-12 col-md-2 offset-md-5">
+            <div class="col-12 col-md-2">
                 <button id="printCOR" class="btn btn-warning btn-block">
                     <i class="fas fa-print"></i> Print
                 </button>
