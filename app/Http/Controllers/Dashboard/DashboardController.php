@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Auth;
 
 use App\User;
+use App\Models\Admission;
+use App\Models\Profile;
+use App\Models\Subject;
 
 class DashboardController extends Controller
 {
@@ -27,8 +30,20 @@ class DashboardController extends Controller
         return view('admin/dashboard');
     }
 
-    public function initialReset($id)
+    public function dashboardCheck()
     {
+        $requests = Admission::all();
+        $enrolled = Admission::where('status',4)->get();
+        $instructors = Profile::where('role',4)->orWhere('role',5)->get();
+        $students = User::where('role',3)->get();
+        $subjects = Subject::all();
 
+        return response()->json([
+            'requests' => $requests,
+            'enrolled' => $enrolled,
+            'instructors' => $instructors,
+            'students' => $students,
+            'subjects' => $subjects
+        ], 200);
     }
 }

@@ -255,4 +255,12 @@ class ProfileController extends Controller
     {
         //
     }
+
+    public function profileCheck($id)
+    {
+        $profile = Profile::where('id',$id)->select('complete_profile')->first();
+        return response()->json(
+            $profile
+        ,200);
+    }
 }

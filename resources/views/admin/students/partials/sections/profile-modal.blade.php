@@ -1,8 +1,8 @@
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Admission" aria-hidden="true" id="admission-modal">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Admission" aria-hidden="true" id="profile-modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content px-3">
             <div class="modal-header">
-                <h5 class="modal-title">Admission Request by <span class="text-danger" id="requested-by">Francis Gelsano</span></h5>
+                <h5 class="modal-title">Profile | <span class="text-danger" id="requested-by">Francis Gelsano</span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -197,22 +197,6 @@
                     </div>
                         
                 </div>
-                <div class="row mt-5">
-                    <div class="col-12 text-center">
-                        <h1 class="text-danger font-weight-bold" id="admission-status"></h1>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer text-left">
-                <form action="" id="acceptForm">
-                    <button type="button" class="btn btn-success btn-sm px-5" id="enrollAdmission" data-id="">
-                        <i class="fas fa-user-check mr-2"></i> Accept
-                    </button>
-                    <input type="hidden" name="_method" value="PUT">
-                    <input type="hidden" name="requestType" value="markAccept">
-                <button type="button" class="btn btn-danger btn-sm px-5" data-dismiss="modal" id="rejectAdmission" data-id="">
-                    <i class="fas fa-user-times mr-2"></i> Reject
-                </button>
             </div>
         </div>
     </div>

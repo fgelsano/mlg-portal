@@ -127,7 +127,6 @@ class SubjectsController extends Controller
                                 ->join('profiles','subjects.instructor','=','profiles.id')
                                 ->where('subjects.id',$id)
                                 ->get();
-            // $schedules = Schedule::all();
             return response()->json($subject);
         }
     }
@@ -141,7 +140,10 @@ class SubjectsController extends Controller
     public function edit($id)
     {
         if(request()->ajax()){
-            $subject = Subject::where('id', $id)->first();
+            $subject = Subject::where('subjects.id', $id)
+                        ->join('schedules','subjects.schedule','=','schedules.id')
+                        ->select('schedules.*','subjects.*','schedules.type as locationType')
+                        ->first();
             return response()->json($subject);
         }
     }
@@ -199,6 +201,38 @@ class SubjectsController extends Controller
                 return response()->json([
                     'error' => $subject,
                 ],414);
+            }
+
+            return response()->json([
+                'success' => 'Subject Updated!',
+                'data' => $subject
+            ],200);
+        }
+    }
+
+    public function updateInstructorSubject(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(),[
+            'url'      => 'required',
+            'status'   => 'required',
+        ]);
+
+        if($validation->fails()){
+            return response()->json(
+                $validation->getMessageBag()->toArray()
+            ,400);
+        } else {
+
+            $subject = Subject::where('id', $id)->first();
+
+            $subject->url = $request->input('url');
+            $subject->status = $request->input('status');
+            $subject->save();
+
+            if(!$subject->save()){
+                return response()->json([
+                    'error' => $subject,
+                ],400);
             }
 
             return response()->json([

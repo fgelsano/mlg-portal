@@ -66,14 +66,21 @@
                                         </td>
                                         <td>{{ $subject->units }}</td>
                                         <td>
-
+                                            @if ($subject->status == 0)
+                                                Available
+                                            @elseif($subject->status == 1)
+                                                Assigned
+                                            @elseif($subject->status == 2)
+                                                Completed
+                                            @elseif($subject->status == 3)
+                                                <span class="badge badge-danger">Not Yet Ready</span>
+                                            @elseif($subject->status == 4)
+                                                <span class="badge badge-success">Ready</span>
+                                            @endif
                                         </td>
                                         <td><a href="{{ $subject->url }}" target="_blank">{{ $subject->url }}</a></td>
                                         <td class="no-print">
-                                            <a href="" class="btn btn-success btn-sm acceptSubject {{ $subject->status == 3 ? 'd-none' : ''}}">
-                                                <i class="fas fa-clipboard-check"></i> Accept
-                                            </a>
-                                            <a href="" class="btn btn-warning btn-sm editSubject">
+                                            <a href="" class="btn btn-warning btn-sm editSubject" data-toggle="modal" data-target="#editSubject-modal" data-id="{{ $subject->id }}">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
                                         </td>
@@ -95,9 +102,9 @@
                 <p class="text-center bg-danger text-white py-2">This is a system generated report.</p>
                 
                 <div class="row my-5 no-print">
-                    <div class="col-12 col-md-2 offset-md-5">
+                    <div class="col-12 col-md-4">
                         <a href="{{ route('subject-load.print',Auth::user()->profile_id) }}" class="btn btn-warning px-3" target="_blank">
-                            <i class="fas fa-print"></i> Print COR
+                            <i class="fas fa-print"></i> Print Preview
                         </a>
                     </div>
                 </div>

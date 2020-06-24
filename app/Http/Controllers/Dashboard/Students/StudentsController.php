@@ -128,7 +128,8 @@ class StudentsController extends Controller
                     return $year;
                 })
                 ->addColumn('action', function($data){
-                    $actionButtons = '<a href="/dashboard/cor/print/'.$data->profile->id.'" class="btn btn-warning btn-sm" target="_blank"><i class="fas fa-eye mr-1"></i> View COR</a>';                    
+                    $actionButtons = '<button class="btn btn-primary btn-sm viewProfile" target="_blank" title="View Profile" data-id="'.$data->profile->id.'" data-toggle="modal" data-target="#profile-modal"><i class="fas fa-eye"></i></button>
+                                        <a href="/dashboard/cor/print/'.$data->profile->id.'" class="btn btn-warning btn-sm viewCOR" target="_blank" title="View COR"><i class="fas fa-scroll"></i></a>';
                     return $actionButtons;
                 })
                 ->rawColumns(['action','school_id','last_name','first_name','course','year_level'])

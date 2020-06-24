@@ -27,9 +27,11 @@ Route::get('/fetchOldStudent/{name}', 'Front\FrontContentsController@fetchOldStu
 
 Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( function(){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('/dashboard/check','DashboardController@dashboardCheck')->name('dashboard.check');
     Route::resource('/dashboard/profile','Profile\ProfileController');    
     Route::get('/dashboard/cor/print/{id}','Students\StudentsController@print')->name('cor.print');
     Route::post('/dashboard/profile/password/reset/','Users\UsersController@resetPassword')->name('reset.password');
+    Route::get('/dashboard/profile/check/profile/{id}','Profile\ProfileController@profileCheck')->name('profile.check');
 
     Route::resource('/dashboard/enrollment/admission/requests', 'Enrollment\Admission\AdmissionRequestsController');
     Route::post('/dashboard/enrollment/admission/requests/accept', 'Enrollment\Admission\AdmissionRequestsController@markAccept')->name('requests.accept');
@@ -44,6 +46,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/print/subject-load/{id}','Instructors\InstructorSubjectsController@print')->name('subject-load.print');
     Route::resource('/dashboard/instructor-grades','Instructors\InstructorGradesController');
     Route::resource('/dashboard/instructor-clearances','Instructors\InstructorClearancesController');
+    Route::post('/dashboard/instructor/subject/update/{id}','Subjects\SubjectsController@updateInstructorSubject')->name('instructorSubject.update');
 
     Route::resource('/dashboard/students', 'Students\StudentsController');
     Route::resource('/dashboard/student-subjects','Students\StudentSubjectsController');
