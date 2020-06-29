@@ -2,7 +2,7 @@
 <script>
     $(document).on('click', '.enrollStudent', function(e){
         e.preventDefault();
-        
+        $('#action').val('enroll');
         let admissionId = $(this).attr('data-id');
         let routeUrl = "{{ route('requests.show','id') }}";
         let evalUrl = routeUrl.replace('id', admissionId);
@@ -13,7 +13,6 @@
             processData: false,
             dataType: 'json',
             success: function(data){
-                console.log(data);
                 $('#rejectAdmission').attr('data-id', data.profile.id);
                 $('#enrollAdmission').attr('data-id', data.profile.id);
                 $('#enrollee-school-id').text(data.profile.school_id);

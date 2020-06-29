@@ -123,24 +123,23 @@
             <div class="card-body px-3">
                 <!-- Color System -->
                 <div class="mb-4">
-                    <div class="card bg-danger text-white shadow">
-                        <div class="card-body text-white">
-                            @if (Auth::user()->role != 3)    
+                    @if (Auth::user()->role != 3)    
+                        <div class="card bg-danger text-white shadow">
+                            <div class="card-body text-white">
                                 <h5>No Announcements at the moment.</h5>
                                 <p>This section will just automatically update once an announcement becomes available for you to view.</p>
-                            @endif
+                            </div>
                         </div>
-                    </div>
-                    <div class="card my-3">
-                        
-                            @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3)
-                                <div class="alert alert-success">
-                                    <strong>Reminder: </strong>
-                                    <p>All students must fillout the Guidance Center Student Profile Form</p>
-                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpgUFCgZoIS5e4MEYfMNrj5doQB7xKweyZumPzCUvQ_dmmrQ/viewform" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
-                                </div>
-                            @endif
-                    </div>
+                    @endif
+                    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3)
+                        <div class="card">
+                            <div class="alert alert-success mb-0">
+                                <strong>Reminder: </strong>
+                                <p>All students must fillout the Guidance Center Student Profile Form</p>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpgUFCgZoIS5e4MEYfMNrj5doQB7xKweyZumPzCUvQ_dmmrQ/viewform" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 

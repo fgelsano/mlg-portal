@@ -7,7 +7,7 @@
                     <table id="requests" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Year Level</th>
                                 <th>Last Name</th>
                                 <th>First Name</th>
                                 <th>School</th>

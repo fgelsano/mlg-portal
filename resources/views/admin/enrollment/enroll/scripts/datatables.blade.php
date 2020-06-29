@@ -49,10 +49,11 @@
                 }
 
             ],
-            "order": [[ 4, 'asc']],
+            'order': [[ 4, 'asc']],
             'select': {
                 style: 'multi'
-            }
+            },
+            'pageLength': 5
         });
     } );
     

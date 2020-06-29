@@ -210,6 +210,7 @@
                     </button>
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="requestType" value="markAccept">
+                </form>
                 <button type="button" class="btn btn-danger btn-sm px-5" data-dismiss="modal" id="rejectAdmission" data-id="">
                     <i class="fas fa-user-times mr-2"></i> Reject
                 </button>

@@ -84,6 +84,12 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-12 my-3 datatables-container">
+                            <h4 class="bg-success text-center text-white py-1">List of Subjects</h4>
+                            @include('admin.enrollment.enroll.sections.table')
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-12">
                             <h4 class="bg-success text-center text-white py-1">Enrolled Subjects</h4>
                             <div class="table-responsive">
@@ -107,12 +113,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12 my-3 datatables-container">
-                            <h4 class="bg-success text-center text-white py-1">List of Subjects</h4>
-                            @include('admin.enrollment.enroll.sections.table')
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer text-left">
                     <button type="submit" class="btn btn-success btn-sm px-5" id="confirmedEnroll" data-id="" data-action="Save">
@@ -123,7 +123,7 @@
                     </button>
                     @csrf
                     <input type="hidden" name="action" id="action" value="enroll"> {{-- else, editEnroll --}}
-                    <input type="hidden" name="_method" value="">
+                    <input type="hidden" name="_method" value="" id="method">
                     <input type="hidden" name="applicant_id" id="applicant-id">
                 </div>
             </form>

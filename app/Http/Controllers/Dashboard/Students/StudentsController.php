@@ -99,6 +99,7 @@ class StudentsController extends Controller
     {
         $requests = Admission::where('status',4)->with('profile')
                                 ->get();
+                                // dd($requests->all());
         return DataTables::of($requests)
                 ->addColumn('school_id', function($data){
                     $id = $data->profile->school_id;

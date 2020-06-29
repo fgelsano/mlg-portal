@@ -36,6 +36,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/enrollment/admission/requests', 'Enrollment\Admission\AdmissionRequestsController');
     Route::post('/dashboard/enrollment/admission/requests/accept', 'Enrollment\Admission\AdmissionRequestsController@markAccept')->name('requests.accept');
     Route::get('/dashboard/enrollment/cashier/lists','Enrollment\Cashier\CashierController@index')->name('cashier.list');
+    Route::get('/dashboard/enrollment/enrolled-subjects/edit/{id}','Enrollment\Enroll\EnrollController@getEnrolledSubjects')->name('enrolledSubjects.get');
     Route::resource('/dashboard/enrollment/enroll', 'Enrollment\Enroll\EnrollController');
 
     Route::resource('/dashboard/cashier-clearances','Cashier\CashierClearancesController');

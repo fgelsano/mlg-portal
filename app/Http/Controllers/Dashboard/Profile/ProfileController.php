@@ -227,14 +227,12 @@ class ProfileController extends Controller
 
             if($request->input('role') == 3){
                 $documents = Document::where('profile_id',$id)->first();
-                $documents = [
-                    'report_card_front' => $sf9_front,
-                    'report_card_back' => $sf9_back,
-                    'good_moral' => $gmc,
-                    'psa_birth_cert' => $psa_bc,
-                    'med_cert' => $med_cert,
-                    'honorable_dismissal' => $hd
-                ];
+                $documents->report_card_front = $sf9_front;
+                $documents->report_card_back = $sf9_back;
+                $documents->good_moral = $gmc;
+                $documents->psa_birth_cert = $psa_bc;
+                $documents->med_cert = $med_cert;
+                $documents->honorable_dismissal = $hd;
                 $profile->documents()->save($documents);
             }
 

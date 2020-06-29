@@ -7,8 +7,8 @@
             ajax: '{{ route('requests.index') }}',
             columns: [
                 {
-                    data: 'id',
-                    name: 'request_id'
+                    data: 'year_level',
+                    name: 'year_level'
                 },
                 {
                     data: 'last_name',
