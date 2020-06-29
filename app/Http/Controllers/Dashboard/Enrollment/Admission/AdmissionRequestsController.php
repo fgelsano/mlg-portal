@@ -136,7 +136,8 @@ class AdmissionRequestsController extends Controller
 
     public function generateDatatables()
     {
-        $requests = Admission::join('profiles','profiles.id','=','admissions.profile_id')
+        $requests = Admission::where('status','!=',1)
+                                ->join('profiles','profiles.id','=','admissions.profile_id')
                                 ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
                                 ->get();
         // dd($requests);
