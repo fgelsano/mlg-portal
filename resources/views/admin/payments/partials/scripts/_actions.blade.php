@@ -12,10 +12,7 @@
             contentType: false,
             processData: false,
             dataType: 'json',
-            success: function(data){
-                
-                console.log(data);
-                
+            success: function(data){                
                 let applicantOrStudent = 'Student';
                 if(data.student.school_id == 0){
                     applicantOrStudent = 'Applicant';
@@ -72,10 +69,34 @@
             processData: false,
             dataType: 'json',
             success: function(data){
-                console.log(data);
                 $('#payment-modal').modal('hide');
                 $('#payments').DataTable().ajax.reload();
                 alertify.success('Payment Accepted!');
+                
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger mr-3'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Payment Accepted',
+                    text: "Do you want to print payment confirmation?",
+                    icon: 'question',
+                    confirmButtonText: 'Yes, Print Confirmation',
+                    cancelButtonText: 'No, Don\'t Mind',
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if(result.value){
+                        let confirmationUrl = "{{ route('confirmation.print','id') }}";
+                        let redirectUrl = confirmationUrl.replace('id',data.data.id);
+                        window.open(redirectUrl,'blank');
+                    } 
+                })
             },
             error: function(err){
                 let error_html = '<ul class="text-left">';
@@ -236,5 +257,13 @@
                 }
             })
         }
+    })
+
+    $(document).on('click', '.printPaymentConfirmation', function(e){
+        e.preventDefault();
+        let paymentId = $(this).attr('data-id');
+        let confirmationUrl = "{{ route('confirmation.print','id') }}";
+        let redirectUrl = confirmationUrl.replace('id',paymentId);
+        window.open(redirectUrl,'blank');
     })
 </script>

@@ -189,7 +189,7 @@
                           let alertDate = parseDate(value.created_at);
                           newAdmissionAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('requests.index') }}">'+
                                                   '<div class="mr-3">'+
-                                                    '<div class="icon-circle bg-primary">'+
+                                                    '<div class="icon-circle bg-success">'+
                                                     '<i class="fas fa-file-alt text-white"></i>'+
                                                     '</div>'+
                                                   '</div>'+
@@ -206,7 +206,7 @@
                           let alertDate = parseDate(value.created_at);
                           newAdmissionAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('requests.index') }}">'+
                                                   '<div class="mr-3">'+
-                                                    '<div class="icon-circle bg-primary">'+
+                                                    '<div class="icon-circle bg-success">'+
                                                     '<i class="fas fa-file-alt text-white"></i>'+
                                                     '</div>'+
                                                   '</div>'+

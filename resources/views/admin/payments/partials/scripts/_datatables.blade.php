@@ -48,7 +48,7 @@
                 }
 
             ],
-            "order": [[ 5, 'asc']]
+            "order": [[6, 'asc'],[8,'desc']]
         });
     } );
 </script>

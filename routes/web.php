@@ -65,6 +65,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/subjects', 'Subjects\SubjectsController');
 
     Route::resource('/dashboard/payments','Payments\PaymentsController');
+    Route::get('/dashboard/payments/confirmation/{id}','Payments\PaymentsController@printConfirmation')->name('confirmation.print');
 
     Route::resource('/dashboard/announcements','Announcements\AnnouncementsController');
 

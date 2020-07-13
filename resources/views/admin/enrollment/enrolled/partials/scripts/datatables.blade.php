@@ -40,7 +40,7 @@
                 }
 
             ],
-            "order": [[5, 'asc']]
+            "order": [[4, 'asc']]
         });
     } );
 </script>

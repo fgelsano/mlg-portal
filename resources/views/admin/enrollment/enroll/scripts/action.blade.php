@@ -79,6 +79,8 @@
 
     $(document).on('click', '.editEnrollment', function(e){
         e.preventDefault();
+        $('#request-loading').removeClass('d-none');
+        
         $('#action').val('editEnrollment');
         
         let admissionId = $(this).attr('data-id');
@@ -186,7 +188,7 @@
 
                     }
                 })
-                        
+                $('#request-loading').addClass('d-none');
                 $('#enroll-modal').modal('show');
             }
         })

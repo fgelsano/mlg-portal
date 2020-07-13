@@ -78,7 +78,7 @@
                     }
 
                 ],
-                "order": [[ 3, 'asc']]
+                "order": [[4, 'asc']]
             });
         } );
     </script>

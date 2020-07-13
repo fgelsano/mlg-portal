@@ -77,6 +77,7 @@
 
         @include('admin.enrollment.enrolled.partials.sections.table')
         @include('admin.enrollment.enrolled.partials.sections.view-modal')
+        @include('admin.enrollment.enroll.enroll-modal')
 
     </div>
     <!-- /.container-fluid -->
@@ -86,4 +87,7 @@
 @section('scripts')
     @include('admin.enrollment.enrolled.partials.scripts.datatables')
     @include('admin.enrollment.enrolled.partials.scripts.view')
+    @include('admin.enrollment.enroll.scripts.action')
+    @include('admin.enrollment.enroll.scripts.confirmEnroll')
+    @include('admin.enrollment.enroll.scripts.datatables')
 @endsection

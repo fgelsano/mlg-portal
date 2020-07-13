@@ -132,9 +132,10 @@ class EnrolledController extends Controller
                     return $date;
                 })
                 ->addColumn('action', function($data){
-                    $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-success viewStudent" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-eye"></i> View</a>';
-
-                    return $enrollBtn;
+                    $viewBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-success viewStudent mr-1"><i class="fas fa-eye"></i> View</a>';
+                    $editBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-warning editEnrollment"><i class="fas fa-edit"></i> Edit</a>';
+                    $actionBtn = $viewBtn . $editBtn;
+                    return $actionBtn;
                 })
                 ->rawColumns(['action','course','year_level','date'])
                 ->make(true);
