@@ -28,12 +28,17 @@ Route::get('/fetchOldStudent/{name}', 'Front\FrontContentsController@fetchOldStu
 Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( function(){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/dashboard/check','DashboardController@dashboardCheck')->name('dashboard.check');
+    Route::get('/dashboard/notifications','DashboardController@notifications')->name('notifications.check');
     Route::resource('/dashboard/profile','Profile\ProfileController');    
     Route::get('/dashboard/cor/print/{id}','Students\StudentsController@print')->name('cor.print');
     Route::post('/dashboard/profile/password/reset/','Users\UsersController@resetPassword')->name('reset.password');
     Route::get('/dashboard/profile/check/profile/{id}','Profile\ProfileController@profileCheck')->name('profile.check');
 
     Route::resource('/dashboard/enrollment/admission/requests', 'Enrollment\Admission\AdmissionRequestsController');
+    Route::resource('/dashboard/enrollment/admission/rejected', 'Enrollment\Admission\RejectedRequestsController');
+    Route::resource('/dashboard/enrollment/admission/for-enrollment', 'Enrollment\Admission\ForEnrollmentController');
+    Route::resource('/dashboard/enrollment/admission/enrolled', 'Enrollment\Admission\EnrolledController');
+
     Route::post('/dashboard/enrollment/admission/requests/accept', 'Enrollment\Admission\AdmissionRequestsController@markAccept')->name('requests.accept');
     Route::get('/dashboard/enrollment/cashier/lists','Enrollment\Cashier\CashierController@index')->name('cashier.list');
     Route::get('/dashboard/enrollment/enrolled-subjects/edit/{id}','Enrollment\Enroll\EnrollController@getEnrolledSubjects')->name('enrolledSubjects.get');

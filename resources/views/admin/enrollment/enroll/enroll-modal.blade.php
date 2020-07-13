@@ -13,7 +13,7 @@
                         <div class="col-12 col-md-3 mb-3" id="enroll-profile-pic">
                             {{-- <img src="{{ asset('admin/img/empty-profile-img.png') }}" alt="Applicant Image" id="applicant-img" class="img-responsive" width="100%"> --}}
                             <div class="thumbnail">
-                                <a href="#" class="caption-link" data-image="" id="profile-pic-link">
+                                <a href="#" class="caption-link" id="enroll-profile-pic-link" data-img="">
                                     <div class="caption">
                                         <p class="bg-danger text-white py-2 text-center">Applicant's Selfie</p>
                                     </div>
@@ -127,6 +127,22 @@
                     <input type="hidden" name="applicant_id" id="applicant-id">
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Uploaded Document" aria-hidden="true" id="enroll-document-viewer">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content px-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="document-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-3">
+                <img src="" class="img-responsive" width="100%" id="enroll-document-img">
+            </div>
         </div>
     </div>
 </div>

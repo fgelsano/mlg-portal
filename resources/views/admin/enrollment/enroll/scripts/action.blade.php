@@ -99,7 +99,6 @@
                 let fullname = data.profile.first_name+' '+data.profile.middle_name+' '+data.profile.last_name;
                 $('#applicant-name').text(fullname);
                 
-                
                 let print_gender = ['Gender','Male','Female']
                 $('#enrollee-gender').text(print_gender[data.profile.gender]);
                 $('#enrollee-contact').text(data.profile.contact_number);
@@ -144,7 +143,7 @@
                 let noDoc = '/no-document-uploaded.jpg';
                 let profile_pic = data.profile.profile_pic ? filePath+'applicant-img/'+data.profile.profile_pic : filePath+'applicant-img'+noDoc;
                 $('#enroll-profile-pic').css('background-image', 'url("'+profile_pic+'")');
-                $('#profile-pic-link').attr('data-img',profile_pic);
+                $('#enroll-profile-pic-link').attr('data-img',profile_pic);
 
                 let addedSubject = $('#enrolled-subjects').find('.addedSubject');
                 if(addedSubject.length == 0){
@@ -192,4 +191,9 @@
             }
         })
     });
+    $(document).on('click', '.caption-link', function(e){
+        let file = $(this).attr('data-img');
+        $('#enroll-document-img').attr('src',file);
+        $('#enroll-document-viewer').modal('show');
+    })
 </script>

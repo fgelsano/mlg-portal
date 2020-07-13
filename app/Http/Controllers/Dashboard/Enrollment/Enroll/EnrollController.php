@@ -68,38 +68,24 @@ class EnrollController extends Controller
             }
             
             if($request->action == 'enroll'){
-                $subjectExists = [];                
-                if(is_array(explode(',',$request->input('enrolledSubject')))){
-                    foreach(explode(',',$request->input('enrolledSubject')) as $subject){
-                        $existingSubjects = Enrollment::where('profile_id',$request->applicant_id)->where('subject_id',$subject)->first();
-                        if(is_null($existingSubjects)){
-                            $enrollee = new Enrollment;
-                            $enrollee->subject_id = $subject;
-                            $enrollee->profile_id = $request->input('applicant_id');
-                            $enrollee->course = $studentDetails->course;
-                            $enrollee->year_level = $studentDetails->year_level;
-                            $enrollee->status = 0;
-                            $enrollee->save();
-                        } else {
-                            $subjectExists[] = $existingSubjects->subject_id;
-                        }
-                    }
-                } else {
-                    $existingSubjects = Enrollment::where('profile_id',$request->applicant_id)->where('subject_id',$subject)->first();
-                    if(is_null($existingSubjects)){
+                $subjectExists = [];    
+                $subjectsToEnroll = explode(',',$request->input('enrolledSubject'));
+                foreach($subjectsToEnroll as $subjectToEnroll){
+                    $existingSubjects = Enrollment::where('profile_id',$request->input('applicant_id'))->where('subject_id',$subjectToEnroll)->first();
+                    // dd($existingSubjects);
+                    if($existingSubjects <> null){
+                        $subjectExists[] = $existingSubjects->subject_id;
+                    } else {
                         $enrollee = new Enrollment;
-                        $enrollee->subject_id = $request->input('enrolledSubject');
+                        $enrollee->subject_id = $subjectToEnroll;
                         $enrollee->profile_id = $request->input('applicant_id');
                         $enrollee->course = $studentDetails->course;
                         $enrollee->year_level = $studentDetails->year_level;
                         $enrollee->status = 0;
                         $enrollee->save();
-                    } else {                        
-                        $subjectExists[] = $existingSubjects->subject_id;
                     }
                 }
-                if($subjectExists == 0){
-                    
+                if(empty($subjectExists)){
                     $enroll = Admission::where('profile_id', $request->input('applicant_id'))->first();
                     $enroll->status = '4';
                     $enroll->save();
@@ -136,7 +122,7 @@ class EnrollController extends Controller
                         $subjects,
                     ],400);
                 }
-            } else if($request->action == 'editEnrollment') {
+            } else if($request->action == 'editEnrollment') { // ### ELSE SECTION ### //
                 $enrolled = [];
                 $removed = [];
                 // dd($request->input('removedSubjects'));

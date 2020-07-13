@@ -36,6 +36,7 @@
                         dataType: 'json',
                         success: function(data){
                             $('#requests').DataTable().ajax.reload();
+                            $('#for-enrollments').DataTable().ajax.reload();
                             $('#enroll-modal').modal('hide');
                             Swal.fire({
                                 title: 'Enrolled!',

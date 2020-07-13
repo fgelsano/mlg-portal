@@ -124,7 +124,7 @@
                 <!-- Color System -->
                 <div class="mb-4">
                     @if (Auth::user()->role != 3)    
-                        <div class="card bg-danger text-white shadow">
+                        <div class="card bg-danger text-white shadow mb-1">
                             <div class="card-body text-white">
                                 <h5>No Announcements at the moment.</h5>
                                 <p>This section will just automatically update once an announcement becomes available for you to view.</p>
@@ -186,7 +186,6 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    console.log(data);
                     let admissions = (data.enrolled.length / data.requests.length)*100;
                     let percent = admissions.toFixed(1);
                     $('#online-admissions').text(percent+'%');

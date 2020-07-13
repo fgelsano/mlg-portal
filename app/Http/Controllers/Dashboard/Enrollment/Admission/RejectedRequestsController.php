@@ -10,7 +10,7 @@ use App\Models\Admission;
 use App\Models\Profile;
 use App\Models\Course;
 
-class AdmissionRequestsController extends Controller
+class RejectedRequestsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class AdmissionRequestsController extends Controller
         {
             return $this->generateDatatables();
         };
-        return view('admin.enrollment.requests.index');
+        return view('admin.enrollment.rejected.index');
     }
 
     /**
@@ -33,7 +33,7 @@ class AdmissionRequestsController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -55,20 +55,7 @@ class AdmissionRequestsController extends Controller
      */
     public function show($id)
     {
-        if(request()->ajax()){
-            $profile = Profile::where('profiles.id',$id)
-                                ->join('admissions','profiles.id','=','admissions.profile_id')
-                                ->select('profiles.*','admissions.status','admissions.comment')
-                                ->with('documents')
-                                ->first();
-            $courses = Course::all();
-
-            $details = [
-                'profile' => $profile,
-                'courses' => $courses
-            ];
-            return response()->json($details);
-        }
+        //
     }
 
     /**
@@ -91,36 +78,7 @@ class AdmissionRequestsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(request()->ajax()){
-            
-            $admission = Admission::where('profile_id',$id)->first();
-
-            if($request->requestType == 'CashierAccepted'){
-                $admission = Admission::where('id',$id)->first();
-            } 
-
-            if($request->requestType == 'markAccept'){
-                $admission->status = 1;
-            } else if($request->requestType == 'CashierAccepted'){
-                $admission->status = 2;
-            } else if($request->buttonAction == 'Reject'){
-                $admission->status =  3;
-                $admission->comment = $request->rejectReason;
-            }
-            
-            $admission->save();
-    
-            if(!$admission->save()){
-                return response()->json([
-                    $admission
-                ],414);
-            }
-    
-            return response()->json([
-                'success' => 'Admission Rejected!',
-                'data' => $admission
-            ],200);
-        };
+        //
     }
 
     /**
@@ -136,13 +94,9 @@ class AdmissionRequestsController extends Controller
 
     public function generateDatatables()
     {
-        // $requests = Admission::where('status','!=',1)
-        //                         ->join('profiles','profiles.id','=','admissions.profile_id')
-        //                         ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
-        //                         ->get();
-        $requests = Admission::where('status',0)
+        $requests = Admission::where('status',3)
                     ->join('profiles','profiles.id','=','admissions.profile_id')
-                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
+                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','admissions.status','admissions.id','admissions.created_at','admissions.profile_id','admissions.comment')
                     ->get();
         return DataTables::of($requests)
                 ->addColumn('year_level', function($data){
@@ -217,5 +171,4 @@ class AdmissionRequestsController extends Controller
                 ->rawColumns(['action','status'])
                 ->make(true);
     }
-
 }

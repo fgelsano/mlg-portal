@@ -25,6 +25,7 @@
             },
             success: function(data){      
                 $('#requests').DataTable().ajax.reload();
+                $('#rejects').DataTable().ajax.reload();
                 $('#admission-modal').modal('hide');
                 alertify.success('Request Accepted and now waiting for Cashier\'s cofirmation!');
             },

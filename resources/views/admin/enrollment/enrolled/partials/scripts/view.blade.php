@@ -1,9 +1,6 @@
 {{-- Evaluate Admission --}}
 <script>
-    $('#rejectAdmission').click(function(){
-        $('input[name="button-action"]').val('Reject');
-    });
-    $(document).on('click', '.evalAdmission', function(e){
+    $(document).on('click', '.viewStudent', function(e){
         e.preventDefault();
         $('#request-loading').removeClass('d-none');
         let admissionId = $(this).attr('data-id');
@@ -17,8 +14,7 @@
             dataType: 'json',
             success: function(data){
                 console.log(data);
-                $('#rejectAdmission').attr('data-id', data.profile.id);
-                $('#enrollAdmission').attr('data-id', data.profile.id);
+                $('#viewStudent').attr('data-id', data.profile.id);
                 $('#schoolId').text(data.profile.school_id);
                 let middleName = data.profile.middle_name;
                 if(data.profile.middle_name == null){

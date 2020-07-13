@@ -38,22 +38,27 @@
           {{ url()->current() === route('enroll.index') ? 'active' : '' }}">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-book-open"></i>
-            <span class="ml-2">Enrollment</span>
+            <span class="ml-2">Enrollment</span> 
           </a>
           <div id="collapsePages" class="collapse
           {{ url()->current() === route('requests.index') ? 'show' : '' }}
           {{ url()->current() === route('cashier.list') ? 'show' : '' }}
           {{ url()->current() === route('enroll.index') ? 'show' : '' }}
+          {{ url()->current() === route('rejected.index') ? 'show' : '' }}
+          {{ url()->current() === route('for-enrollment.index') ? 'show' : '' }}
+          {{ url()->current() === route('enrolled.index') ? 'show' : '' }}
           " aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Admissions:</h6>
-              <a class="collapse-item {{ url()->current() === route('requests.index') ? 'active' : '' }}" href="{{ route('requests.index') }}">All Requests</a>
+              <a class="collapse-item {{ url()->current() === route('requests.index') ? 'active' : '' }}" href="{{ route('requests.index') }}"><i class="fas fa-plus-circle mr-2 text-success"></i> New Requests <span class="badge badge-danger badge-counter d-none" id="new-requests-counter">0</span></a>
+              <a class="collapse-item {{ url()->current() === route('rejected.index') ? 'active' : '' }}" href="{{ route('rejected.index') }}"><i class="fas fa-times-circle mr-2 text-danger"></i> Rejected <span class="badge badge-danger badge-counter d-none" id="rejected-requests-counter">0</span></a>
               <div class="collapse-divider"></div>
               <h6 class="collapse-header">Cashier:</h6>
-              <a class="collapse-item {{ url()->current() === route('cashier.list') ? 'active' : '' }}" href="{{ route('cashier.list') }}">Cashier's Hold</a>
-              {{-- <div class="collapse-divider"></div>
+              <a class="collapse-item {{ url()->current() === route('cashier.list') ? 'active' : '' }}" href="{{ route('cashier.list') }}"><i class="fas fa-hand-holding-usd mr-2 text-warning"></i> Cashier's Hold</a>
+              <div class="collapse-divider"></div>
               <h6 class="collapse-header">Enrollments:</h6>
-              <a class="collapse-item {{ url()->current() === route('enroll.index') ? 'active' : '' }}" href="{{ route('enroll.index') }}">Enrollees</a> --}}
+              <a class="collapse-item {{ url()->current() === route('for-enrollment.index') ? 'active' : '' }}" href="{{ route('for-enrollment.index') }}"><i class="fas fa-file-import mr-2 text-info"></i> For Enrollment <span class="badge badge-danger badge-counter d-none" id="for-enrollments-counter">0</span></a>
+              <a class="collapse-item {{ url()->current() === route('enrolled.index') ? 'active' : '' }}" href="{{ route('enrolled.index') }}"><i class="fas fa-archive mr-2 text-success"></i> Enrolled</a>
             </div>
           </div>
         </li>

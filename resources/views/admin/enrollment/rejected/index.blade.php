@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Admission Requests')
-@section('menu-title', 'Admission Requests')
+@section('title', 'Rejected Requests')
+@section('menu-title', 'Rejected Requests')
 
 @section('styles')
 <style>
@@ -70,23 +70,11 @@
 
 @section('contents')
 
-    <img src="{{ asset('admin/img/loading-ellipsis.gif') }}" alt="request-loading" id="request-loading" class="d-none">
-
+<img src="{{ asset('admin/img/loading-ellipsis.gif') }}" alt="request-loading" id="request-loading" class="d-none">
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4"> --}}
-        {{-- <h1 class="h3 mb-0 text-gray-800">All Requests</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
-        {{-- </div> --}}
-        <div class="row">
-            <div class="col-12">
-                @include('admin.0-partials._messages')
-            </div>
-        </div>
-        @include('admin.enrollment.requests.partials.sections.table')
-
+        @include('admin.enrollment.rejected.partials.sections.table')
         @include('admin.enrollment.requests.partials.sections.request-modal')
 
     </div>
@@ -95,11 +83,7 @@
 @endsection
 
 @section('scripts')
-    @include('admin.enrollment.requests.partials.scripts.datatables')
-
+    @include('admin.enrollment.rejected.partials.scripts.datatables')
     @include('admin.enrollment.requests.partials.scripts.evaluate')
-
-    @include('admin.enrollment.requests.partials.scripts.reject')
-
     @include('admin.enrollment.requests.partials.scripts.registrarAccept')
 @endsection

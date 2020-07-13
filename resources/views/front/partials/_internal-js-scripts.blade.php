@@ -1,4 +1,5 @@
 <script>
+    let studentType = 'new';
     // Input Mask
     document.addEventListener('DOMContentLoaded', () => {
         for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
@@ -40,12 +41,10 @@
         $('#last-name').val($(this).attr('data-lname'));
         $('#student-type').val('old');
         $('#profile-id').val($(this).attr('data-id'));
-        $('#submitAdmissionBtn-course-panel').removeClass('d-none');
-        $('#file-uploads-panel').addClass('d-none');
-        $('#file-upload-btn').addClass('d-none');
-        $('#data-privacy-agreement-course-panel').removeClass('d-none');
-        $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
+        $('#file-uploads-panel').remove();
+        $('#file-upload-btn').remove();
         let firstName = $(this).attr('data-fname');
+        studentType = 'old';
         Swal.close();
         Swal.fire(
             'Welcome Back '+firstName+'!',
@@ -81,6 +80,7 @@
                     $('#admission').removeClass('d-none');
                     $('#profile-pic').attr('src','/admin/img/empty-profile-img.png');
                     $('#profile-pic').attr('data-imng','empty');
+                    studentType = 'new';
                     swalWithBootstrapButtons.fire(
                         'Thanks for enrolling at MLGCL!',
                         'Please fill-out the form below.',
@@ -89,7 +89,8 @@
                     openCam();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire({
-                        title: 'Enter your name',
+                        title: 'May we know your name?',
+                        icon: 'question',
                         html:
                             '<input id="lastName" class="form-control my-3" placeholder="Last Name">' +
                             '<input id="firstName" class="form-control my-3" placeholder="First Name">',
@@ -181,6 +182,7 @@
                                                 $('#profile-pic').attr('data-imng','empty');;
                                                 $('#data-privacy-agreement-course-panel').removeClass('d-none');
                                                 $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
+                                                studentType = 'old';
                                                 Swal.fire(
                                                     'Welcome Back '+data.profiles[0].first_name+'!',
                                                     'Please fill-out the form below.',
@@ -241,6 +243,7 @@
                                                                         $('#profile-pic').attr('data-imng','empty');;
                                                                         $('#data-privacy-agreement-course-panel').removeClass('d-none');
                                                                         $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
+                                                                        studentType = 'old';
                                                                         swalWithBootstrapButtons.fire(
                                                                             'Welcome Back '+data.profiles.first_name+'!',
                                                                             'Please fill-out the form below.',
@@ -529,7 +532,7 @@
 
                     $('#print-applicant-img').attr('src', data.success.applicant_img);
                     
-                    let initialFee = '₱ 3,200.00';
+                    let initialFee = '₱ 3,000.00';
                     if(data.success.year_level == 1){
                         initialFee = '₱ 3,500.00';
                     } 
@@ -555,16 +558,16 @@
 <script>
     //DOM elements
     const DOMstrings = {
-    stepsBtnClass: 'multisteps-form__progress-btn',
-    stepsBtns: document.querySelectorAll(`.multisteps-form__progress-btn`),
-    stepsBar: document.querySelector('.multisteps-form__progress'),
-    stepsForm: document.querySelector('.multisteps-form__form'),
-    stepsFormTextareas: document.querySelectorAll('.multisteps-form__textarea'),
-    stepFormPanelClass: 'multisteps-form__panel',
-    stepFormPanels: document.querySelectorAll('.multisteps-form__panel'),
-    stepPrevBtnClass: 'js-btn-prev',
-    stepNextBtnClass: 'js-btn-next' };
-
+        stepsBtnClass: 'multisteps-form__progress-btn',
+        stepsBtns: document.querySelectorAll(`.multisteps-form__progress-btn`),
+        stepsBar: document.querySelector('.multisteps-form__progress'),
+        stepsForm: document.querySelector('.multisteps-form__form'),
+        stepsFormTextareas: document.querySelectorAll('.multisteps-form__textarea'),
+        stepFormPanelClass: 'multisteps-form__panel',
+        stepFormPanels: document.querySelectorAll('.multisteps-form__panel'),
+        stepPrevBtnClass: 'js-btn-prev',
+        stepNextBtnClass: 'js-btn-next' 
+    };
 
     //remove class from a set of items
     const removeClasses = (elemSet, className) => {
@@ -668,19 +671,25 @@
 
         let valid = validateForm();
         
-            //find active panel
-            const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
-            let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
-            //set active step and active panel onclick
-            if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
-                activePanelNum--;
-            } else {
-                if(valid){
-                    activePanelNum++;
+        //find active panel
+        const activePanel = findParent(eventTarget, `${DOMstrings.stepFormPanelClass}`);
+        let activePanelNum = Array.from(document.querySelectorAll('.multisteps-form__panel')).indexOf(activePanel);
+        console.log(activePanelNum);
+        //set active step and active panel onclick
+        if (eventTarget.classList.contains(`${DOMstrings.stepPrevBtnClass}`)) {
+            activePanelNum--;
+        } else {
+            if(valid){
+                activePanelNum++;
+                if(activePanelNum == 6){
+                    if(studentType == 'old'){
+                        activePanelNum++;
+                    }
                 }
             }
-            setActiveStep(activePanelNum);
-            setActivePanel(activePanelNum);
+        }
+        setActiveStep(activePanelNum);
+        setActivePanel(activePanelNum);
     });
 
     const validateForm = () => {

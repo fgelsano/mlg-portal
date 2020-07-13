@@ -1,10 +1,10 @@
 {{-- DataTables --}}
 <script>
     $(document).ready( function () {
-        $('#requests').DataTable({
-            // processing: true,
+        $('#rejects').DataTable({
+            processing: true,
             serverSide: true,
-            ajax: '{{ route('requests.index') }}',
+            ajax: '{{ route('rejected.index') }}',
             columns: [
                 {
                     data: 'year_level',
@@ -19,12 +19,8 @@
                     name: 'first_name'
                 },
                 {
-                    data: 'school_graduated',
-                    name: 'school'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
+                    data: 'comment',
+                    name: 'comment'
                 },
                 {
                     data: 'action',
@@ -40,7 +36,7 @@
                 }
 
             ],
-            "order": [[ 4, 'desc'],[6, 'asc']]
+            "order": [ 5, 'desc']
         });
     } );
 </script>

@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content px-3">
             <div class="modal-header">
-                <h5 class="modal-title">Admission Request by <span class="text-danger" id="requested-by">Francis Gelsano</span></h5>
+                <h5 class="modal-title"><span class="text-danger" id="requested-by">Francis Gelsano</span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                         <div class="thumbnail">
                             <a href="#" class="caption-link" data-img="" id="profile-pic-link">
                                 <div class="caption">
-                                    <p class="bg-danger text-white py-2 text-center">Applicant's Selfie</p>
+                                    <p class="bg-danger text-white py-2 text-center">Student's Image</p>
                                 </div>
                             </a>
                         </div>
@@ -202,18 +202,6 @@
                         <h1 class="text-danger font-weight-bold" id="admission-status"></h1>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer text-left">
-                <form action="" id="acceptForm">
-                    <button type="button" class="btn btn-success btn-sm px-5" id="enrollAdmission" data-id="">
-                        <i class="fas fa-user-check mr-2"></i> Accept
-                    </button>
-                    <input type="hidden" name="_method" value="PUT">
-                    <input type="hidden" name="requestType" value="markAccept">
-                </form>
-                <button type="button" class="btn btn-danger btn-sm px-5" data-dismiss="modal" id="rejectAdmission" data-id="">
-                    <i class="fas fa-user-times mr-2"></i> Reject
-                </button>
             </div>
         </div>
     </div>
