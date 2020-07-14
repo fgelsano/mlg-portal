@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion no-print" id="accordionSidebar">
 
     @include('admin.0-partials._sidebar-brand')
 
@@ -69,6 +69,14 @@
           <a class="nav-link" href="{{ route('subjects.index') }}">
             <i class="fas fa-book"></i>
             <span class="ml-2">Subjects</span></a>
+        </li>
+
+        <!-- Nav Item - Reports -->
+        <li class="nav-item
+          {{ url()->current() === route('reports.index') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('reports.index') }}">
+            <i class="fas fa-chart-bar"></i>
+            <span class="ml-2">Reports</span></a>
         </li>
     @endif
 

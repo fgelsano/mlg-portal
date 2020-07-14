@@ -36,7 +36,7 @@
                 }
 
             ],
-            "order": [5, 'desc']
+            "order": [5, 'asc']
         });
     } );
 </script>
