@@ -63,8 +63,12 @@
                     <div class="col-12 col-md-8">
                         <i class="fas fa-chart-bar"></i> Enrollment Report as of <span id="report-date" class="text-primary font-weight-bold">{{ $today }}</span>
                     </div>
-                    <div class="col-12 col-md-4 no-print d-none">
-                        <input type="text" name="report-date-range" id="report-date-range" class="form-control form-control-sm input-sm">
+                    <div class="col-12 col-md-4 no-print">
+                        {{-- <input type="text" name="report-date-range" id="report-date-range" class="form-control form-control-sm input-sm"> --}}
+                        <div id="report-date-range" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <i class="fa fa-calendar"></i>&nbsp;
+                            <span></span> <i class="fa fa-caret-down"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -587,12 +591,55 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <script>
+        // $(function() {
+        //     $('#report-date-range').daterangepicker({
+        //         opens: 'left'
+        //     }, function(start, end, label) {
+        //         console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + label);
+        //     });
+        // });
+
         $(function() {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#report-date-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
             $('#report-date-range').daterangepicker({
-                opens: 'left'
-            }, function(start, end, label) {
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            },
+            function(start, end){
+                cb(start, end);
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                let date = start.format('YYYY-MM-DD')+','+end.format('YYYY-MM-DD');
+                let url = "{{ route('reports.show','date') }}";
+                let reportsUrl = url.replace('date', date);
+                $.ajax({
+                    url: reportsUrl,
+                    type: 'GET',
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(data){
+                        console.log(data);
+                    }
+                })
             });
+
+            // cb(start, end);
+
         });
     </script>
 

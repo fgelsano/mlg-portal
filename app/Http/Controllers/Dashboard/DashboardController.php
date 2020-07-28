@@ -40,11 +40,11 @@ class DashboardController extends Controller
         $subjects = Subject::all();
 
         return response()->json([
-            'requests' => $requests,
-            'enrolled' => $enrolled,
-            'instructors' => $instructors,
-            'students' => $students,
-            'subjects' => $subjects
+            'requests' => $requests->count(),
+            'enrolled' => $enrolled->count(),
+            'instructors' => $instructors->count(),
+            'students' => $students->count(),
+            'subjects' => $subjects->count()
         ], 200);
     }
 

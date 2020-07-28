@@ -5,81 +5,47 @@
 
 @section('styles')
 <style>
+    #profile-pic,
+    #enroll-profile-pic{
+        /* height: 250px; */
+        position: relative;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #profile-pic p,
+    #enroll-profile-pic p{
+        position: absolute;
+        bottom: 5px;
+        width: 90%;
+    }
+
+    #request-loading{
+        z-index: 999;
+        position: fixed;
+        top: 45%;
+        left: 45%;
+        background: rgba(255, 255, 255, .5);
+    }
 </style>
 @endsection
 
 @section('contents')
 
+    <img src="{{ asset('admin/img/loading-ellipsis.gif') }}" alt="request-loading" id="request-loading" class="d-none">
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow">
-                    <div class="card-body">
-        
-                        <div class="table-responsive">
-                            <table id="cashier-hold" class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Last Name</th>
-                                        <th>First Name</th>
-                                        <th>School Graduated</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        @include('admin.enrollment.cashier.partials.sections.table')
     </div>
     <!-- /.container-fluid -->
+
+    @include('admin.enrollment.cashier.partials.sections.student-modal')
 
 @endsection
 
 @section('scripts')
-    {{-- DataTables --}}
-    <script>
-        $(document).ready( function () {
-            $('#cashier-hold').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ route('cashier.list') }}',
-                columns: [
-                    {
-                        data: 'last_name',
-                        name: 'last_name'
-                    },
-                    {
-                        data: 'first_name',
-                        name: 'first_name'
-                    },
-                    {
-                        data: 'school_graduated',
-                        name: 'school'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at',
-                        type: 'date',
-                        targets: [3],
-                        visible: false,
-                        orderable: false
-                    }
-
-                ],
-                "order": [[4, 'asc']]
-            });
-        } );
-    </script>
+    @include('admin.enrollment.cashier.partials.scripts.datatables')
+    @include('admin.enrollment.cashier.partials.scripts.actions')
 @endsection

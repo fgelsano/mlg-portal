@@ -70,7 +70,7 @@
 
 @section('contents')
 
-
+    <img src="{{ asset('admin/img/loading-ellipsis.gif') }}" alt="request-loading" id="request-loading" class="d-none">
     <!-- Begin Page Content -->
     <div class="container-fluid">
 

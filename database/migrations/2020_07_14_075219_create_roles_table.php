@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEmailCreatedFieldToUsersTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddEmailCreatedFieldToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('email_created')->after('password_changed')->default(0);
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->integer('code');
+            $table->string('role');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddEmailCreatedFieldToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_created');
-        });
+        Schema::dropIfExists('roles');
     }
 }

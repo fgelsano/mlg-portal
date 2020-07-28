@@ -70,7 +70,7 @@
             <i class="fas fa-chart-bar"></i>
             <span class="ml-2">Reports</span></a>
         </li>
-        
+
         <!-- Nav Item - Subjects -->
         <li class="nav-item
           {{ url()->current() === route('subjects.index') ? 'active' : '' }}">
@@ -203,6 +203,14 @@
         <a class="nav-link" href="{{ route('users.index') }}">
           <i class="fas fa-users"></i>
           <span class="ml-2">Users</span></a>
+      </li>
+
+      <!-- Nav Item - Users -->
+      <li class="nav-item
+        {{ url()->current() === route('userEmails.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('userEmails.index') }}">
+          <i class="fas fa-mail-bulk"></i>
+          <span class="ml-2">User Emails</span></a>
       </li>
 
       <!-- Nav Item - Options -->

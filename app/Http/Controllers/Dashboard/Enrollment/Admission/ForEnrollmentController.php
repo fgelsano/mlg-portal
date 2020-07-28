@@ -113,7 +113,7 @@ class ForEnrollmentController extends Controller
                     return $year;
                 })
                 ->addColumn('action', function($data){
-                    $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-success enrollStudent" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-folder-open"></i> Enroll</a>';
+                    $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-success enrollStudent"><i class="fas fa-folder-open"></i> Enroll</a>';
 
                     $actionButtons = $enrollBtn.
                                       '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteAdmission">

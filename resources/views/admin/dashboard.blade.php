@@ -186,7 +186,7 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    let admissions = (data.enrolled.length / data.requests.length)*100;
+                    let admissions = (data.enrolled / data.requests)*100;
                     let percent = admissions.toFixed(1);
                     $('#online-admissions').text(percent+'%');
                     $('#online-admission-percent').attr('style','width: '+percent+'%');
@@ -194,9 +194,9 @@
                         $('#online-admission-percent').removeClass('bg-info');
                         $('#online-admission-percent').addClass('bg-danger');
                     }
-                    $('#instructors').text(data.instructors.length);
-                    $('#students').text(data.students.length);
-                    $('#subjects').text(data.subjects.length);
+                    $('#instructors').text(data.instructors);
+                    $('#students').text(data.enrolled);
+                    $('#subjects').text(data.subjects);
                 }
             });
         })

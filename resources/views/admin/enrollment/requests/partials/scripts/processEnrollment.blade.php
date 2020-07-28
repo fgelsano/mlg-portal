@@ -2,6 +2,7 @@
 <script>
     $(document).on('click', '.enrollStudent', function(e){
         e.preventDefault();
+        $('#request-loading').removeClass('d-none');
         $('#action').val('enroll');
         let admissionId = $(this).attr('data-id');
         let routeUrl = "{{ route('requests.show','id') }}";
@@ -71,6 +72,7 @@
                 if(addedSubject.length == 0){
                     $('#enrolled-subjects').html('<tr class="table-danger text-center text-white" id="empty-row" data-stat="empty"><td colspan="7">No Enrolled Subject</td></tr>');
                 }
+                $('#request-loading').addClass('d-none');
                 $('#enroll-modal').modal('show');
             }
         })
