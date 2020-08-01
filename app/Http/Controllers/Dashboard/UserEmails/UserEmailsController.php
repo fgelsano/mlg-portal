@@ -9,6 +9,8 @@ use App\User;
 use DataTables;
 
 use App\Models\Role;
+use App\Models\UserEmail;
+use Validator;
 
 class UserEmailsController extends Controller
 {
@@ -44,7 +46,49 @@ class UserEmailsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(),[
+            'created_email' => 'required',
+            'email_password' => 'required',
+            'lms_password' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        $error_array = array();
+        $success_output = '';
+
+
+        if($validation->fails()){
+            foreach($validation->messages()->getMessages() as $field_name => $messages){
+                $error_array[] = $messages;
+            }
+            return response()->json([
+                'error' => $error_array,
+            ],400);
+        } else {
+            
+            // create User Email            
+            $userEmail = new UserEmail;
+            $userEmail->user_email = $request->input('created_email');
+            $userEmail->email_password = $request->input('email_password');
+            $userEmail->lms_password = $request->input('lms_password');
+            $userEmail->user_id = $request->input('user_id');
+            $userEmail->save();
+
+            $createdEmail = User::where('id',$request->input('user_id'))->first();
+            $createdEmail->email_created = 1;
+            $createdEmail->save();
+
+            if(!$userEmail->save()){
+                return response()->json([
+                    'error' => $userEmail,
+                ],400);
+            }
+
+            return response()->json([
+                'success' => 'User Email Added!',
+                'data' => $userEmail
+            ],200);
+        }
     }
 
     /**
@@ -55,7 +99,21 @@ class UserEmailsController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::where('users.id',$id)
+                    ->join('profiles','users.profile_id','=','profiles.id')
+                    ->join('roles','users.role','=','roles.code')
+                    ->select('users.id as user_id','users.email as suggested_email','profiles.last_name','profiles.first_name','roles.role')
+                    ->first();
+        // dd($user);
+        if($user->count() > 0){
+            return response()->json([
+                'user' => $user
+            ],200);
+        } else {
+            return response()->json([
+                'error' => 'No User Found!'
+            ],400);
+        }
     }
 
     /**
@@ -66,7 +124,22 @@ class UserEmailsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = UserEmail::where('useremails.user_id',$id)
+                    ->join('users','useremails.user_id','=','users.id')
+                    ->join('profiles','users.profile_id','=','profiles.id')
+                    ->join('roles','users.role','=','roles.code')
+                    ->select('users.id as user_id','users.email as suggested_email','profiles.last_name','profiles.first_name','roles.role','useremails.user_email','useremails.email_password','useremails.lms_password')
+                    ->first();
+        // dd($user);
+        if($user->count() > 0){
+            return response()->json([
+                'user' => $user
+            ],200);
+        } else {
+            return response()->json([
+                'error' => 'No User Found!'
+            ],400);
+        }
     }
 
     /**
@@ -78,7 +151,49 @@ class UserEmailsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validation = Validator::make($request->all(),[
+            'created_email' => 'required',
+            'email_password' => 'required',
+            'lms_password' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        $error_array = array();
+        $success_output = '';
+
+
+        if($validation->fails()){
+            foreach($validation->messages()->getMessages() as $field_name => $messages){
+                $error_array[] = $messages;
+            }
+            return response()->json([
+                'error' => $error_array,
+            ],400);
+        } else {
+            
+            // update User Email
+            $userEmail = UserEmail::where('user_id',$request->input('user_id'))->first();
+            $userEmail->user_email = $request->input('created_email');
+            $userEmail->email_password = $request->input('email_password');
+            $userEmail->lms_password = $request->input('lms_password');
+            $userEmail->user_id = $request->input('user_id');
+            $userEmail->save();
+
+            $createdEmail = User::where('id',$request->input('user_id'))->first();
+            $createdEmail->email_created = 1;
+            $createdEmail->save();
+
+            if(!$userEmail->save()){
+                return response()->json([
+                    'error' => $userEmail,
+                ],400);
+            }
+
+            return response()->json([
+                'success' => 'User Email Updated!',
+                'data' => $userEmail
+            ],200);
+        }
     }
 
     /**
@@ -118,37 +233,37 @@ class UserEmailsController extends Controller
                     return $data->email;
                 })
                 ->addColumn('created_email', function($data){
-                    $createdEmail = 'Not Yet Created';
+                    $createdEmail = 'None';
                     if($data->user_email){
                         $createdEmail = $data->user_email;
                     }
                     return $createdEmail;
                 })
                 ->addColumn('email_password', function($data){
-                    $emailPassword = 'No Password Yet';
+                    $emailPassword = 'None';
                     if($data->email_password){
                         $emailPassword = $data->email_password;
                     }
                     return $emailPassword;
                 })
                 ->addColumn('lms_password', function($data){
-                    $lmsPassword = 'No Password Yet';
+                    $lmsPassword = 'None';
                     if($data->lms_password){
                         $lmsPassword = $data->lms_password;
                     }
                     return $lmsPassword;
                 })
                 ->addColumn('status', function($data){
-                    $status = '<span class="badge badge-danger px-3 py-2">Not Yet Created</span>';
+                    $status = '<span class="badge badge-danger px-3 py-2">Not Yet</span>';
                     if($data->email_created == 1){
                         $status = '<span class="badge badge-success px-3 py-2">Created</span>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function($data){
-                    $viewBtn = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm btn-success viewStudent mr-1"><i class="fas fa-plus"></i> Create</a>';
-                    $editBtn = '<a href="" data-id="'.$data->useremail_id.'" class="btn btn-sm btn-warning editEnrollment"><i class="fas fa-edit"></i> Edit</a>';
-                    $actionBtn = $viewBtn . $editBtn;
+                    $createBtn = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm btn-success createUserEmail mr-1"><i class="fas fa-plus"></i> Create</a>';
+                    $editBtn = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm btn-warning editUserEmail"><i class="fas fa-edit"></i> Edit</a>';
+                    $actionBtn = $createBtn;
                     if($data->user_email && $data->email_password && $data->lms_password){
                         $actionBtn = $editBtn; 
                     }                    

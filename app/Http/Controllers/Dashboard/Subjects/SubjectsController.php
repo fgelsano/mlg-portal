@@ -14,6 +14,8 @@ use App\Models\Subject;
 use App\Models\Option;
 use App\Models\Profile;
 use App\Models\Schedule;
+use App\Models\Enrollment;
+use App\Models\Course;
 use App\User;
 
 use Illuminate\Support\Facades\DB;
@@ -306,7 +308,10 @@ class SubjectsController extends Controller
                     return $type;
                 })
                 ->addColumn('action', function($data){
-                    $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
+                    $actionButtons = '<a href="/dashboard/subjects/student-roster/'.$data->id.'" class="btn btn-sm btn-primary" target="_blank">
+                                        <i class="fas fa-list"></i>
+                                      </a>
+                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
                                         <i class="fas fa-edit"></i>
                                       </a>
                                       <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteSubject">
@@ -358,5 +363,26 @@ class SubjectsController extends Controller
                 ->rawColumns(['action','instructor','description','type'])
                 ->make(true);
         }
+    }
+
+    public function studentRoster($id)
+    {
+        $students = Enrollment::where('enrollments.subject_id',$id)
+                                ->join('profiles','enrollments.profile_id','=','profiles.id')
+                                ->join('courses','profiles.course','=','courses.id')
+                                ->select('enrollments.subject_id as subject_id','profiles.school_id','profiles.id as student_id','profiles.last_name','profiles.first_name','profiles.year_level','courses.code as course')
+                                ->get();
+        $subject = Subject::where('subjects.id',$id)
+                    ->join('options','subjects.category','=','options.id')
+                    ->join('profiles','subjects.instructor','=','profiles.id')
+                    ->join('schedules','subjects.schedule','=','schedules.id')
+                    ->select('subjects.code','subjects.description','subjects.url','subjects.type as sueject_type','options.name as subject_category','profiles.school_id','profiles.last_name','profiles.first_name','profiles.course','schedules.location','schedules.type as room_type','schedules.day','schedules.time')
+                    ->first();
+        $courses = Course::all();
+        // dd($students);
+        // dd($subject);
+        // dd($courses);
+        return view('admin.reports.rosters.subjects.students', compact('students','subject','courses'));
+        
     }
 }

@@ -46,7 +46,7 @@ class StudentBillingsController extends Controller
      */
     public function show($id)
     {
-        //
+        dd($id);
     }
 
     /**

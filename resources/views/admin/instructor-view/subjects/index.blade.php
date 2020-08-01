@@ -83,6 +83,7 @@
                                             <a href="" class="btn btn-warning btn-sm editSubject" data-toggle="modal" data-target="#editSubject-modal" data-id="{{ $subject->id }}">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
+                                            <a href="/dashboard/subjects/student-roster/{{ $subject->id }}" class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-list"></i> Roster</a>
                                         </td>
                                     </tr> 
                                 @endforeach

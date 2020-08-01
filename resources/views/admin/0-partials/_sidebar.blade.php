@@ -149,7 +149,7 @@
     @if (Auth::user()->role == 0 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
       <!-- Nav Item - Billing -->
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('student-billings.index') }}">
+        <a class="nav-link" href="{{ route('student-billings.show', Auth::user()->profile_id) }}">
           <i class="fas fa-money-bill-alt"></i>
           <span class="ml-2">Billing</span></a>
       </li>

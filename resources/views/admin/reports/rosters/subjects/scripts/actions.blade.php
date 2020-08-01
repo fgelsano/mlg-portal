@@ -1,6 +1,5 @@
-{{-- Evaluate Admission --}}
 <script>
-    $(document).on('click', '.viewStudent', function(e){
+    $(document).on('click', '.viewStudentProfile', function(e){
         e.preventDefault();
         $('#request-loading').removeClass('d-none');
         let studentId = $(this).attr('data-id');
