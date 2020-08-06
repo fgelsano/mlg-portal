@@ -45,6 +45,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/enrollment/enroll', 'Enrollment\Enroll\EnrollController');
 
     Route::resource('/dashboard/cashier-clearances','Cashier\CashierClearancesController');
+    Route::resource('/dashboard/cashier-billings', 'Cashier\CashierBillingsController');
 
     Route::resource('/dashboard/instructors', 'Instructors\InstructorsController');
     Route::get('/dashboard/instructors-list', 'Instructors\InstructorsController@instructorList')->name('instructors.list');
@@ -73,6 +74,8 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/announcements','Announcements\AnnouncementsController');
 
     Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists');
+    Route::get('/dashboard/settings/triggers/billings', 'Triggers\TriggersController@billings')->name('trigger.billings');
+    Route::get('/dashboard/settings/triggers/enrollments', 'Triggers\TriggersController@enrollments')->name('trigger.enrollments');
     Route::resource('/dashboard/users', 'Users\UsersController')->middleware('admin.super');
     Route::resource('/dashboard/userEmails','UserEmails\UserEmailsController')->middleware('admin.super');
     Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');

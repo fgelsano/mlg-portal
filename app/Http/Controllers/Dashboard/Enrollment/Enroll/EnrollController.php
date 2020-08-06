@@ -13,6 +13,8 @@ use App\Models\Enrollment;
 use App\Models\Profile;
 use App\Models\Admission;
 use App\Models\Subject;
+use App\Models\Option;
+use App\Models\Billing;
 use App\User;
 
 class EnrollController extends Controller
@@ -45,6 +47,11 @@ class EnrollController extends Controller
             'enrolledSubject'     => 'required',
         ]);
 
+        $currentAY = Option::where('type','current-ay')->select('id')->first();
+        $currentSem = Option::where('type','current-sem')->select('id')->first();
+
+        // dd($currentAY, $currentSem);
+
         $error_array = array();        
         $studentDetails = Profile::select('school_id','course','year_level')->where('id',$request->applicant_id)->first();
         // dd($request->applicant_id, $studentDetails);
@@ -64,11 +71,14 @@ class EnrollController extends Controller
                 $explodedId = explode('-',$currentSchoolId[1]->school_id);
                 
                 $incrementId = $explodedId[1]+1;
-                $schoolId = '20-'.str_pad($incrementId,6,'0', STR_PAD_LEFT);
+                $year = date('Y')%100;
+                $schoolId = $year.'-'.str_pad($incrementId,6,'0', STR_PAD_LEFT);
             }
             
             if($request->action == 'enroll'){
                 $subjectExists = [];    
+                $lecture_units = 0;
+                $laboratory_units = 0;
                 $subjectsToEnroll = explode(',',$request->input('enrolledSubject'));
                 foreach($subjectsToEnroll as $subjectToEnroll){
                     $existingSubjects = Enrollment::where('profile_id',$request->input('applicant_id'))->where('subject_id',$subjectToEnroll)->first();
@@ -81,10 +91,20 @@ class EnrollController extends Controller
                         $enrollee->profile_id = $request->input('applicant_id');
                         $enrollee->course = $studentDetails->course;
                         $enrollee->year_level = $studentDetails->year_level;
+                        $enrollee->academic_year = $currentAY->id;
+                        $enrollee->semester = $currentSem->id;
                         $enrollee->status = 0;
                         $enrollee->save();
                     }
+
+                    $unitType = Subject::where('id',$subjectToEnroll)->select('type','units')->first();
+                    if($unitType->type == '0'){
+                        $lecture_units = $lecture_units + $unitType->units;
+                    } else {
+                        $laboratory_units = $laboratory_units + $unitType->units;
+                    }
                 }
+                // dd('Lecture: '.$lecture_units, 'Laboratory: '.$laboratory_units);
                 if(empty($subjectExists)){
                     $enroll = Admission::where('profile_id', $request->input('applicant_id'))->first();
                     $enroll->status = '4';
@@ -108,6 +128,31 @@ class EnrollController extends Controller
                     $user->role = 3;
                     $user->profile_id = $profile->id;
                     $user->save();
+
+                    $fees = Option::where('type','fees')->get();
+                    
+                    foreach($fees as $fee){
+                        if($fee->name == 'A. Lecture Tuition'){
+                            $bill = new Billing;
+                            $bill->admission_id = $enroll->id;
+                            $bill->fee = $fee->name;
+                            $bill->amount = $lecture_units * $fee->extra;
+                            $bill->save();
+                        } else if($fee->name == 'A. Laboratory Tuition'){
+                            $bill = new Billing;
+                            $bill->admission_id = $enroll->id;
+                            $bill->fee = $fee->name;
+                            $bill->amount = $laboratory_units * $fee->extra;
+                            $bill->save();
+                        } else {
+                            $bill = new Billing;
+                            $bill->admission_id = $enroll->id;
+                            $bill->fee = $fee->name;
+                            $bill->amount = $fee->extra;
+                            $bill->save();
+                        }
+                        
+                    }
 
                     return response()->json([
                         'enrolment' => $enrollee,
@@ -144,6 +189,8 @@ class EnrollController extends Controller
                     $existingSubjects = Enrollment::where('profile_id',$request->input('applicant_id'))->get();
                     // dd($existingSubjects);
                     if($existingSubjects->count() > 0){
+                        $lecture_units = 0;
+                        $laboratory_units = 0;
                         foreach($enrollSubjects as $enrollSubject){
                             if(!$existingSubjects->contains('subject_id',$enrollSubject)){
                                 $enrollee = new Enrollment;
@@ -154,10 +201,43 @@ class EnrollController extends Controller
                                 $enrollee->status = 0;
                                 $enrollee->save();
                                 $enrolled[] = $enrollee->subject_id;
-                            }                           
+                            }   
+                            $unitType = Subject::where('id',$enrollSubject)->select('type','units')->first();
+                            if($unitType->type == '0'){
+                                $lecture_units = $lecture_units + $unitType->units;
+                            } else {
+                                $laboratory_units = $laboratory_units + $unitType->units;
+                            }                        
+                        }
+
+                        $enroll = Admission::where('profile_id', $request->input('applicant_id'))->first();
+                        $fees = Option::where('type','fees')->get();
+                    
+                        foreach($fees as $fee){
+                            if($fee->name == 'A. Lecture Tuition'){
+                                $bill = new Billing;
+                                $bill->admission_id = $enroll->id;
+                                $bill->fee = $fee->name;
+                                $bill->amount = $lecture_units * $fee->extra;
+                                $bill->save();
+                            } else if($fee->name == 'A. Laboratory Tuition'){
+                                $bill = new Billing;
+                                $bill->admission_id = $enroll->id;
+                                $bill->fee = $fee->name;
+                                $bill->amount = $laboratory_units * $fee->extra;
+                                $bill->save();
+                            } else {
+                                $bill = new Billing;
+                                $bill->admission_id = $enroll->id;
+                                $bill->fee = $fee->name;
+                                $bill->amount = $fee->extra;
+                                $bill->save();
+                            }
                         }
                     } else {
                         // dd('Null');
+                        $lecture_units = 0;
+                        $laboratory_units = 0;
                         foreach($enrollSubjects as $subject){
                             $enrollee = new Enrollment;
                             $enrollee->subject_id = $subject;
@@ -167,6 +247,38 @@ class EnrollController extends Controller
                             $enrollee->status = 0;
                             $enrollee->save();
                             $enrolled[] = $enrollee->subject_id;
+
+                            $unitType = Subject::where('id',$subject)->select('type','units')->first();
+                            if($unitType->type == '0'){
+                                $lecture_units = $lecture_units + $unitType->units;
+                            } else {
+                                $laboratory_units = $laboratory_units + $unitType->units;
+                            }   
+                        }
+
+                        $enroll = Admission::where('profile_id', $request->input('applicant_id'))->first();
+                        $fees = Option::where('type','fees')->get();
+                    
+                        foreach($fees as $fee){
+                            if($fee->name == 'A. Lecture Tuition'){
+                                $bill = new Billing;
+                                $bill->admission_id = $enroll->id;
+                                $bill->fee = $fee->name;
+                                $bill->amount = $lecture_units * $fee->extra;
+                                $bill->save();
+                            } else if($fee->name == 'A. Laboratory Tuition'){
+                                $bill = new Billing;
+                                $bill->admission_id = $enroll->id;
+                                $bill->fee = $fee->name;
+                                $bill->amount = $laboratory_units * $fee->extra;
+                                $bill->save();
+                            } else {
+                                $bill = new Billing;
+                                $bill->admission_id = $enroll->id;
+                                $bill->fee = $fee->name;
+                                $bill->amount = $fee->extra;
+                                $bill->save();
+                            }
                         }
                     }
                 }     
@@ -226,47 +338,7 @@ class EnrollController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validation = Validator::make($request->all(),[
-            'enrolledSubject'     => 'required',
-        ]);
-
-        $error_array = array();
-        $success_output = '';
-
-
-        if($validation->fails()){
-            foreach($validation->messages()->getMessages() as $field_name => $messages){
-                $error_array[] = $messages;
-            }
-        } else {
-            
-            if(is_array($request->input('enrolledSubject'))){
-                foreach($request->input('enrolledSubject') as $subject){
-                    $enrollee = new Enrollee;
-                    $enrollee->subject_id = $subject;
-                    $enrollee->profile_id = $request->input('applicant_id');
-                    $enrollee->save();
-                }
-            } else {
-                $enrollee = new Enrollee;
-                $enrollee->subject_id = $request->input('enrolledSubject');
-                $enrollee->profile_id = $request->input('applicant_id');
-                $enrollee->save();
-            }
-
-            $profile = Profile::where('id', $request->input('applicant_id'))->first();
-            $profile->status = '5';
-            $profile->save();
-
-            $success_output = '<p class="m-0">Applicant Enrolled!</p>';
-        }
-
-        $output = array(
-            'error' => $error_array,
-            'success' => $success_output
-        );
-
-        return response()->json($output);
+        
     }
 
     /**

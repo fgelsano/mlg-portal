@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Students;
+namespace App\Http\Controllers\Dashboard\Cashier;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Enrollment;
-use App\Models\Profile;
 use App\Models\Billing;
-use App\Models\Payment;
+use App\Models\Admission;
 
-
-class StudentBillingsController extends Controller
+class CashierBillingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +17,7 @@ class StudentBillingsController extends Controller
      */
     public function index()
     {
-        return view('admin.student-view.billings.index');
+        //
     }
 
     /**
@@ -41,7 +38,24 @@ class StudentBillingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->input('amount'));
+        $saved = FALSE;
+        foreach($request->input('amount') as $key => $amount){
+            $bill = Billing::where('id',$key)->first();
+            $bill->amount = $amount;
+            $bill->save();
+
+            if($bill->save()){
+                $saved = TRUE;
+            } else {
+                $saved = FALSE;
+            }
+        }
+        if($saved == TRUE){
+            return response()->json(
+                'Success'
+            ,200);
+        }
     }
 
     /**
@@ -52,20 +66,7 @@ class StudentBillingsController extends Controller
      */
     public function show($id)
     {
-        $profile = Profile::where('profiles.id',$id)
-                    ->join('courses','profiles.course','=','courses.id')
-                    ->join('admissions','profiles.id','=','admissions.profile_id')
-                    ->select('profiles.profile_pic','profiles.first_name','profiles.middle_name','profiles.last_name','profiles.contact_number','profiles.school_id','profiles.year_level','profiles.purok','profiles.sitio','profiles.barangay','profiles.municipality','profiles.province','profiles.zipcode','courses.name as course','admissions.id as admission_id')
-                    ->first();
-        $bills = Billing::where('admission_id',$profile->admission_id)->get();
-        $totalBill = 0;
-        foreach($bills as $bill){
-            $totalBill = $totalBill + $bill->amount;
-        }
-        number_format($totalBill);
-        $payment = Payment::where('profile_id',$id)->select('amount','others')->first();
-        number_format($payment->amount);
-        return view('admin.student-view.billings.index',compact('profile','bills','totalBill','payment'));
+        //
     }
 
     /**
@@ -76,7 +77,17 @@ class StudentBillingsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $profile = Admission::where('admissions.id',$id)
+                    ->join('profiles','admissions.profile_id','=','profiles.id')
+                    ->join('courses','profiles.course','=','courses.id')
+                    ->select('profiles.school_id','profiles.first_name','profiles.last_name','profiles.year_level','courses.code')
+                    ->first();
+        $bill = Billing::where('admission_id',$id)->get();
+        // dd($id, $bill->count(), $bill);
+        return response()->json([
+            'bill' => $bill,
+            'profile' => $profile
+        ],200);
     }
 
     /**

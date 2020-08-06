@@ -61,8 +61,6 @@ class SubjectsController extends Controller
             'url'           => 'required',
             'instructor'    => 'required',
             'subjectType'   => 'required',
-            'academic-year' => 'required',
-            'sem'           => 'required',
             'units'         => 'required'
         ]);
 
@@ -89,8 +87,6 @@ class SubjectsController extends Controller
             $subject->schedule = $request->input('schedule');
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
-            $subject->academic_year = $request->input('academic-year');
-            $subject->semester = $request->input('sem');
             $subject->status = 0;
             $subject->save();
 
@@ -166,8 +162,6 @@ class SubjectsController extends Controller
             'url'           => 'required',
             'instructor'    => 'required',
             'subjectType'   => 'required',
-            'academic-year' => 'required',
-            'sem'           => 'required',
             'units'         => 'required'
         ]);
 
@@ -194,8 +188,6 @@ class SubjectsController extends Controller
             $subject->schedule = $request->input('schedule');
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
-            $subject->academic_year = $request->input('academic-year');
-            $subject->semester = $request->input('sem');
             $subject->status = 0;
             $subject->save();
 

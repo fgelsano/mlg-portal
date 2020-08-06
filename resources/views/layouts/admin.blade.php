@@ -52,6 +52,14 @@
     .modal {
       overflow-y: auto !important;
     }
+    @media print {
+        .no-print{
+            display: none !important;
+        }
+        .card{
+          background-color: #fff;
+        }
+    }
   </style>
 
   @yield('styles')
@@ -115,6 +123,7 @@
             processData: false,
             dataType: 'json',
             success: function(data){
+              if($('#alerts-list').attr('data-role') == 0 || $('#alerts-list').attr('data-role') == 1){
                 let totalAlert = data.forEnrollments.length + data.newAdmissions.length;
                 $('#alerts-list').empty();
                 if(totalAlert > 0){
@@ -243,6 +252,7 @@
                   $('#rejected-requests-counter').removeClass('d-none');
                   $('#rejected-requests-counter').text(data.rejectedRequests.length);
                 }
+              }
             },
         });
     }, 1 * 1000); // 60 * 1000 milsec
@@ -280,6 +290,14 @@
   </script>
 
   @yield('scripts')
+
+  <script>
+    // Print
+    $('#printCOR').click(function(){
+        alert('IMPORTANT REMINDER!\n Enable the "Background Graphics" option first before printing.\n This will allow the images to be included in the printout.')
+        window.print();
+    })
+  </script>
 
 </body>
 

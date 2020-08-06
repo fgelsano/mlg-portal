@@ -203,17 +203,24 @@ class PaymentsController extends Controller
                 ->addColumn('action', function($data){
                     $display = '';
                     $print = '';
+                    $bill = 'd-none invisible';
+                    if($data->status == 4){
+                        $bill = 'visible';
+                    }
                     if($data->status != 1){
                         $display = 'd-none invisible';
                     }
                     if($data->status == 1){
                         $print = 'd-none';
                     }
-                    $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary" data-toggle="modal" data-target="#payment-modal">
+                    $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary">
                                         <i class="fas fa-money-bill-alt"></i> Payment
                                       </a>
                                       <a href="" data-id="'.$data->id.'" data-balance="'.$data->balance.'" class="btn btn-sm btn-success '.$display.'acceptAdmission '.$display.'">
                                         <i class="fas fa-user-check"></i> Accept
+                                      </a>
+                                      <a href="" data-admission-id="'.$data->id.'" class="btn btn-sm btn-info showBill '.$bill.'">
+                                        <i class="fas fa-file-invoice-dollar"></i> Bill
                                       </a>
                                       <a href="" data-id="'.$data->paymentId.'" class="btn btn-sm btn-warning printPaymentConfirmation '.$print.'"><i class="fas fa-print"></i> Print</a>';
                     return $actionButtons;
@@ -229,6 +236,11 @@ class PaymentsController extends Controller
         $courses = Course::all();        
         // dd($id,$payment,$profile,$courses);
         return view('admin.payments.payment-confirmation.print',compact('profile','courses','payment'));
+    }
+
+    public function bill($id)
+    {
+        
     }
 }
 

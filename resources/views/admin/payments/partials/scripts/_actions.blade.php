@@ -266,4 +266,116 @@
         let redirectUrl = confirmationUrl.replace('id',paymentId);
         window.open(redirectUrl,'blank');
     })
+
+    $(document).on('click', '.showBill', function(e){
+        e.preventDefault();
+        $('#request-loading').removeClass('d-none');
+
+        $('#billingForm')[0].reset();
+
+        $('#tuition-fees').empty()
+        $('#miscellaneous-fees').empty();
+        $('#development-fees').empty();
+        $('#other-fees').empty();
+
+        let admissionId = $(this).attr('data-admission-id');
+        
+        let routeUrl = "{{ route('cashier-billings.edit','id') }}";
+        let getBillingUrl = routeUrl.replace('id', admissionId);
+        $.ajax({
+            url: getBillingUrl,
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(data){
+                $.each(data.bill, function(key, billItem){
+                    let feeType = billItem.fee;
+                    let type = feeType.slice(0,1);
+                    let billItemElement = '<div class="row">'+
+                                        '<div class="col-12 col-md-8 text-right">'+
+                                            billItem.fee.slice(3)+
+                                        '</div>'+
+                                        '<div class="col-12 col-md-4">'+
+                                            '<div class="input-group mb-1 input-group-sm">'+
+                                                '<div class="input-group-prepend">'+
+                                                    '<span class="input-group-text">₱</span>'+
+                                                '</div>'+
+                                                '<input type="text" class="form-control text-right" value="'+billItem.amount+'" name="amount['+billItem.id+']">'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>';
+                    if(type == 'A'){
+                        $('#tuition-fees').append(billItemElement);
+                    } else if(type == 'B'){
+                        $('#miscellaneous-fees').append(billItemElement);
+                    } else if(type == 'C'){
+                        $('#development-fees').append(billItemElement);
+                    } else if(type == 'D'){
+                        $('#other-fees').append(billItemElement);
+                    }
+                    
+                });
+
+                $('span#student-id').text(data.profile.school_id);
+                // console.log($('#student-id'));
+                let fullName = data.profile.first_name + ' ' + data.profile.last_name;
+                $('span#student-name').text(fullName);
+                $('span#applicant-student').text(fullName);
+                $('span#course-code').text(data.profile.code);
+                let yearLevel = '';
+                if(data.profile.year_level == '1'){
+                    yearLevel = '1st Year';
+                } else if(data.profile.year_level == '2'){
+                    yearLevel = '2nd Year';
+                } else if(data.profile.year_level == '3'){
+                    yearLevel = '3rd Year';
+                } else if(data.profile.year_level == '4'){
+                    yearLevel = '4th Year';
+                }
+                $('span#year-level').text(yearLevel);
+
+                $('#request-loading').addClass('d-none');
+                $('#billing-modal').modal('show');
+            }
+        })
+    })
+
+    $(document).on('click','#updateBilling', function(e){
+        e.preventDefault();
+        
+        let form = $('#billingForm')[0];
+        let formData = new FormData(form);
+        
+        let routeUrl = "{{ route('cashier-billings.store') }}";
+
+        $.ajax({
+            url: routeUrl,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(data){
+                
+                Swal.fire({
+                    title: 'Billing Updated!',
+                    icon: 'success'
+                }).then(function(){
+                    $('#billing-modal').modal('hide');
+                })
+                
+            },
+            error: function(err){
+                let error_html = '<ul class="text-left">';
+                for(let x = 0; x < err.responseJSON.error.length; x++){
+                    error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                    if(x==err.responseJSON.error.length){
+                        error_html += '</ul>';
+                    }
+                }
+                alertify.error(error_html);
+            }
+        });
+    })
 </script>

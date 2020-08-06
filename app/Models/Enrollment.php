@@ -12,6 +12,8 @@ class Enrollment extends Model
         'subject_id',
         'course',
         'year_level',
+        'academic_year',
+        'semester',
         'status'
     ];
 
