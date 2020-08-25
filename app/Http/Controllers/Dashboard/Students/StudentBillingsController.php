@@ -58,6 +58,7 @@ class StudentBillingsController extends Controller
                     ->select('profiles.profile_pic','profiles.first_name','profiles.middle_name','profiles.last_name','profiles.contact_number','profiles.school_id','profiles.year_level','profiles.purok','profiles.sitio','profiles.barangay','profiles.municipality','profiles.province','profiles.zipcode','courses.name as course','admissions.id as admission_id')
                     ->first();
         $bills = Billing::where('admission_id',$profile->admission_id)->get();
+        
         $totalBill = 0;
         foreach($bills as $bill){
             $totalBill = $totalBill + $bill->amount;

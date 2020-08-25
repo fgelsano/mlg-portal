@@ -17,12 +17,14 @@ class TriggersController extends Controller
         $students = Admission::select('id','status','profile_id')->where('status','!=',0)->where('status','!=',3)->get();
         $fees = Option::where('type','fees')->get();
 
-        $lecture_units = 0;
-        $laboratory_units = 0;
-
+        $saveStatus = FALSE;
         foreach($students as $student){
+            $lecture_units = 0;
+            $laboratory_units = 0;
+            
             $admissionId = Admission::where('profile_id',$student->profile_id)->select('id')->first();
             $enrollments = Enrollment::where('profile_id',$student->profile_id)->select('subject_id')->get();
+            
             foreach($enrollments as $enrollment){
                 $unitType = Subject::where('id',$enrollment->subject_id)->select('type','units')->first();
 
@@ -35,22 +37,14 @@ class TriggersController extends Controller
             
 
             foreach($fees as $fee){
+                $bill = new Billing;
+                $bill->admission_id = $admissionId->id;
+                $bill->fee = $fee->name;
                 if($fee->name == 'A. Lecture Tuition'){
-                    $bill = new Billing;
-                    $bill->admission_id = $admissionId->id;
-                    $bill->fee = $fee->name;
                     $bill->amount = $lecture_units * $fee->extra;
-                    $bill->save();
                 } else if($fee->name == 'A. Laboratory Tuition'){
-                    $bill = new Billing;
-                    $bill->admission_id = $admissionId->id;
-                    $bill->fee = $fee->name;
                     $bill->amount = $laboratory_units * $fee->extra;
-                    $bill->save();
                 } else {
-                    $bill = new Billing;
-                    $bill->admission_id = $admissionId->id;
-                    $bill->fee = $fee->name;
                     if($student->year_level == 1){
                         if($fee->name == 'B. School Id' || $fee->name == 'D. NSTP (CWTS)'){
                             $bill->amount = $fee->extra;
@@ -63,18 +57,19 @@ class TriggersController extends Controller
                         } else {
                             $bill->amount = $fee->extra;
                         }                        
-                    }                    
-                    $bill->save();
+                    }      
                 }
+                $bill->save();  
+                $saveStatus = TRUE;
             }
         }
 
-        if($bill->save()){
+        if($saveStatus == TRUE){
             $status = 'success';
             $count = $students->count();
             return view('admin.triggers.billings.index', compact('status','count'));
         } else {
-            $status = $bill->save();
+            $status = 'Migration Failed. Save Status returned Failed!';
             return view('admin.triggers.billings.index', compact('status'));
         }
     }

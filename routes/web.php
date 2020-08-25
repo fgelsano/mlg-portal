@@ -22,6 +22,7 @@ Auth::routes([
 ]);
 
 Route::get('/online-admission', 'Front\FrontContentsController@createAdmission')->name('admission.index');
+Route::get('/registrar-admission','Front\FrontContentsController@registrarAdmission')->name('admission.registrar');
 Route::post('/online-admission', 'Front\FrontContentsController@storeAdmission')->name('admission.store');
 Route::get('/fetchOldStudent/{name}', 'Front\FrontContentsController@fetchOldStudent')->name('oldStudent.fetch');
 
@@ -77,6 +78,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/settings/triggers/billings', 'Triggers\TriggersController@billings')->name('trigger.billings');
     Route::get('/dashboard/settings/triggers/enrollments', 'Triggers\TriggersController@enrollments')->name('trigger.enrollments');
     Route::resource('/dashboard/users', 'Users\UsersController')->middleware('admin.super');
+    Route::post('/dashboard/userEmails/activate/{id}','UserEmails\UserEmailsController@activate')->name('userEmails.activate')->middleware('admin.super');
     Route::resource('/dashboard/userEmails','UserEmails\UserEmailsController')->middleware('admin.super');
     Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
 });

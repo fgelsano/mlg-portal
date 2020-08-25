@@ -200,6 +200,9 @@
             </div>
         </div>
     </div>
+    <div class="bg-danger text-white text-center p-3">
+        This is a system generated report. If you need a signed version of this report, please bring a printed out copy of this report to the cashier.
+    </div>
     <div class="row no-print mt-3 p-3">
         <div class="col-12 col-md-2">
             <button id="printCOR" class="btn btn-warning btn-block">

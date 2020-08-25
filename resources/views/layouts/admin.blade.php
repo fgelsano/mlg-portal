@@ -52,6 +52,10 @@
     .modal {
       overflow-y: auto !important;
     }
+    #alerts-list{
+      height: 300px;
+      overflow: auto;
+    }
     @media print {
         .no-print{
             display: none !important;
@@ -139,7 +143,6 @@
                   $('#alerts-badge').text(totalAlert);
                   $('#for-enrollments-counter').text(data.forEnrollments.length);
                   $('#for-enrollments-counter').removeClass('d-none');
-                  $('#for-enrollments').DataTable().ajax.reload();
                   if(!isEmpty($('#alerts-list'))){
                     let forEnrollmentsCount = data.forEnrollments.length;
 
@@ -188,7 +191,6 @@
                   $('#alerts-badge').text(totalAlert);
                   $('#new-requests-counter').text(data.newAdmissions.length);
                   $('#new-requests-counter').removeClass('d-none');
-                  $('#requests').DataTable().ajax.reload();
                   if(!isEmpty($('#alerts-list'))){
                     let admissionsCount = data.newAdmissions.length;
                     
@@ -247,6 +249,13 @@
                 } else {
                   $('#new-requests-counter').addClass('d-none');
                 }
+
+                let newCount = data.forEnrollments.length + data.newAdmissions.length;
+                if($('#alerts-list').attr('data-counter') != newCount){
+                  $('#requests').DataTable().ajax.reload();
+                  $('#for-enrollments').DataTable().ajax.reload();
+                }
+                $('#alerts-list').attr('data-counter', newCount);
 
                 if(data.rejectedRequests.length > 0){
                   $('#rejected-requests-counter').removeClass('d-none');

@@ -124,8 +124,10 @@ class ProfileController extends Controller
                 $profile_pic_extension = $request->file('profile-pic')->getClientOriginalExtension();
                 $profile_pic = $profile_pic_filename.'-'.$date.'.'.$profile_pic_extension;
                 $path_profile_pic_img = $request->file('profile-pic')->storeAs('public/uploads/applicant-img', $profile_pic);
+            } else {
+                $profile = Profile::where('id',$request->input('profile-id'))->first();
+                $profile_pic = $profile->profile_pic;
             }
-            
             // DOCUMENTS BLOCK
             if($request->has('sf9-front')){
                 $sf9_front_WithExt = $request->file('sf9-front')->getClientOriginalName();
@@ -190,14 +192,17 @@ class ProfileController extends Controller
         
 
             $profile = Profile::where('id',$request->input('profile-id'))->first();
+            
             if($profile->profile_pic == 'No Data'){
                 if($request->has('profile-pic')){
-                    $profile->profile_pic             = $profile_pic;
+                    $profile->profile_pic = $profile_pic;
                 } else {
                     return response()->json(
                         'Profile Pic is required'
                     , 400);
                 }
+            } else if($profile->profile_pic != $profile_pic){
+                $profile->profile_pic = $profile_pic;
             }
             $profile->first_name              = $request->input('first-name');
             $profile->middle_name             = $request->input('middle-name');

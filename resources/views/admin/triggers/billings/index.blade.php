@@ -21,7 +21,7 @@
             </div>
         @elseif ($status)
             <div class="alert alert-danger">
-                {{ $failed }}
+                {{ $status }}
             </div>            
         @endif
 

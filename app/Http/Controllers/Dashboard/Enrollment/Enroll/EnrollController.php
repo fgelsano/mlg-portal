@@ -184,10 +184,9 @@ class EnrollController extends Controller
                     }
                 }                
                 if(($request->input('enrolledSubject') != null)){
-                    // dd($request->input('enrolledSubject'));
                     $enrollSubjects = explode(',',$request->input('enrolledSubject'));
                     $existingSubjects = Enrollment::where('profile_id',$request->input('applicant_id'))->get();
-                    // dd($existingSubjects);
+                    
                     if($existingSubjects->count() > 0){
                         $lecture_units = 0;
                         $laboratory_units = 0;
@@ -198,6 +197,8 @@ class EnrollController extends Controller
                                 $enrollee->profile_id = $request->input('applicant_id');
                                 $enrollee->course = $studentDetails->course;
                                 $enrollee->year_level = $studentDetails->year_level;
+                                $enrollee->academic_year = $currentAY->id;
+                                $enrollee->semester = $currentSem->id;
                                 $enrollee->status = 0;
                                 $enrollee->save();
                                 $enrolled[] = $enrollee->subject_id;
@@ -244,6 +245,8 @@ class EnrollController extends Controller
                             $enrollee->profile_id = $request->input('applicant_id');
                             $enrollee->course = $studentDetails->course;
                             $enrollee->year_level = $studentDetails->year_level;
+                            $enrollee->academic_year = $currentAY->id;
+                            $enrollee->semester = $currentSem->id;
                             $enrollee->status = 0;
                             $enrollee->save();
                             $enrolled[] = $enrollee->subject_id;

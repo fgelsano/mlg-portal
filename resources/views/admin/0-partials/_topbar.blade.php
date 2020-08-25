@@ -44,7 +44,7 @@
                     Alerts Center
                 </h6>
                 <p class="dropdown-item align-items-center text-center mb-0" id="no-alerts">No Alerts</p>
-                <div id="alerts-list" data-role="{{ Auth::user()->role }}"></div>
+                <div id="alerts-list" data-role="{{ Auth::user()->role }}" data-counter=""></div>
             </div>
         </li>
 
@@ -120,10 +120,18 @@
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
             </a>
-            <a class="dropdown-item" href="#">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                Settings
-            </a>
+            @if (Auth::user()->role == 3)
+                <a href="" class="dropdown-item">
+                    <i class="fas fa-unlock-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Credentials
+                </a>
+            @endif
+            @if (Auth::user()->role == 0 || Auth::user()->role == 1)
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Settings
+                </a>
+            @endif
             <a class="dropdown-item" href="#">
                 <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                 Activity Log

@@ -233,8 +233,18 @@
       </li>        
     @endif
     <!-- Divider -->
+    @if (Auth::user()->role == 0 || Auth::user()->role == 1)
     <hr class="sidebar-divider d-none d-md-block">
+        <!-- Nav Item - Online Admission -->
+      <li class="nav-item">
+        <a class="nav-link" href="/registrar-admission" target="_blank">
+          <i class="fas fa-user"></i>
+          <span class="ml-2">Registrar Admission</span></a>
+      </li>
+    @endif
+    <!-- Divider -->
     @if (Auth::user()->role == 0)
+    <hr class="sidebar-divider d-none d-md-block">
         <!-- Nav Item - Online Admission -->
       <li class="nav-item">
         <a class="nav-link" href="/online-admission" target="_blank">

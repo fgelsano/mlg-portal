@@ -116,11 +116,17 @@
                 <h4 class="merriweather">{{ $subject->description }} <small>({{ $subject->subject_category }})</small></h4>
                 <a href="{{ $subject->url }}">{{ $subject->url }}</a>
                 <p class="m-0">{{ $subject->day }} | {{ $subject->time }} at {{ $subject->room_type == '0' ? 'Room' : '' }}{{ $subject->room_type == '1' ? 'Lab' : '' }} {{ $subject->location }}</p>
-                <p class="m-0">Instructor: {{ $subject->first_name }} {{ $subject->last_name }}</p>
                 <p class="badge m-0 px-3 py-1 {{ $subject->subject_type == '1' ? 'badge-primary' : 'badge-warning'}}">{{ $subject->subject_type == '1' ? 'Lecture' : 'Laboratory'}}</p>
-                <p><span class="font-weight-bold">{{ $students->count() }}</span> Students</p>
+                
             </div>
-
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    Instructor: <strong>{{ $subject->first_name }} {{ $subject->last_name }}</strong>
+                </div>
+                <div class="col-12 col-md-6 text-right">
+                    <span class="font-weight-bold">{{ $students->count() }}</span> Students
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card border-0">
@@ -168,7 +174,7 @@
                 </div>
             </div>
             <p class="bg-danger text-center py-2 text-white">
-                This is a system-generated report. If you need a signed version, please bring a printed copy of this report to the school register.
+                This is a system-generated report. If you need a signed version, please bring a printed copy of this report to the school registrar.
             </p>
             <div class="row my-5 no-print">
                 <div class="col-12 col-md-2">

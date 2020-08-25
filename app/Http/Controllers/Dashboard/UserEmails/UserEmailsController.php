@@ -209,7 +209,7 @@ class UserEmailsController extends Controller
 
     public function generateDatatables()
     {
-        $users = User::select('profiles.last_name','profiles.first_name','users.id as user_id','users.email','users.email_created','users.role','useremails.id as useremail_id','useremails.email_password','useremails.lms_password','useremails.user_email')
+        $users = User::select('profiles.last_name','profiles.first_name','users.id as user_id','users.email','users.email_created','users.role','useremails.id as useremail_id','useremails.email_password','useremails.lms_password','useremails.user_email','useremails.status')
                     ->join('profiles','profiles.id','=','users.profile_id')
                     ->leftjoin('useremails','useremails.user_id','=','users.id')
                     ->get();
@@ -263,13 +263,38 @@ class UserEmailsController extends Controller
                 ->addColumn('action', function($data){
                     $createBtn = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm btn-success createUserEmail mr-1"><i class="fas fa-plus"></i> Create</a>';
                     $editBtn = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm btn-warning editUserEmail"><i class="fas fa-edit"></i> Edit</a>';
+                    $btnActivateColor = '';
+                    if($data->status == '1'){
+                        $btnActivateColor = 'btn-danger';
+                    } else {
+                        $btnActivateColor = 'btn-primary';
+                    }
+                    $btnActivate = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm '.$btnActivateColor.' activateCredentials"><i class="fas fa-power-off"></i></a>';
                     $actionBtn = $createBtn;
                     if($data->user_email && $data->email_password && $data->lms_password){
-                        $actionBtn = $editBtn; 
+                        $actionBtn = $btnActivate . $editBtn; 
                     }                    
                     return $actionBtn;
                 })
                 ->rawColumns(['action','type','name','suggested_email','created_email','email_password','lms_password','status'])
                 ->make(true);
+    }
+
+    public function activate($id)
+    {
+        $userEmail = UserEmail::where('user_id',$id)->first();
+        $userEmail->status = '1';
+        $userEmail->save();
+        
+        if($userEmail->save()){
+            return response()->json([
+                'success' => 'User Email Activated!',
+                'data' => $userEmail
+            ],200);
+        } else {
+            return response()->json([
+                'error' => $userEmail->save()
+            ],400);
+        }
     }
 }

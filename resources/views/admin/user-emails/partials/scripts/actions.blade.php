@@ -1,6 +1,7 @@
 <script>
     $(document).on('click','.createUserEmail', function(e){
         e.preventDefault();
+        
         $('#userEmailForm')[0].reset();
         let userId = $(this).attr('data-id');
 
@@ -34,13 +35,13 @@
         let form = $('#userEmailForm')[0];
         let formData = new FormData(form);
         
-        if($('#formMethod').val() == 'PUT')
+        let routeURL = '';
+        if($('#formMethod').val() == 'PUT'){
             let userId = $('#userEmailForm').attr('data-id');
             let url = "{{ route('userEmails.update','id') }}";
-            let routeUrl = url.replace('id',userId);
+            routeUrl = url.replace('id',userId);
         } else {
-            alert('POST');
-            let routeUrl = "{{ route('userEmails.store') }}";
+            routeUrl = "{{ route('userEmails.store') }}";
         }
 
         $.ajax({
@@ -99,5 +100,57 @@
                 $('#user-email-modal').modal('show');
             }
         })
+    })
+    $(document).on('click','.activateCredentials',function(e){
+        e.preventDefault();
+
+        if($(this).hasClass('btn-primary')){
+            const swalWithButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger mr-3'
+                },
+                buttonsStyling: false
+            })
+            swalWithButtons.fire({
+                title: 'Activate Credentials',
+                text: "Are you sure you want to activate the credentials of this user?",
+                icon: 'question',
+                confirmButtonText: 'Yes, Activate Now!',
+                cancelButtonText: 'No, Not Yet',
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        let userId = $(this).attr('data-id');
+                        let url = "{{ route('userEmails.activate','id') }}";
+                        let routeUrl = url.replace('id',userId);
+                        
+                        $.ajax({
+                            url: routeUrl,
+                            type: 'POST',
+                            contentType: false,
+                            processData: false,
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(data){
+                                console.log(data);
+                                $('#userEmails').DataTable().ajax.reload();
+                                Swal.fire({
+                                    title: data.success,
+                                    icon: 'success'
+                                })
+                            },
+                            error: function(err){
+                                // console.log(err);
+                                // alertify.error(err.responseJSON.status);
+                            }
+                        });
+                    }
+                });
+        };
     })
 </script>

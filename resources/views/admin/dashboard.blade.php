@@ -139,6 +139,14 @@
                                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpgUFCgZoIS5e4MEYfMNrj5doQB7xKweyZumPzCUvQ_dmmrQ/viewform" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
                             </div>
                         </div>
+                        <div class="card my-1">
+                            <div class="alert alert-success mb-0">
+                                <strong>Online Student Orientation: </strong>
+                                <p class="mt-2">Pick your preferred batch or schedule for the online student orientation.</p>
+                                <p>Attendance in this orientation is required. Students are required to attend the orientation before they can get access to the Learning Management System (LMS)</p>
+                                <a href="https://www.eventbrite.com/e/mlgcl-student-orientation-registration-116047149147" class="btn btn-primary btn-sm m-0" target="_blank">Register and Pick Schedule</a>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
