@@ -11,6 +11,7 @@ use DateTime;
 use App\Models\Admission;
 use App\Models\Payment;
 use App\Models\Course;
+use App\Models\Profile;
 
 class PaymentsController extends Controller
 {
@@ -156,7 +157,7 @@ class PaymentsController extends Controller
         $requests = Admission::where('status',1)   
                                 ->orWhere('status',2)
                                 ->orWhere('status',4)
-                                ->select('payments.balance','courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','profiles.year_level','admissions.status','admissions.created_at','admissions.profile_id','admissions.id')
+                                ->select('payments.id as paymentId','payments.balance','courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','profiles.year_level','admissions.status','admissions.created_at','admissions.profile_id','admissions.id')
                                 ->join('profiles','profiles.id','=','admissions.profile_id')
                                 ->join('courses','profiles.course','=','courses.id')
                                 ->join('payments','profiles.id','payments.profile_id')
@@ -201,19 +202,45 @@ class PaymentsController extends Controller
                 })
                 ->addColumn('action', function($data){
                     $display = '';
-                    if($data->status != 1){
-                        $display = 'invisible';
+                    $print = '';
+                    $bill = 'd-none invisible';
+                    if($data->status == 4){
+                        $bill = 'visible';
                     }
-                    $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary" data-toggle="modal" data-target="#payment-modal">
+                    if($data->status != 1){
+                        $display = 'd-none invisible';
+                    }
+                    if($data->status == 1){
+                        $print = 'd-none';
+                    }
+                    $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary">
                                         <i class="fas fa-money-bill-alt"></i> Payment
                                       </a>
                                       <a href="" data-id="'.$data->id.'" data-balance="'.$data->balance.'" class="btn btn-sm btn-success '.$display.'acceptAdmission '.$display.'">
                                         <i class="fas fa-user-check"></i> Accept
-                                      </a>';
+                                      </a>
+                                      <a href="" data-admission-id="'.$data->id.'" class="btn btn-sm btn-info showBill '.$bill.'">
+                                        <i class="fas fa-file-invoice-dollar"></i> Bill
+                                      </a>
+                                      <a href="" data-id="'.$data->paymentId.'" class="btn btn-sm btn-warning printPaymentConfirmation '.$print.'"><i class="fas fa-print"></i> Print</a>';
                     return $actionButtons;
                 })
                 ->rawColumns(['action','status','balance','year_level'])
                 ->make(true);
+    }
+
+    public function printConfirmation($id)
+    {
+        $payment = Payment::where('id',$id)->first();
+        $profile = Profile::where('id',$payment->profile_id)->first();
+        $courses = Course::all();        
+        // dd($id,$payment,$profile,$courses);
+        return view('admin.payments.payment-confirmation.print',compact('profile','courses','payment'));
+    }
+
+    public function bill($id)
+    {
+        
     }
 }
 

@@ -56,6 +56,10 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+    #registrarSignature{
+        position: relative;
+        top: 25px;
+    }
     @media print {
         .no-print{
             display: none;
@@ -273,6 +277,7 @@
                             <th scope="col">Description</th>
                             <th scope="col">Instructor</th>
                             <th scope="col">Schedule</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Units</th>
                         </tr>
                     </thead>
@@ -306,6 +311,7 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        <td class="type">{{ $subject->type == '0' ? 'Lecture' : 'Laboratory' }}</td>
                                         <td class="units text-center">{{ $subject->units }}</td>
                                     @endif
                                 @endforeach
@@ -324,10 +330,19 @@
             </div>
         </div>
         
-        <p class="text-center bg-danger text-white py-2">This is a system generated report.</p>
+        <p class="text-center bg-danger text-white py-2">This is a system generated report. If you need a signed version of this report. Please bring a printed out copy of this report to the registrar's office for signing.</p>
         
+        <div class="row mt-5">
+            <div class="col-12 col-md-4">
+                <h5>Approved by:</h5>
+                {{-- <img src="{{ asset('admin/img/registrar-signature-no-bg.png') }}" alt="Registrar's Signature" width="50%" id="registrarSignature"> --}}
+                <h5 class="mb-0 mt-5 text-uppercase font-weight-bold border-bottom">Emma Roa Wagas, MBA</h5>
+                <p class="m-0">School Registrar</p>
+            </div>
+        </div>
+
         <div class="row my-5 no-print">
-            <div class="col-12 col-md-2 offset-md-5">
+            <div class="col-12 col-md-2">
                 <button id="printCOR" class="btn btn-warning btn-block">
                     <i class="fas fa-print"></i> Print
                 </button>

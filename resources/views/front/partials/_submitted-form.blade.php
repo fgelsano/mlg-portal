@@ -305,7 +305,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td>School Id Fee</td>
+                        <td>School Id Fee - <span class="px-3 badge badge-pill badge-warning">FIRST YEARS, TRANSFER STUDENTS & REPLACEMENT REQUESSTS ONLY</span></td>
                         <td class="text-right">₱200.00</td>
                     </tr>
                     <tr>

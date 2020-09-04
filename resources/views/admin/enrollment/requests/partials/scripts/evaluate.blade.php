@@ -5,6 +5,7 @@
     });
     $(document).on('click', '.evalAdmission', function(e){
         e.preventDefault();
+        $('#request-loading').removeClass('d-none');
         let admissionId = $(this).attr('data-id');
         let routeUrl = "{{ route('requests.show','id') }}";
         let evalUrl = routeUrl.replace('id', admissionId);
@@ -50,7 +51,7 @@
                     purokSitio = print_purok+' '+print_sitio+', ';
                 }
 
-                $('#physical-address').text(purokSitio+data.profile.barangay+','+data.profile.municipality+','+data.profile.province+', Philippines '+data.profile.zipcode);
+                $('#physical-address').text(purokSitio+data.profile.barangay+', '+data.profile.municipality+', '+data.profile.province+', Philippines '+data.profile.zipcode);
 
                 let courseSelected = '';
                 let courseList = data.courses;
@@ -118,7 +119,11 @@
                     status = 'Enrolled';
                 }
                 $('#admission-status').text(status);
+                
+                $('#request-loading').addClass('d-none');
+                
                 $('#admission-modal').modal('show');
+                
             }
         })
     });

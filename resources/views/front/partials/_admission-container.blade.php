@@ -26,10 +26,10 @@
 
                 <!--form panels-->
                 <div class="row">
-                  <div class="col-12 col-md-10 m-auto">
+                    <div class="col-12 col-md-10 m-auto">
 
                         <!--Personal Info Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn" id="personal-information-panel">
                             <h3 class="multisteps-form__title mb-3">Personal Information</h3>
                             <div class="multisteps-form__content">
                             
@@ -42,7 +42,7 @@
                         </div>
 
                         <!--Physical Address Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="physical-address-panel">
                             <h3 class="multisteps-form__title mb-3">Physical Address</h3>
                             <div class="multisteps-form__content">
                             
@@ -56,7 +56,7 @@
                         </div>
 
                         <!--Emergency Contact Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="emergency-contact-panel">
                             <h3 class="multisteps-form__title mb-3">Emergency Contact</h3>
                             <div class="multisteps-form__content">
                             
@@ -71,7 +71,7 @@
                         </div>
 
                         <!--Educational History Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="educational-history-panel">
                             <h3 class="multisteps-form__title mb-3">Educational History</h3>
                             <div class="multisteps-form__content">
                             
@@ -85,7 +85,7 @@
                         </div>
     
                         <!--LRN Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="lrn-panel">
                             <h3 class="multisteps-form__title mb-3">Learner's Reference Number</h3>
                             <div class="multisteps-form__content">
                             
@@ -99,7 +99,7 @@
                         </div>
     
                         <!--Course Information Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="course-information-panel">
                             <h3 class="multisteps-form__title mb-3">Course Information</h3>
                             <div class="multisteps-form__content">
                             
@@ -107,7 +107,7 @@
                                 
                                 <div class="button-row d-flex mt-4">
                                     <button class="btn btn-primary js-btn-prev px-5" type="button" title="Prev">Prev</button>
-                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next" id="course-details-next-btn">Next</button>
+                                    <button class="btn btn-primary ml-auto js-btn-next px-5" type="button" title="Next">Next</button>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                         </div>
 
                         <!--Data Privacy Agreement Panel-->
-                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="file-uploads-panel">
+                        <div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn" id="dpa-agreement">
                             <h3 class="multisteps-form__title mb-3 text-center">Data Privacy Agreement</h3>
                             <div class="multisteps-form__content text-center">
                                 <div class="row px-5" id="data-privacy-agreement-panel">
@@ -171,9 +171,9 @@
                             </div>
                         </div>
                     
-                   </div>
+                    </div>
                 </div>
-              </div>
+            </div>
         </div>
     </form>
 </div>

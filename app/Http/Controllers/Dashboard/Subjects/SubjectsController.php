@@ -14,6 +14,8 @@ use App\Models\Subject;
 use App\Models\Option;
 use App\Models\Profile;
 use App\Models\Schedule;
+use App\Models\Enrollment;
+use App\Models\Course;
 use App\User;
 
 use Illuminate\Support\Facades\DB;
@@ -59,8 +61,6 @@ class SubjectsController extends Controller
             'url'           => 'required',
             'instructor'    => 'required',
             'subjectType'   => 'required',
-            'academic-year' => 'required',
-            'sem'           => 'required',
             'units'         => 'required'
         ]);
 
@@ -87,8 +87,6 @@ class SubjectsController extends Controller
             $subject->schedule = $request->input('schedule');
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
-            $subject->academic_year = $request->input('academic-year');
-            $subject->semester = $request->input('sem');
             $subject->status = 0;
             $subject->save();
 
@@ -127,7 +125,6 @@ class SubjectsController extends Controller
                                 ->join('profiles','subjects.instructor','=','profiles.id')
                                 ->where('subjects.id',$id)
                                 ->get();
-            // $schedules = Schedule::all();
             return response()->json($subject);
         }
     }
@@ -141,7 +138,10 @@ class SubjectsController extends Controller
     public function edit($id)
     {
         if(request()->ajax()){
-            $subject = Subject::where('id', $id)->first();
+            $subject = Subject::where('subjects.id', $id)
+                        ->join('schedules','subjects.schedule','=','schedules.id')
+                        ->select('schedules.*','subjects.*','schedules.type as locationType')
+                        ->first();
             return response()->json($subject);
         }
     }
@@ -162,8 +162,6 @@ class SubjectsController extends Controller
             'url'           => 'required',
             'instructor'    => 'required',
             'subjectType'   => 'required',
-            'academic-year' => 'required',
-            'sem'           => 'required',
             'units'         => 'required'
         ]);
 
@@ -190,8 +188,6 @@ class SubjectsController extends Controller
             $subject->schedule = $request->input('schedule');
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
-            $subject->academic_year = $request->input('academic-year');
-            $subject->semester = $request->input('sem');
             $subject->status = 0;
             $subject->save();
 
@@ -199,6 +195,38 @@ class SubjectsController extends Controller
                 return response()->json([
                     'error' => $subject,
                 ],414);
+            }
+
+            return response()->json([
+                'success' => 'Subject Updated!',
+                'data' => $subject
+            ],200);
+        }
+    }
+
+    public function updateInstructorSubject(Request $request, $id)
+    {
+        $validation = Validator::make($request->all(),[
+            'url'      => 'required',
+            'status'   => 'required',
+        ]);
+
+        if($validation->fails()){
+            return response()->json(
+                $validation->getMessageBag()->toArray()
+            ,400);
+        } else {
+
+            $subject = Subject::where('id', $id)->first();
+
+            $subject->url = $request->input('url');
+            $subject->status = $request->input('status');
+            $subject->save();
+
+            if(!$subject->save()){
+                return response()->json([
+                    'error' => $subject,
+                ],400);
             }
 
             return response()->json([
@@ -261,8 +289,21 @@ class SubjectsController extends Controller
                     }
                     return $subjectSchedule;
                 })
+                ->addColumn('type', function($data){
+                    $type = '';
+                    
+                    if($data->type == 0){
+                        $type = '<span class="badge badge-primary">Lec</span>';
+                    } else if($data->type == 1){
+                        $type = '<span class="badge badge-warning">Lab</span>';
+                    }
+                    return $type;
+                })
                 ->addColumn('action', function($data){
-                    $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
+                    $actionButtons = '<a href="/dashboard/subjects/student-roster/'.$data->id.'" class="btn btn-sm btn-primary" target="_blank">
+                                        <i class="fas fa-list"></i>
+                                      </a>
+                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
                                         <i class="fas fa-edit"></i>
                                       </a>
                                       <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteSubject">
@@ -270,7 +311,7 @@ class SubjectsController extends Controller
                                       </a>';
                     return $actionButtons;
                 })
-                ->rawColumns(['action','category','instructor','schedule'])
+                ->rawColumns(['action','category','instructor','schedule','type'])
                 ->make(true);
     }
 
@@ -314,5 +355,26 @@ class SubjectsController extends Controller
                 ->rawColumns(['action','instructor','description','type'])
                 ->make(true);
         }
+    }
+
+    public function studentRoster($id)
+    {
+        $students = Enrollment::where('enrollments.subject_id',$id)
+                                ->join('profiles','enrollments.profile_id','=','profiles.id')
+                                ->join('courses','profiles.course','=','courses.id')
+                                ->select('enrollments.subject_id as subject_id','profiles.school_id','profiles.id as student_id','profiles.last_name','profiles.first_name','profiles.year_level','courses.code as course')
+                                ->get();
+        $subject = Subject::where('subjects.id',$id)
+                    ->join('options','subjects.category','=','options.id')
+                    ->join('profiles','subjects.instructor','=','profiles.id')
+                    ->join('schedules','subjects.schedule','=','schedules.id')
+                    ->select('subjects.code','subjects.description','subjects.url','subjects.type as sueject_type','options.name as subject_category','profiles.school_id','profiles.last_name','profiles.first_name','profiles.course','schedules.location','schedules.type as room_type','schedules.day','schedules.time')
+                    ->first();
+        $courses = Course::all();
+        // dd($students);
+        // dd($subject);
+        // dd($courses);
+        return view('admin.reports.rosters.subjects.students', compact('students','subject','courses'));
+        
     }
 }

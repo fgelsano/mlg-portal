@@ -25,6 +25,13 @@ class FrontContentsController extends Controller
      */
     public function createAdmission()
     {
+        // $courses = Course::where('id','!=','5')->get();
+        // return view('front.online-admission')->with('courses', $courses);
+        return view('front.closed-online-admission');
+    }
+
+    public function registrarAdmission()
+    {
         $courses = Course::where('id','!=','5')->get();
         return view('front.online-admission')->with('courses', $courses);
     }
@@ -151,7 +158,7 @@ class FrontContentsController extends Controller
                 $hd = 'No Data';
             }
             // END OF DOCUMENTS BLOCK
-        
+            
             // dd($request->all());
             // create admission
             $studentType = $request->input('studentType');
@@ -192,37 +199,47 @@ class FrontContentsController extends Controller
             $profile->role                    = 3;
             $profile->save();
 
-            $documents = new Document;
-            $documents->report_card_front = $sf9_front;
-            $documents->report_card_back = $sf9_back;
-            $documents->good_moral = $gmc;
-            $documents->psa_birth_cert = $psa_bc;
-            $documents->med_cert = $med_cert;
-            $documents->honorable_dismissal = $hd;
-            $profile->documents()->save($documents);
-            
-            $admission = new Admission;
-            $admission->profile_id = $profile->id;
-            $admission->academic_year = '2020-2021'; // ########### make this dynamic ########## //
-            $admission->semester = '1'; // ########### make this dynamic ########## //
-            $admission->status = '0';
-            $admission->save();
-
-            $initialBalance = 0;
-            if($profile->year_level == 1){
-                $initialBalance = 3500.00;
-            } else {
-                $initialBalance = 2800.00;
+            $checkDocs = Document::where('profile_id',$profile->id)->first();
+            if(empty($checkDocs)){
+                $documents = new Document;
+                $documents->report_card_front = $sf9_front;
+                $documents->report_card_back = $sf9_back;
+                $documents->good_moral = $gmc;
+                $documents->psa_birth_cert = $psa_bc;
+                $documents->med_cert = $med_cert;
+                $documents->honorable_dismissal = $hd;
+                $profile->documents()->save($documents);
             }
-            $payment = new Payment;
-            $payment->profile_id = $profile->id;
-            $payment->type = 'Enrollment Fee';
-            $payment->amount = 0;
-            $payment->balance = $initialBalance;
-            $payment->or_number = 'none';
-            $payment->ref_number = 'none';
-            $payment->others = 'Enrollment fee unpaid';
-            $payment->save();
+            
+            $checkAdmission = Admission::where('profile_id',$profile->id)->first();
+            if(empty($checkAdmission)){
+                $admission = new Admission;
+                $admission->profile_id = $profile->id;
+                $admission->academic_year = '2020-2021'; // ########### make this dynamic ########## //
+                $admission->semester = '1'; // ########### make this dynamic ########## //
+                $admission->status = '0';
+                $admission->save();
+            }
+
+            $checkPayment = Payment::where('profile_id',$profile->id)->first();
+            if(empty($checkPayment)){
+                $initialBalance = 0;
+                if($profile->year_level == 1){
+                    $initialBalance = 3500.00;
+                } else {
+                    $initialBalance = 3000.00;
+                }
+            
+                $payment = new Payment;
+                $payment->profile_id = $profile->id;
+                $payment->type = 'Enrollment Fee';
+                $payment->amount = 0;
+                $payment->balance = $initialBalance;
+                $payment->or_number = 'none';
+                $payment->ref_number = 'none';
+                $payment->others = 'Enrollment fee unpaid';
+                $payment->save();
+            }
 
             $applicantDetails['first_name']             = $request->input('first-name');
             $applicantDetails['middle_name']            = $request->input('middle-name');

@@ -52,6 +52,18 @@
     .modal {
       overflow-y: auto !important;
     }
+    #alerts-list{
+      height: 300px;
+      overflow: auto;
+    }
+    @media print {
+        .no-print{
+            display: none !important;
+        }
+        .card{
+          background-color: #fff;
+        }
+    }
   </style>
 
   @yield('styles')
@@ -104,7 +116,197 @@
   {{-- Dropify --}}
   <script src="https://cdn.jsdelivr.net/npm/dropify@0.2.2/src/js/dropify.min.js"></script>
 
+  {{-- Notifications Check --}}
+  <script>
+    setInterval(function() {
+        let routeUrl = "{{ route('notifications.check') }}";
+        $.ajax({
+            url: routeUrl,
+            type: 'GEt',
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(data){
+              if($('#alerts-list').attr('data-role') == 0 || $('#alerts-list').attr('data-role') == 1){
+                let totalAlert = data.forEnrollments.length + data.newAdmissions.length;
+                $('#alerts-list').empty();
+                if(totalAlert > 0){
+                  $('#no-alerts').addClass('d-none');
+                } else {
+                  $('#no-alerts').removeClass('d-none');
+                }
+                let newForEnrollmentAlert = '';
+                let newAdmissionAlert = '';
+
+                if(data.forEnrollments.length > 0){
+                  $('#alerts-badge').removeClass('d-none');
+                  $('#alerts-badge').text(totalAlert);
+                  $('#for-enrollments-counter').text(data.forEnrollments.length);
+                  $('#for-enrollments-counter').removeClass('d-none');
+                  if(!isEmpty($('#alerts-list'))){
+                    let forEnrollmentsCount = data.forEnrollments.length;
+
+                    if($('.alert-date:last').attr('data-time') == 'For Enrollment'){
+                      if(!data.forEnrollments[forEnrollmentsCount-1].updated_at == $('.alert-date:last').attr('data-time')){
+                        $.each(data.forEnrollments, function(key, value){
+                          let alertDate = parseDate(value.updated_at);
+                          newForEnrollmentAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('for-enrollment.index') }}">'+
+                                                  '<div class="mr-3">'+
+                                                    '<div class="icon-circle bg-primary">'+
+                                                    '<i class="fas fa-file-import text-white"></i>'+
+                                                    '</div>'+
+                                                  '</div>'+
+                                                  '<div>'+
+                                                    '<div class="small text-gray-500 alert-date" data-time="'+value.updated_at+'" data-notification="For Enrollment">'+alertDate+'</div>'+
+                                                    '<span class="font-weight-bold">'+value.first_name+' '+value.last_name+' is now ready for enrollment</span>'+
+                                                  '</div>'+
+                                                '</a>';
+                          $('#alerts-list').append(newForEnrollmentAlert)
+                        })
+                      }
+                    }
+                  } else {
+                    $.each(data.forEnrollments, function(key, value){
+                        let alertDate = parseDate(value.updated_at);
+                        newForEnrollmentAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('for-enrollment.index') }}">'+
+                                                '<div class="mr-3">'+
+                                                  '<div class="icon-circle bg-primary">'+
+                                                  '<i class="fas fa-file-import text-white"></i>'+
+                                                  '</div>'+
+                                                '</div>'+
+                                                '<div>'+
+                                                  '<div class="small text-gray-500 alert-date" data-time="'+value.updated_at+'" data-notification="For Enrollment">'+alertDate+'</div>'+
+                                                  '<span class="font-weight-bold">'+value.first_name+' '+value.last_name+' is now ready for enrollment</span>'+
+                                                '</div>'+
+                                              '</a>';
+                        $('#alerts-list').append(newForEnrollmentAlert)
+                      })
+                  }
+                } else {
+                  $('#for-enrollments-counter').addClass('d-none');
+                }
+                
+                if(data.newAdmissions.length > 0){
+                  $('#alerts-badge').removeClass('d-none');
+                  $('#alerts-badge').text(totalAlert);
+                  $('#new-requests-counter').text(data.newAdmissions.length);
+                  $('#new-requests-counter').removeClass('d-none');
+                  if(!isEmpty($('#alerts-list'))){
+                    let admissionsCount = data.newAdmissions.length;
+                    
+                    if($('.alert-date:last').attr('data-time') == 'New Admission'){
+                      if(!data.newAdmissions[admissionsCount-1].created_at == $('.alert-date:last').attr('data-time')){
+                        $.each(data.newAdmissions, function(key, value){
+                          let alertDate = parseDate(value.created_at);
+                          newAdmissionAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('requests.index') }}">'+
+                                                  '<div class="mr-3">'+
+                                                    '<div class="icon-circle bg-success">'+
+                                                    '<i class="fas fa-file-alt text-white"></i>'+
+                                                    '</div>'+
+                                                  '</div>'+
+                                                  '<div>'+
+                                                    '<div class="small text-gray-500 alert-date" data-time="'+value.created_at+'" data-notification="New Admission">'+alertDate+'</div>'+
+                                                    '<span class="font-weight-bold">New Admission Request by '+value.first_name+' '+value.last_name+'</span>'+
+                                                  '</div>'+
+                                                '</a>';
+                          $('#alerts-list').append(newAdmissionAlert)
+                        })
+                      }
+                    } else {
+                      $.each(data.newAdmissions, function(key, value){
+                          let alertDate = parseDate(value.created_at);
+                          newAdmissionAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('requests.index') }}">'+
+                                                  '<div class="mr-3">'+
+                                                    '<div class="icon-circle bg-success">'+
+                                                    '<i class="fas fa-file-alt text-white"></i>'+
+                                                    '</div>'+
+                                                  '</div>'+
+                                                  '<div>'+
+                                                    '<div class="small text-gray-500 alert-date" data-time="'+value.created_at+'" data-notification="New Admission">'+alertDate+'</div>'+
+                                                    '<span class="font-weight-bold">New Admission Request by '+value.first_name+' '+value.last_name+'</span>'+
+                                                  '</div>'+
+                                                '</a>';
+                          $('#alerts-list').append(newAdmissionAlert)
+                        })
+                    }
+                  } else {
+                    $.each(data.newAdmissions, function(key, value){
+                        let alertDate = parseDate(value.created_at);
+                        newAdmissionAlert = '<a class="dropdown-item d-flex align-items-center" href="{{ route('requests.index') }}">'+
+                                                '<div class="mr-3">'+
+                                                  '<div class="icon-circle bg-primary">'+
+                                                  '<i class="fas fa-file-alt text-white"></i>'+
+                                                  '</div>'+
+                                                '</div>'+
+                                                '<div>'+
+                                                  '<div class="small text-gray-500 alert-date" data-time="'+value.created_at+'" data-notification="New Admission">'+alertDate+'</div>'+
+                                                  '<span class="font-weight-bold">New Admission Request by '+value.first_name+' '+value.last_name+'</span>'+
+                                                '</div>'+
+                                              '</a>';
+                        $('#alerts-list').append(newAdmissionAlert)
+                      })
+                  }
+                } else {
+                  $('#new-requests-counter').addClass('d-none');
+                }
+
+                let newCount = data.forEnrollments.length + data.newAdmissions.length;
+                if($('#alerts-list').attr('data-counter') != newCount){
+                  $('#requests').DataTable().ajax.reload();
+                  $('#for-enrollments').DataTable().ajax.reload();
+                }
+                $('#alerts-list').attr('data-counter', newCount);
+
+                if(data.rejectedRequests.length > 0){
+                  $('#rejected-requests-counter').removeClass('d-none');
+                  $('#rejected-requests-counter').text(data.rejectedRequests.length);
+                }
+              }
+            },
+        });
+    }, 1 * 1000); // 60 * 1000 milsec
+    function isEmpty( el ){
+        return !$.trim(el.html())
+    }
+    function parseDate(created_at) {
+        var system_date = new Date(Date.parse(created_at));
+        var user_date = new Date();
+        if (K.ie) {
+            system_date = Date.parse(created_at.replace(/( \+)/, ' UTC$1'))
+        }
+        var diff = Math.floor((user_date - system_date) / 1000);
+        if (diff <= 1) {return "just now";}
+        if (diff < 20) {return diff + " seconds ago";}
+        if (diff < 40) {return "half a minute ago";}
+        if (diff < 60) {return "less than a minute ago";}
+        if (diff <= 90) {return "one minute ago";}
+        if (diff <= 3540) {return Math.round(diff / 60) + " minutes ago";}
+        if (diff <= 5400) {return "1 hour ago";}
+        if (diff <= 86400) {return Math.round(diff / 3600) + " hours ago";}
+        if (diff <= 129600) {return "1 day ago";}
+        if (diff < 604800) {return Math.round(diff / 86400) + " days ago";}
+        if (diff <= 777600) {return "1 week ago";}
+        return "on " + system_date;
+    }
+
+    // from http://widgets.twimg.com/j/1/widget.js
+    var K = function () {
+        var a = navigator.userAgent;
+        return {
+            ie: a.match(/MSIE\s([^;]*)/)
+        }
+    }();
+  </script>
+
   @yield('scripts')
+
+  <script>
+    // Print
+    $('#printCOR').click(function(){
+        alert('IMPORTANT REMINDER!\n Enable the "Background Graphics" option first before printing.\n This will allow the images to be included in the printout.')
+        window.print();
+    })
+  </script>
 
 </body>
 

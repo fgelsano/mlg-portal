@@ -14,7 +14,7 @@ class AddEmailCreatedFieldToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('email_created');
+            $table->integer('email_created')->after('password_changed')->default(0);
         });
     }
 

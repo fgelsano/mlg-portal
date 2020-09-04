@@ -23,15 +23,28 @@ class CashierController extends Controller
     {
         $requests = Admission::where('status',1)
                                 ->join('profiles','profiles.id','=','admissions.profile_id')
-                                ->select('profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
+                                ->select('profiles.last_name','profiles.first_name','profiles.school_graduated','profiles.year_level','admissions.id','admissions.created_at','admissions.profile_id')
                                 ->get();
         // dd($requests);
         return DataTables::of($requests)
-                ->addColumn('status', function($data){
-                    $status = '<span class="badge badge-pill badge-primary">Cashier\'s Hold</span>';
-                    return $status;
+                ->addColumn('year_level', function($data){
+                    $year = '';
+                    if($data->year_level == 1){
+                        $year = '1st Year';
+                    } else if($data->year_level == 2){
+                        $year = '2nd Year';
+                    } else if($data->year_level == 3){
+                        $year = '3rd Year';
+                    } else if($data->year_level == 4){
+                        $year = '4th Year';
+                    }
+                    return $year;
                 })
-                ->rawColumns(['status'])
+                ->addColumn('action', function($data){
+                    $action = '<a href="#" class="btn btn-sm btn-primary viewStudent" data-id="'.$data->profile_id.'"><i class="fas fa-eye"></i> View</a>';
+                    return $action;
+                })
+                ->rawColumns(['action','year_level'])
                 ->make(true);
     }
 }

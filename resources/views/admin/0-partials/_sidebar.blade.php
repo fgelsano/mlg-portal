@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion no-print" id="accordionSidebar">
 
     @include('admin.0-partials._sidebar-brand')
 
@@ -38,24 +38,37 @@
           {{ url()->current() === route('enroll.index') ? 'active' : '' }}">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-book-open"></i>
-            <span class="ml-2">Enrollment</span>
+            <span class="ml-2">Enrollment</span> 
           </a>
           <div id="collapsePages" class="collapse
           {{ url()->current() === route('requests.index') ? 'show' : '' }}
           {{ url()->current() === route('cashier.list') ? 'show' : '' }}
           {{ url()->current() === route('enroll.index') ? 'show' : '' }}
+          {{ url()->current() === route('rejected.index') ? 'show' : '' }}
+          {{ url()->current() === route('for-enrollment.index') ? 'show' : '' }}
+          {{ url()->current() === route('enrolled.index') ? 'show' : '' }}
           " aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Admissions:</h6>
-              <a class="collapse-item {{ url()->current() === route('requests.index') ? 'active' : '' }}" href="{{ route('requests.index') }}">All Requests</a>
+              <a class="collapse-item {{ url()->current() === route('requests.index') ? 'active' : '' }}" href="{{ route('requests.index') }}"><i class="fas fa-plus-circle mr-2 text-success"></i> New Requests <span class="badge badge-danger badge-counter d-none" id="new-requests-counter">0</span></a>
+              <a class="collapse-item {{ url()->current() === route('rejected.index') ? 'active' : '' }}" href="{{ route('rejected.index') }}"><i class="fas fa-times-circle mr-2 text-danger"></i> Rejected <span class="badge badge-danger badge-counter d-none" id="rejected-requests-counter">0</span></a>
               <div class="collapse-divider"></div>
               <h6 class="collapse-header">Cashier:</h6>
-              <a class="collapse-item {{ url()->current() === route('cashier.list') ? 'active' : '' }}" href="{{ route('cashier.list') }}">Cashier's Hold</a>
-              {{-- <div class="collapse-divider"></div>
+              <a class="collapse-item {{ url()->current() === route('cashier.list') ? 'active' : '' }}" href="{{ route('cashier.list') }}"><i class="fas fa-hand-holding-usd mr-2 text-warning"></i> Cashier's Hold</a>
+              <div class="collapse-divider"></div>
               <h6 class="collapse-header">Enrollments:</h6>
-              <a class="collapse-item {{ url()->current() === route('enroll.index') ? 'active' : '' }}" href="{{ route('enroll.index') }}">Enrollees</a> --}}
+              <a class="collapse-item {{ url()->current() === route('for-enrollment.index') ? 'active' : '' }}" href="{{ route('for-enrollment.index') }}"><i class="fas fa-file-import mr-2 text-info"></i> For Enrollment <span class="badge badge-danger badge-counter d-none" id="for-enrollments-counter">0</span></a>
+              <a class="collapse-item {{ url()->current() === route('enrolled.index') ? 'active' : '' }}" href="{{ route('enrolled.index') }}"><i class="fas fa-archive mr-2 text-success"></i> Enrolled</a>
             </div>
           </div>
+        </li>
+
+        <!-- Nav Item - Reports -->
+        <li class="nav-item
+          {{ url()->current() === route('reports.index') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('reports.index') }}">
+            <i class="fas fa-chart-bar"></i>
+            <span class="ml-2">Reports</span></a>
         </li>
 
         <!-- Nav Item - Subjects -->
@@ -136,7 +149,7 @@
     @if (Auth::user()->role == 0 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
       <!-- Nav Item - Billing -->
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('student-billings.index') }}">
+        <a class="nav-link" href="{{ route('student-billings.show', Auth::user()->profile_id) }}">
           <i class="fas fa-money-bill-alt"></i>
           <span class="ml-2">Billing</span></a>
       </li>
@@ -192,6 +205,14 @@
           <span class="ml-2">Users</span></a>
       </li>
 
+      <!-- Nav Item - Users -->
+      <li class="nav-item
+        {{ url()->current() === route('userEmails.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('userEmails.index') }}">
+          <i class="fas fa-mail-bulk"></i>
+          <span class="ml-2">User Emails</span></a>
+      </li>
+
       <!-- Nav Item - Options -->
       <li class="nav-item
         {{ url()->current() === route('options.index') ? 'active' : '' }}">
@@ -212,8 +233,18 @@
       </li>        
     @endif
     <!-- Divider -->
+    @if (Auth::user()->role == 0 || Auth::user()->role == 1)
     <hr class="sidebar-divider d-none d-md-block">
+        <!-- Nav Item - Online Admission -->
+      <li class="nav-item">
+        <a class="nav-link" href="/registrar-admission" target="_blank">
+          <i class="fas fa-user"></i>
+          <span class="ml-2">Registrar Admission</span></a>
+      </li>
+    @endif
+    <!-- Divider -->
     @if (Auth::user()->role == 0)
+    <hr class="sidebar-divider d-none d-md-block">
         <!-- Nav Item - Online Admission -->
       <li class="nav-item">
         <a class="nav-link" href="/online-admission" target="_blank">

@@ -30,6 +30,10 @@
                     name: 'schedule'
                 },
                 {
+                    data: 'type',
+                    name: 'type'
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false
@@ -41,18 +45,7 @@
                     targets: [5],
                     visible: false,
                     orderable: false
-                },
-                {
-                    data: 'academic_year',
-                    name: 'academic_year',
-                    visible: false,
-                },
-                {
-                    data: 'semester',
-                    name: 'semester',
-                    visible: false,
                 }
-
             ],
             "order": [[ 5, 'asc']]
 

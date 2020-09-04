@@ -2,13 +2,13 @@
 <script>
     $(document).ready( function () {
         $('#requests').DataTable({
-            processing: true,
+            // processing: true,
             serverSide: true,
             ajax: '{{ route('requests.index') }}',
             columns: [
                 {
-                    data: 'id',
-                    name: 'request_id'
+                    data: 'year_level',
+                    name: 'year_level'
                 },
                 {
                     data: 'last_name',
@@ -40,7 +40,7 @@
                 }
 
             ],
-            "order": [[ 4, 'desc'],[6, 'asc']]
+            "order": [[ 6, 'desc'],[0, 'asc']]
         });
     } );
 </script>

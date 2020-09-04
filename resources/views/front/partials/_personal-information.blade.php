@@ -32,6 +32,7 @@
                     <option value="2">Married</option>
                     <option value="3">Widow</option>
                     <option value="4">Widower</option>
+                    <option value="5">Common Law</option>
                 </select>
             </div>
             <div class="col-12 col-md-5 form-group">

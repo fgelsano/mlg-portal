@@ -13,7 +13,7 @@
                     <div class="col-12 col-md-3 mb-3" id="profile-pic">
                         {{-- <img src="{{ asset('admin/img/empty-profile-img.png') }}" alt="Applicant Image" id="applicant-img" class="img-responsive" width="100%"> --}}
                         <div class="thumbnail">
-                            <a href="#" class="caption-link" data-image="" id="profile-pic-link">
+                            <a href="#" class="caption-link" data-img="" id="profile-pic-link">
                                 <div class="caption">
                                     <p class="bg-danger text-white py-2 text-center">Applicant's Selfie</p>
                                 </div>

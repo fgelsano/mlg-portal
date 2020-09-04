@@ -57,11 +57,20 @@
     #course{
         font-size: 2em;
     }
+
+    #request-loading{
+        z-index: 999;
+        position: fixed;
+        top: 45%;
+        left: 45%;
+        background: rgba(255, 255, 255, .5);
+    }
 </style>
 @endsection
 
 @section('contents')
 
+    <img src="{{ asset('admin/img/loading-ellipsis.gif') }}" alt="request-loading" id="request-loading" class="d-none">
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -80,8 +89,6 @@
 
         @include('admin.enrollment.requests.partials.sections.request-modal')
 
-        @include('admin.enrollment.enroll.enroll-modal')
-
     </div>
     <!-- /.container-fluid -->
 
@@ -95,12 +102,4 @@
     @include('admin.enrollment.requests.partials.scripts.reject')
 
     @include('admin.enrollment.requests.partials.scripts.registrarAccept')
-
-    @include('admin.enrollment.requests.partials.scripts.processEnrollment')
-
-    @include('admin.enrollment.enroll.scripts.datatables')
-
-    @include('admin.enrollment.enroll.scripts.action')
-
-    @include('admin.enrollment.enroll.scripts.confirmEnroll')
 @endsection
