@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Subject;
 use App\Models\Schedule;
+use App\Models\UserEmail;
+use App\User;
 
 class StudentSubjectsController extends Controller
 {
@@ -54,6 +56,8 @@ class StudentSubjectsController extends Controller
         $subjects = Subject::all();
         $instructors = Profile::where('role',4)->orWhere('role',5)->get();
         $schedules = Schedule::all();
+        $user = User::where('profile_id',$id)->select('id')->first();
+        $credentials = UserEmail::where('user_id',$user->id)->first();
         $totalUnits = 0;
         foreach($subjects as $subject){
             foreach($profile->enrollments as $enrollment){
@@ -63,7 +67,7 @@ class StudentSubjectsController extends Controller
             }
         }
 
-        return view('admin.student-view.subjects.index',compact('profile', 'subjects','instructors','schedules','totalUnits'));
+        return view('admin.student-view.subjects.index',compact('profile', 'subjects','instructors','schedules','totalUnits','credentials'));
     }
 
     /**

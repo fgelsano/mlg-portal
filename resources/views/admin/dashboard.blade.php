@@ -141,10 +141,43 @@
                         </div>
                         <div class="card my-1">
                             <div class="alert alert-success mb-0">
-                                <strong>Online Student Orientation: </strong>
-                                <p class="mt-2">Pick your preferred batch or schedule for the online student orientation.</p>
-                                <p>Attendance in this orientation is required. Students are required to attend the orientation before they can get access to the Learning Management System (LMS)</p>
-                                <a href="https://www.eventbrite.com/e/mlgcl-student-orientation-registration-116047149147" class="btn btn-primary btn-sm m-0" target="_blank">Register and Pick Schedule</a>
+                                <strong>Reminder: </strong>
+                                <p>All NSTP Students, please fill-out the form in the link below. Disregard if you have already fill it out previously.</p>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWk3K6CoH6eVckIrK4sGAu40wKMHypZMbq_F0dioLQE2K5kQ/viewform?usp=sf_link" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
+                            </div>
+                        </div>
+                        <div class="card my-3">
+                            <div class="alert alert-success mb-0">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 p-3">
+                                        <h4>LMS Tutorial (Desktop Version)</h4>
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/9l_EFtIStvI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 p-3">
+                                        <h4>LMS Tutorial (Mobile Phone Version)</h4>
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/26bvXEUdEFs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card my-3">
+                            <div class="alert alert-primary mb-0">
+                                <i class="fas fa-tools"></i> <span class="font-weight-bold">Technical Support</span>
+                                <p>If you need assistance in using your student portal and the LMS, please just click the "Technical Support" menu to the left.</p>
+                            </div>
+                        </div>
+                        <div class="card my-3">
+                            <div class="alert alert-success mb-0">
+                                <div class="row">
+                                    <h4>Zoom Meeting Schedules</h4>
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=bmQyOHVwZGMyYmxxNXQycWRzdDA3cnM2NjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%234285F4&amp;showTitle=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe>
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     @endif

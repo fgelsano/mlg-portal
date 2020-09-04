@@ -116,7 +116,7 @@
                 <h4 class="merriweather">{{ $subject->description }} <small>({{ $subject->subject_category }})</small></h4>
                 <a href="{{ $subject->url }}">{{ $subject->url }}</a>
                 <p class="m-0">{{ $subject->day }} | {{ $subject->time }} at {{ $subject->room_type == '0' ? 'Room' : '' }}{{ $subject->room_type == '1' ? 'Lab' : '' }} {{ $subject->location }}</p>
-                <p class="badge m-0 px-3 py-1 {{ $subject->subject_type == '1' ? 'badge-primary' : 'badge-warning'}}">{{ $subject->subject_type == '1' ? 'Lecture' : 'Laboratory'}}</p>
+                <p class="badge m-0 px-3 py-1 {{ $subject->subject_type == '1' ? 'badge-primary' : 'badge-warning'}}">{{ $subject->subject_type == '0' ? 'Lecture' : 'Laboratory'}}</p>
                 
             </div>
             <div class="row">

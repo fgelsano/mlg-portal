@@ -252,6 +252,13 @@
           <span class="ml-2">Online Admission</span></a>
       </li>
     @endif
+    <hr class="sidebar-divider d-none d-md-block">
+    <!-- Nav Item - Online Admission -->
+    <li class="nav-item">
+      <a class="nav-link" href="https://www.messenger.com/t/CreativeDevLabsInnovativeSolutions" target="_blank">
+        <i class="fas fa-tools"></i>
+        <span class="ml-2">Technical Support</span></a>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
