@@ -110,18 +110,22 @@
                             <i class="fas fa-print"></i> Print COR
                         </a>
                     </div>
-                    <div class="col-12 col-md-2 mb-2">
-                        <a href="" class="btn btn-sm btn-primary px-3 btn-block" id="btnShowCreds">
-                            <i class="fas fa-unlock-alt"></i>
-                            Credentials
-                        </a>
-                    </div>
+                    @if($credentials)
+                        @if($credentials->status == '1')
+                            <div class="col-12 col-md-2 mb-2">
+                                <a href="" class="btn btn-sm btn-primary px-3 btn-block" id="btnShowCreds">
+                                    <i class="fas fa-unlock-alt"></i>
+                                    Credentials
+                                </a>
+                            </div>
+                        @endif
+                    @endif
                 </div>
                 <div class="row mt-2 no-print" id="credsPane">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="d-inline">Credentials for <span class="font-weight-bold text-danger">Student Name</span></h5>
+                                <h5 class="d-inline">Credentials for <span class="font-weight-bold text-danger">{{ $profile->first_name.' '.$profile->last_name }}</span></h5>
                                 <button type="button" class="close" data-dismiss="card" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -137,16 +141,16 @@
                                                 <div class="row">
                                                     <div class="col-12 col-md-4">Username: </div>
                                                     <div class="col-12 col-md-8">
-                                                        <p class="border-bottom">fgelsano@mlgcl.edu.ph</p>
+                                                        <p class="border-bottom">{{ $credentials->user_email }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12 col-md-4">Password: </div>
                                                     <div class="col-12 col-md-8">
                                                         <div class="input-group mb-3">
-                                                            <input type="password" class="form-control" value="fgelsano@mlgcl.edu.ph" readonly>
+                                                            <input type="password" class="form-control" value="{{ $credentials->email_password }}" readonly id="email-password">
                                                             <div class="input-group-append">
-                                                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-eye"></i></button>
+                                                                <button class="btn btn-outline-secondary view-email-password" data-icon="eye" type="button"><i class="fas fa-eye"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -163,16 +167,16 @@
                                                 <div class="row">
                                                     <div class="col-12 col-md-4">Username: </div>
                                                     <div class="col-12 col-md-8">
-                                                        <p class="border-bottom">fgelsano@mlgcl.edu.ph</p>
+                                                        <p class="border-bottom">{{ $credentials->user_email }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12 col-md-4">Password: </div>
                                                     <div class="col-12 col-md-8">
                                                         <div class="input-group mb-3">
-                                                            <input type="password" class="form-control" value="fgelsano@mlgcl.edu.ph" readonly>
+                                                            <input type="password" class="form-control" value="{{ $credentials->lms_password }}" readonly id="lms-password">
                                                             <div class="input-group-append">
-                                                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-eye"></i></button>
+                                                                <button class="btn btn-outline-secondary view-lms-password" data-icon="eye" type="button"><i class="fas fa-eye"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -207,6 +211,36 @@
                 }
             });
             
+        })
+
+        $(document).on('click','.view-email-password',function(e){
+            e.preventDefault();
+            let icon = $(this).attr('data-icon');
+            console.log(icon);
+            if(icon == 'eye'){
+                $(this).html('<i class="fas fa-eye-slash"></i>')
+                $(this).attr('data-icon','eye-slash');
+                $('#email-password').attr('type','text');
+            } else {
+                $(this).html('<i class="fas fa-eye"></i>')
+                $(this).attr('data-icon','eye');
+                $('#email-password').attr('type','password');
+            }
+        })
+
+        $(document).on('click','.view-lms-password',function(e){
+            e.preventDefault();
+            let icon = $(this).attr('data-icon');
+            console.log(icon);
+            if(icon == 'eye'){
+                $(this).html('<i class="fas fa-eye-slash"></i>')
+                $(this).attr('data-icon','eye-slash');
+                $('#lms-password').attr('type','text');
+            } else {
+                $(this).html('<i class="fas fa-eye"></i>')
+                $(this).attr('data-icon','eye');
+                $('#lms-password').attr('type','password');
+            }
         })
     </script>
 @endsection

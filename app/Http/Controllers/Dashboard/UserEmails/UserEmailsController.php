@@ -271,7 +271,7 @@ class UserEmailsController extends Controller
                     }
                     $btnActivate = '<a href="" data-id="'.$data->user_id.'" class="btn btn-sm '.$btnActivateColor.' activateCredentials"><i class="fas fa-power-off"></i></a>';
                     $actionBtn = $createBtn;
-                    if($data->user_email && $data->email_password && $data->lms_password){
+                    if($data->user_email && $data->email_password || $data->user_email && $data->lms_password){
                         $actionBtn = $btnActivate . $editBtn; 
                     }                    
                     return $actionBtn;
