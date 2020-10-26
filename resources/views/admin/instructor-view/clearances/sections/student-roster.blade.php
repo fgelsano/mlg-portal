@@ -32,7 +32,17 @@
             <div class="container px-0">
                 <div class="card border-0">
                     <div class="row px-3 pt-3">
-                        <div class="col-12 col-md-2 offset-md-8 input-group-sm">
+                        <div class="col-12 col-md-6">
+                            <nav aria-label="breadcrumb breadcrumb-sm">
+                                <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb py-1 bg-white">
+                                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('instructor-clearances.show', Auth::user()->profile_id) }}">eClearance</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ $subject->code }}</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-2 offset-md-2 input-group-sm">
                             <button class="btn btn-sm btn-danger btn-block updateBtn" id="btnNotCleared" disabled data-action="Disapprove">
                                 <i class="fas fa-times mr-2"></i> Disapprove
                             </button>

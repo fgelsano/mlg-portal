@@ -49,7 +49,7 @@
                                         <td>{{ $subject->description }}</td>
                                         <td>{{ $subject->units }}</td>
                                         <td class="">
-                                            <a href="/dashboard/instructor-clearances/clear-students/{{ $subject->id }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('clear-students.show',$subject->id) }}" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-list"></i> Roster
                                             </a>
                                         </td>
