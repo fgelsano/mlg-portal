@@ -128,7 +128,7 @@ class ClearStudentsController extends Controller
                                     $join->on('clearances.subjectId','=','enrollments.subject_id')
                                          ->on('clearances.studentId','=','enrollments.profile_id');
                                 })
-                                ->select('profiles.id','profiles.school_id','profiles.last_name','profiles.first_name','profiles.year_level','courses.code','clearances.id as clearanceId')
+                                ->select('profiles.id','profiles.school_id','profiles.last_name','profiles.first_name','profiles.year_level','profiles.gender','courses.code','clearances.id as clearanceId')
                                 ->get();
         
         return view('admin.instructor-view.clearances.sections.student-roster', compact('clearances','subject'));
