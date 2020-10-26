@@ -55,7 +55,7 @@
                     success: function(data){
                         location.reload();
                         Swal.fire({
-                            title: 'Student'+studentCount + ' ' + action + '!',
+                            title: 'Student'+studentCount + ' ' + action + 'd!',
                             icon: 'success'
                         })
                     },
@@ -71,8 +71,8 @@
     $(document).on('click','.approveStudent',function(e){
         e.preventDefault();
         Swal.fire({
-            title: 'Clear Student',
-            text: 'Are you sure you want to mark this student as cleared?',
+            title: 'Approve Student',
+            text: 'Are you sure you want to mark this student as Approved?',
             icon: 'question',
             showCancelButton: true,
             focusConfirm: false,
@@ -89,7 +89,7 @@
 
                 formData.append('studentId',studentId);
                 formData.append('subjectId',subjectId);
-                formData.append('action','Clear');
+                formData.append('action','Approve');
                 
                 let routeUrl = "{{ route('clear-students.store') }}";
 
@@ -103,7 +103,7 @@
                     success: function(data){
                         location.reload();
                         Swal.fire({
-                            title: 'Student Cleared!',
+                            title: 'Student Clearance Approved!',
                             icon: 'success'
                         })
                     },

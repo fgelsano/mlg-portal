@@ -92,17 +92,4 @@ class InstructorClearancesController extends Controller
     {
         //
     }
-
-    public function print($id)
-    {
-        $profile = Profile::where('id',$id)->first();
-        $subjects = Subject::where('instructor',$id)->get();
-        $schedules = Schedule::all();
-        // dd($subjects);
-        $totalUnits = 0;
-        foreach($subjects as $subject){
-            $totalUnits = $totalUnits + $subject->units;
-        }
-        return view('admin.instructor-view.print.clearances-loads',compact('profile', 'subjects','schedules','totalUnits'));
-    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'eClearance | Student Roster')
+@section('title', 'eClearance (  ' . $subject->code . ')')
 @section('menu-title', 'Student Clearance | ' . $subject->code)
 
 @section('styles')
@@ -69,14 +69,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($students as $key => $student)
+                                    @php $count = 1; @endphp
+                                    @foreach ($clearances->sortBy('last_name') as $key => $student)
                                         <tr>
-                                            <td><input type="checkbox" name="studentId[{{ $key }}]" value="{{ $student->student_id }}" class="studentCheckBox"></td>
-                                            <td>{{ $key+1 }}</td>
+                                            <td><input type="checkbox" name="studentId[{{ $key }}]" value="{{ $student->id }}" class="studentCheckBox"></td>
+                                            <td>{{ $count }}</td>
                                             <td>{{ $student->school_id }}</td>
                                             <td>{{ $student->last_name }}</td>
                                             <td>{{ $student->first_name }}</td>
-                                            <td>{{ $student->course }}</td>
+                                            <td>{{ $student->code }}</td>
                                             <td>
                                                 @if ($student->year_level == 1)
                                                     1st Year
@@ -88,9 +89,9 @@
                                                     4th Year
                                                 @endif
                                             </td>
-                                            @if($student->studentId == Null && $student->subjectId == Null)
+                                            @if($student->clearanceId == Null)
                                                 <td>
-                                                    <button class="btn btn-sm btn-success approveStudent" data-student-id="{{ $student->student_id }}" data-subject="{{ $subject->id }}">
+                                                    <button class="btn btn-sm btn-success approveStudent" data-student-id="{{ $student->id }}" data-subject="{{ $subject->id }}">
                                                         <i class="fas fa-check"></i> Approve Clearance
                                                     </button>
                                                 </td>
@@ -100,6 +101,7 @@
                                                 </td>
                                             @endif
                                         </tr>
+                                        @php $count++ @endphp
                                     @endforeach
                                 </tbody>
                             </table>

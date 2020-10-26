@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Dashboard\Students;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
+
+use App\Models\Subject;
+use App\Models\Schedule;
+use App\Models\Profile;
 
 class StudentClearancesController extends Controller
 {
@@ -46,7 +51,17 @@ class StudentClearancesController extends Controller
      */
     public function show($id)
     {
-        //
+        $clearances = Enrollment::where('profile_id',$id)
+                                ->join('subjects','enrollments.subject_id','=','subjects.id')
+                                ->join('profiles','profiles.id','=','subjects.instructor')
+                                ->leftjoin('clearances',function($join){
+                                    $join->on('clearances.subjectId','=','subjects.id')
+                                         ->on('clearances.studentId','=','enrollments.profile_id');
+                                })
+                                ->select('subjects.id','subjects.code','subjects.description','subjects.type','profiles.last_name','profiles.first_name','clearances.id as clearanceId')
+                                ->get();
+
+        return view('admin.student-view.clearances.index',compact('clearances'));
     }
 
     /**

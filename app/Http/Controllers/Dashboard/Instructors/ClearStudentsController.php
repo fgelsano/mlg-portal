@@ -44,7 +44,6 @@ class ClearStudentsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         if($request->input('studentId')){
             $validation = Validator::make($request->all(),[
                 'subjectId' => 'required',
@@ -56,7 +55,7 @@ class ClearStudentsController extends Controller
             $success_output = '';
             $ay = Option::where('type','current-ay')->select('id')->first();
             $sem = Option::where('type','current-sem')->select('id')->first();
-    
+            
             if($validation->fails()){
                 foreach($validation->messages()->getMessages() as $field_name => $messages){
                     $error_array[] = $messages;
@@ -70,7 +69,7 @@ class ClearStudentsController extends Controller
                     $checkIfStudentIdIsArray = is_Array($request->input('studentId'));
                     if($checkIfStudentIdIsArray){
                         foreach($request->input('studentId') as $student){
-                            $checkIfExists = Clearance::where('subjectId',$request->input('subjectId')->where('studentId',$student)->first());
+                            $checkIfExists = Clearance::where('subjectId',$request->input('subjectId'))->where('studentId',$student)->first();
                             if(!$checkIfExists){
                                 $cleared = new Clearance;
                                 $cleared->subjectId = $request->input('subjectId');
@@ -121,24 +120,18 @@ class ClearStudentsController extends Controller
      */
     public function show($id)
     {
-        $students = Enrollment::where('enrollments.subject_id',$id)
+        $subject = Subject::where('id',$id)->select('id','code')->first();
+        $clearances = Enrollment::where('enrollments.subject_id',$id)
                                 ->join('profiles','enrollments.profile_id','=','profiles.id')
                                 ->join('courses','profiles.course','=','courses.id')
-                                ->leftjoin('clearances','profiles.id','=','clearances.studentId')
-                                ->select('enrollments.subject_id as subject_id','profiles.school_id','profiles.id as student_id','profiles.last_name','profiles.first_name','profiles.year_level','courses.code as course','clearances.subjectId','clearances.studentId')
+                                ->leftjoin('clearances',function($join){
+                                    $join->on('clearances.subjectId','=','enrollments.subject_id')
+                                         ->on('clearances.studentId','=','enrollments.profile_id');
+                                })
+                                ->select('profiles.id','profiles.school_id','profiles.last_name','profiles.first_name','profiles.year_level','courses.code','clearances.id as clearanceId')
                                 ->get();
-        $subject = Subject::where('subjects.id',$id)
-                    ->join('options','subjects.category','=','options.id')
-                    ->join('profiles','subjects.instructor','=','profiles.id')
-                    ->join('schedules','subjects.schedule','=','schedules.id')
-                    ->select('subjects.id','subjects.code','subjects.description','subjects.url','subjects.type as subject_type','options.name as subject_category','profiles.school_id','profiles.last_name','profiles.first_name','profiles.course','schedules.location','schedules.type as room_type','schedules.day','schedules.time')
-                    ->first();
-        $cleared = Clearance::all();
-        $courses = Course::all();
-
-        // dd($subject,$students);
         
-        return view('admin.instructor-view.clearances.sections.student-roster', compact('students','subject','courses'));
+        return view('admin.instructor-view.clearances.sections.student-roster', compact('clearances','subject'));
     }
 
     /**
