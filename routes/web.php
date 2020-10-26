@@ -54,6 +54,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/print/subject-load/{id}','Instructors\InstructorSubjectsController@print')->name('subject-load.print');
     Route::resource('/dashboard/instructor-grades','Instructors\InstructorGradesController');
     Route::resource('/dashboard/instructor-clearances','Instructors\InstructorClearancesController');
+    Route::resource('/dashboard/instructor-clearances/clear-students','Instructors\ClearStudentsController');
     Route::post('/dashboard/instructor/subject/update/{id}','Subjects\SubjectsController@updateInstructorSubject')->name('instructorSubject.update');
 
     Route::resource('/dashboard/students', 'Students\StudentsController');

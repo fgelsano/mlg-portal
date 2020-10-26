@@ -175,8 +175,11 @@
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 4 ||  Auth::user()->role == 5)
       <!-- Nav Item - eClearance -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('instructor-clearances.index') }}">
+      <li class="nav-item 
+        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
+        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
+        ">
+        <a class="nav-link" href="{{ route('instructor-clearances.show', Auth::user()->profile_id) }}">
           <i class="fas fa-spell-check"></i>
           <span class="ml-2">eClearance</span></a>
       </li>
