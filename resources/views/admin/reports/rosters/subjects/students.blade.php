@@ -145,7 +145,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($students as $key => $student)
+                                        @foreach ($students->sortBy('last_name')->sortBy('gender') as $key => $student)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
                                                 <td>{{ $student->school_id }}</td>
