@@ -28,7 +28,8 @@ class DashboardController extends Controller
                         // dd($user);
             return view('auth.passwords.reset')->with('user', $user);
         }
-        return view('admin/dashboard');
+        $subject = '';
+        return view('admin/dashboard', compact('subject'));
     }
 
     public function dashboardCheck()

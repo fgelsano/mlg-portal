@@ -167,11 +167,12 @@
     @if (Auth::user()->role == 0 || Auth::user()->role == 3 ||  Auth::user()->role == 6 ||  Auth::user()->role == 7)
       <!-- Nav Item - eClearance -->
       <li class="nav-item 
-        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
+        {{ url()->current() === route('student-clearances.show', Auth::user()->profile_id) ? 'active' : 'Failed' }}
         ">
         <a class="nav-link" href="{{ route('student-clearances.show',Auth::user()->profile_id) }}">
           <i class="fas fa-spell-check"></i>
-          <span class="ml-2">eClearance</span></a>
+          <span class="ml-2">eClearance</span>
+        </a>
       </li>
     @endif
 
@@ -179,8 +180,9 @@
       <!-- Nav Item - eClearance -->
       <li class="nav-item 
         {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
-        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
-        {{-- {{ url()->current() === route('clear-students.show', $subject->id) ? 'active' : '' }} --}}
+        @if($subject)
+          {{ url()->current() === route('clear-students.show', $subject->id) ? 'active' : '' }}
+        @endif
         ">
         <a class="nav-link" href="{{ route('instructor-clearances.show', Auth::user()->profile_id) }}">
           <i class="fas fa-spell-check"></i>
