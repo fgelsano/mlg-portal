@@ -70,7 +70,7 @@
                                 </thead>
                                 <tbody>
                                     @php $count = 1; @endphp
-                                    @foreach ($clearances->sortBy('last_name')->sortBy('gender') as $key => $student)
+                                    @foreach ($clearances->sortBy('gender')->sortBy('last_name') as $key => $student)
                                         <tr>
                                             <td><input type="checkbox" name="studentId[{{ $key }}]" value="{{ $student->id }}" class="studentCheckBox"></td>
                                             <td>{{ $count }}</td>
