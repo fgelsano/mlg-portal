@@ -96,9 +96,9 @@
                         </div>
                     </div>
                 </div>
-                <p class="bg-danger text-center py-2 text-white">
+                {{-- <p class="bg-danger text-center py-2 text-white">
                     This is a system-generated report. If you need a signed version, please bring a printed copy of this report to the school registrar.
-                </p>
+                </p> --}}
             </div>
         </form>
     </div>

@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 
-                <p class="text-center bg-danger text-white py-2">This is a system generated report. Please visit the registrar's office personally if you want it signed by the registrar.</p>
+                {{-- <p class="text-center bg-danger text-white py-2">This is a system generated report. Please visit the registrar's office personally if you want it signed by the registrar.</p> --}}
                 
             </div>
         </div>
