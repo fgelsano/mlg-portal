@@ -74,6 +74,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/payments/confirmation/{id}','Payments\PaymentsController@printConfirmation')->name('confirmation.print');
 
     Route::resource('/dashboard/announcements','Announcements\AnnouncementsController');
+    Route::resource('/dashboard/tutorials', 'Tutorials\TutorialsController');
 
     Route::get('/dashboard/enrollment/settings/options/lists','Enrollment\Settings\OptionsController@lists')->name('options.lists');
     Route::get('/dashboard/settings/triggers/billings', 'Triggers\TriggersController@billings')->name('trigger.billings');

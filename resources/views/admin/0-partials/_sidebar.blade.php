@@ -239,7 +239,7 @@
     <!-- Divider -->
     @if (Auth::user()->role == 0 || Auth::user()->role == 1)
     <hr class="sidebar-divider d-none d-md-block">
-        <!-- Nav Item - Online Admission -->
+        <!-- Nav Item - Registrar Admission -->
       <li class="nav-item">
         <a class="nav-link" href="/registrar-admission" target="_blank">
           <i class="fas fa-user"></i>
@@ -257,7 +257,13 @@
       </li>
     @endif
     <hr class="sidebar-divider d-none d-md-block">
-    <!-- Nav Item - Online Admission -->
+    <!-- Nav Item - Tutorials -->
+    <li class="nav-item {{ url()->current() === route('tutorials.index') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('tutorials.index') }}">
+        <i class="fas fa-question-circle"></i>
+        <span class="ml-2">Tutorials</span></a>
+    </li>
+    <!-- Nav Item - Technical Support -->
     <li class="nav-item">
       <a class="nav-link" href="https://www.messenger.com/t/CreativeDevLabsInnovativeSolutions" target="_blank">
         <i class="fas fa-tools"></i>
