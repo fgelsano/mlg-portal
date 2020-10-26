@@ -130,7 +130,6 @@ class ClearStudentsController extends Controller
                                 })
                                 ->select('profiles.id','profiles.school_id','profiles.last_name','profiles.first_name','profiles.year_level','profiles.gender','courses.code','clearances.id as clearanceId')
                                 ->get();
-        
         return view('admin.instructor-view.clearances.sections.student-roster', compact('clearances','subject'));
     }
 
