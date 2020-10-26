@@ -166,8 +166,10 @@
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 3 ||  Auth::user()->role == 6 ||  Auth::user()->role == 7)
       <!-- Nav Item - eClearance -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('student-clearances.index') }}">
+      <li class="nav-item 
+        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
+        ">
+        <a class="nav-link" href="{{ route('student-clearances.show',Auth::user()->profile_id) }}">
           <i class="fas fa-spell-check"></i>
           <span class="ml-2">eClearance</span></a>
       </li>
@@ -175,8 +177,12 @@
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 4 ||  Auth::user()->role == 5)
       <!-- Nav Item - eClearance -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('instructor-clearances.index') }}">
+      <li class="nav-item 
+        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
+        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
+        {{-- {{ url()->current() === route('clear-students.show', $subject->id) ? 'active' : '' }} --}}
+        ">
+        <a class="nav-link" href="{{ route('instructor-clearances.show', Auth::user()->profile_id) }}">
           <i class="fas fa-spell-check"></i>
           <span class="ml-2">eClearance</span></a>
       </li>
@@ -235,7 +241,7 @@
     <!-- Divider -->
     @if (Auth::user()->role == 0 || Auth::user()->role == 1)
     <hr class="sidebar-divider d-none d-md-block">
-        <!-- Nav Item - Online Admission -->
+        <!-- Nav Item - Registrar Admission -->
       <li class="nav-item">
         <a class="nav-link" href="/registrar-admission" target="_blank">
           <i class="fas fa-user"></i>
@@ -253,7 +259,13 @@
       </li>
     @endif
     <hr class="sidebar-divider d-none d-md-block">
-    <!-- Nav Item - Online Admission -->
+    <!-- Nav Item - Tutorials -->
+    <li class="nav-item {{ url()->current() === route('tutorials.index') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('tutorials.index') }}">
+        <i class="fas fa-question-circle"></i>
+        <span class="ml-2">Tutorials</span></a>
+    </li>
+    <!-- Nav Item - Technical Support -->
     <li class="nav-item">
       <a class="nav-link" href="https://www.messenger.com/t/CreativeDevLabsInnovativeSolutions" target="_blank">
         <i class="fas fa-tools"></i>

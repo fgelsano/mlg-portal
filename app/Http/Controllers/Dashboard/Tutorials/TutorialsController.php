@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Instructors;
+namespace App\Http\Controllers\Dashboard\Tutorials;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Subject;
-use App\Models\Schedule;
-use App\Models\Profile;
-
-class InstructorClearancesController extends Controller
+class TutorialsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +14,7 @@ class InstructorClearancesController extends Controller
      */
     public function index()
     {
-        return view('admin.instructor-view.clearances.index');
+        return view('admin.tutorials.index');
     }
 
     /**
@@ -50,13 +46,7 @@ class InstructorClearancesController extends Controller
      */
     public function show($id)
     {
-        $subjects = Subject::where('instructor',$id)->get();
-        $schedules = Schedule::all();
-        $totalUnits = 0;
-        foreach($subjects as $subject){
-            $totalUnits = $totalUnits + $subject->units;
-        }
-        return view('admin.instructor-view.clearances.index',compact('subjects','schedules','totalUnits'));
+        //
     }
 
     /**

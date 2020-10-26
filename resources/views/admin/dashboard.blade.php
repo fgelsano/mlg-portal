@@ -132,7 +132,7 @@
                         </div>
                     @endif
                     @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3)
-                        <div class="card">
+                        {{-- <div class="card">
                             <div class="alert alert-success mb-0">
                                 <strong>Reminder: </strong>
                                 <p>All students must fillout the Guidance Center Student Profile Form</p>
@@ -145,25 +145,7 @@
                                 <p>All NSTP Students, please fill-out the form in the link below. Disregard if you have already fill it out previously.</p>
                                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWk3K6CoH6eVckIrK4sGAu40wKMHypZMbq_F0dioLQE2K5kQ/viewform?usp=sf_link" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
                             </div>
-                        </div>
-                        <div class="card my-3">
-                            <div class="alert alert-success mb-0">
-                                <div class="row">
-                                    <div class="col-12 col-md-6 p-3">
-                                        <h4>LMS Tutorial (Desktop Version)</h4>
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/9l_EFtIStvI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 p-3">
-                                        <h4>LMS Tutorial (Mobile Phone Version)</h4>
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/26bvXEUdEFs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> --}}
                         <div class="card my-3">
                             <div class="alert alert-primary mb-0">
                                 <i class="fas fa-tools"></i> <span class="font-weight-bold">Technical Support</span>
