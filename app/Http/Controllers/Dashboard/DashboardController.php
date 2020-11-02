@@ -25,11 +25,9 @@ class DashboardController extends Controller
                             ->join('profiles','users.profile_id','=','profiles.id')
                             ->select('profiles.id as profile_id','profiles.first_name','users.*')
                             ->first();
-                        // dd($user);
             return view('auth.passwords.reset')->with('user', $user);
         }
-        $subject = '';
-        return view('admin/dashboard', compact('subject'));
+        return view('admin/dashboard');
     }
 
     public function dashboardCheck()

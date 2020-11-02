@@ -180,7 +180,7 @@
       <!-- Nav Item - eClearance -->
       <li class="nav-item 
         {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
-        @if($subject)
+        @if(isset($subject))
           {{ url()->current() === route('clear-students.show', $subject->id) ? 'active' : '' }}
         @endif
         ">
