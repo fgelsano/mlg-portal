@@ -139,7 +139,12 @@
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 4 || Auth::user()->role == 5)
       <!-- Nav Item - Grades -->
-      <li class="nav-item">
+      <li class="nav-item
+        {{ url()->current() === route('instructor-grades.show', Auth::user()->profile_id) ? 'active' : '' }}
+        @if(isset($subject))
+          {{ url()->current() === route('instructor-grades.show', $subject->id) ? 'active' : '' }}
+        @endif
+      ">
         <a class="nav-link" href="{{ route('instructor-grades.index') }}">
           <i class="fas fa-percentage"></i>
           <span class="ml-2">Grades</span></a>

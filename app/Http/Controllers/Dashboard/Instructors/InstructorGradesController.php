@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Dashboard\Instructors;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
+
+use App\Models\Subject;
 
 class InstructorGradesController extends Controller
 {
@@ -14,7 +17,9 @@ class InstructorGradesController extends Controller
      */
     public function index()
     {
-        return view('admin.instructor-view.grades.index');
+        $subjects = Subject::where('instructor',$id)->get();
+        
+        return view('admin.instructor-view.grades.index', compact('subjects'));
     }
 
     /**
@@ -46,7 +51,7 @@ class InstructorGradesController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
