@@ -176,7 +176,7 @@
       </li>
     @endif
 
-    @if (Auth::user()->role == 0 || Auth::user()->role == 4 ||  Auth::user()->role == 5)
+    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 4 ||  Auth::user()->role == 5)
       <!-- Nav Item - eClearance -->
       <li class="nav-item 
         {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
