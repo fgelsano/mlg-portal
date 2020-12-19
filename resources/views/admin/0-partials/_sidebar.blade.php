@@ -128,10 +128,16 @@
       </li>
     @endif
 
-    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
+    @if (Auth::user()->role == 3 || Auth::user()->role == 6)
       <!-- Nav Item - Grades -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('student-grades.index') }}">
+      <li class="nav-item 
+        {{ url()->current() === route('student-grades.show', Auth::user()->profile_id) ? 'active' : '' }}
+        @if(isset($subject))
+          {{ url()->current() === route('student-grades.show', $subject->id) ? 'active' : '' }}
+          {{ url()->current() === route('student-grades.edit', $subject->id) ? 'active' : '' }}
+        @endif
+        ">
+        <a class="nav-link" href="{{ route('student-grades.show', Auth::user()->profile_id) }}">
           <i class="fas fa-percentage"></i>
           <span class="ml-2">Grades</span></a>
       </li>
@@ -143,9 +149,10 @@
         {{ url()->current() === route('instructor-grades.show', Auth::user()->profile_id) ? 'active' : '' }}
         @if(isset($subject))
           {{ url()->current() === route('instructor-grades.show', $subject->id) ? 'active' : '' }}
+          {{ url()->current() === route('instructor-grades.edit', $subject->id) ? 'active' : '' }}
         @endif
       ">
-        <a class="nav-link" href="{{ route('instructor-grades.index') }}">
+        <a class="nav-link" href="{{ route('instructor-grades.show', Auth::user()->profile_id) }}">
           <i class="fas fa-percentage"></i>
           <span class="ml-2">Grades</span></a>
       </li>

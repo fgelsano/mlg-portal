@@ -18,7 +18,7 @@ class CreateGradesTable extends Migration
             $table->integer('subjectId');
             $table->integer('profileId');
             $table->string('grade');
-            $table->integer('sy');
+            $table->integer('ay');
             $table->integer('sem');
             $table->timestamps();
         });
