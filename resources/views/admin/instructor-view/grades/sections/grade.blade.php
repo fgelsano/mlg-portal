@@ -49,43 +49,43 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 col-md-2 text-right">
+                <div class="row px-3">
+                    <div class="col-12 col-md-2">
                         <p class="m-0">100 = 1.0</p>
                         <p class="m-0">99 = 1.0</p>
                         <p class="m-0">98 = 1.1</p>
                         <p class="m-0">97 = 1.1</p>
                         <p class="m-0">96 = 1.2</p>
                     </div>
-                    <div class="col-12 col-md-1 text-right">
+                    <div class="col-12 col-md-2">
                         <p class="m-0">95 = 1.2</p>
                         <p class="m-0">94 = 1.3</p>
                         <p class="m-0">93 = 1.3</p>
                         <p class="m-0">92 = 1.4</p>
                         <p class="m-0">91 = 1.4</p>
                     </div>
-                    <div class="col-12 col-md-1 text-right">
+                    <div class="col-12 col-md-2">
                         <p class="m-0">90 = 1.5</p>
                         <p class="m-0">89 = 1.6</p>
                         <p class="m-0">88 = 1.7</p>
                         <p class="m-0">87 = 1.8</p>
                         <p class="m-0">86 = 1.9</p>
                     </div>
-                    <div class="col-12 col-md-1 text-right">
+                    <div class="col-12 col-md-2">
                         <p class="m-0">85 = 2.0</p>
                         <p class="m-0">84 = 2.1</p>
                         <p class="m-0">83 = 2.2</p>
                         <p class="m-0">82 = 2.3</p>
                         <p class="m-0">81 = 2.4</p>
                     </div>
-                    <div class="col-12 col-md-1 text-right">
+                    <div class="col-12 col-md-2">
                         <p class="m-0">80 = 2.5</p>
                         <p class="m-0">79 = 2.6</p>
                         <p class="m-0">78 = 2.7</p>
                         <p class="m-0">77 = 2.8</p>
                         <p class="m-0">76 = 2.9</p>
                     </div>
-                    <div class="col-12 col-md-5 text-right">
+                    <div class="col-12 col-md-2 text-md-right">
                         <p class="m-0">75 = 3.0</p>
                         <p class="m-0">74.99 below = 5.0</p>
                         <p class="m-0">INC = INC</p>
