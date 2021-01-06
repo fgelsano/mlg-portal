@@ -68,7 +68,7 @@ class StudentGradesController extends Controller
                             ->select('profiles.profile_pic','profiles.first_name','profiles.last_name','profiles.contact_number','profiles.gender','profiles.civil_status','profiles.religion','profiles.purok','profiles.sitio','profiles.barangay','profiles.municipality','profiles.province','profiles.zipcode','profiles.school_id','profiles.emergency_contact_name','profiles.emergency_contact_number','profiles.lrn','profiles.school_graduated','profiles.year_graduated','profiles.school_address','profiles.year_level','courses.code','courses.name')
                             ->first();
         $displayGrade = Option::where('type','display-grade')->first();
-        dd($subjects);
+        // dd($subjects);
         return view('admin.student-view.grades.index',compact('subjects','profile','displayGrade'));
     }
 
