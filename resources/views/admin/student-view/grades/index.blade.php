@@ -43,7 +43,7 @@
                                             <td>{{ $subject->code }}</td>
                                             <td>{{ $subject->description }}</td>
                                             <td>{{ $subject->first_name }} {{ $subject->last_name }}</td>
-                                            <td>{{ $subject->day }} | {{ $subject->time }} | {{ $subject->classroomType }} {{ $subject->location }}</td>
+                                            <td>{{ $subject->day }} | {{ $subject->time }} | {{ $subject->classroomType === '0' ? 'Room' : '' }} {{ $subject->classroomType === '1' ? 'Lab' : '' }} {{ $subject->classroomType === '2' ? 'Home' : '' }} {{ $subject->location }}</td>
                                             <td>
                                                 @if($subject->grade == null)
                                                     <p class="m-0 text-danger">No Grade</p>
