@@ -143,7 +143,7 @@
                             </tbody>
                         </table>
                         </form>
-                        @if(Auth::user()->role == 4 || Auth::user()->role == 5)
+                        @if(Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 1)
                             <button class="btn btn-primary btn-sm px-5" id="saveGrades"><i class="fa fa-save mr-1"></i>Save</button>
                         @endif
                     </div>
