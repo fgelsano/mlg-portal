@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Admission;
+use App\Models\Option;
 use App\Models\Profile;
 
 class ReportsController extends Controller
@@ -20,7 +21,10 @@ class ReportsController extends Controller
         $now = new \DateTime('NOW');
         $today = $now->format('m/d/Y');
         
-        $totalStudents = Admission::where('status',4)->get();
+        $upcomingAy = Option::where('type','current-ay')->select('id')->first();
+        $upcomingSem = Option::where('type','upcoming-sem')->select('id')->first();
+
+        $totalStudents = Admission::where('status',4)->where('ay',$upcomingAy->id)->where('sem',$upcomingSem->id)->get();
         $yearLevel['1'] = 0;
         $yearLevel['2'] = 0;
         $yearLevel['3'] = 0;

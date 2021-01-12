@@ -13,9 +13,13 @@ class AddDpaAgreementDateToProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->string('dpa_agreement')->after('complete_profile')->default(0);
-        });
+        $checkColumn = Schema::hasColumn('profiles','dpa_agreement');
+
+        if(!$checkColumn){
+            Schema::table('profiles', function (Blueprint $table) {
+                $table->string('dpa_agreement')->after('complete_profile')->default(0);
+            });
+        }   
     }
 
     /**

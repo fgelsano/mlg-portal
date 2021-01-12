@@ -12,7 +12,7 @@
                                 <th>First Name</th>
                                 <th>Course</th>
                                 <th>Year</th>
-                                <th>Action</th>
+                                <th width="15%">Action</th>
                             </tr>
                         </thead>
                         <tbody>

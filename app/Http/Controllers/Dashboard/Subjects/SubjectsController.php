@@ -76,8 +76,9 @@ class SubjectsController extends Controller
                 'error' => $error_array,
             ],414);
         } else {
-            
-            // create instructor
+            $upcomingAy = Option::where('type','current-ay')->select('id')->first();
+            $upcomingSem = Option::where('type','upcoming-sem')->select('id')->first();
+            // create subject
             $subject = new Subject;
             $subject->code = $request->input('code');
             $subject->description = $request->input('description');
@@ -88,6 +89,8 @@ class SubjectsController extends Controller
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
             $subject->status = 0;
+            $subject->ay = $upcomingAy->id;
+            $subject->sem = $upcomingSem->id;
             $subject->save();
 
             if(!$subject->save()){
@@ -112,18 +115,22 @@ class SubjectsController extends Controller
     public function show($id)
     {
         if(request()->ajax()){
-            $subject = Subject::where('id', $id)->first();
+            $subject = Subject::where('id', $id)
+                                ->where('ay',$this->globalAySem('ay'))
+                                ->where('sem',$this->globalAySem('sem'))->first();
             return response()->json($subject);
         }
     }
 
     public function pickedSubjects($id)
-    {
+    {        
         if(request()->ajax()){
             $subject = Subject::select('subjects.id','subjects.code','subjects.description','subjects.units','profiles.last_name','profiles.first_name','schedules.*')
                                 ->join('schedules','subjects.schedule','=','subjects.schedule')
                                 ->join('profiles','subjects.instructor','=','profiles.id')
                                 ->where('subjects.id',$id)
+                                ->where('ay',$this->globalAySem('ay'))
+                                ->where('sem',$this->globalAySem('sem'))
                                 ->get();
             return response()->json($subject);
         }
@@ -189,6 +196,8 @@ class SubjectsController extends Controller
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
             $subject->status = 0;
+            $subject->ay = $this->globalAySem('ay');
+            $subject->sem = $this->globalAySem('sem');
             $subject->save();
 
             if(!$subject->save()){
@@ -249,7 +258,11 @@ class SubjectsController extends Controller
 
     public function generateDatatables()
     {
-        return DataTables::of(Subject::latest()->get())
+        $requests = Subject::where('ay',$this->globalAySem('ay'))
+                    ->where('sem',$this->globalAySem('sem'))
+                    ->get();
+        
+        return DataTables::of($requests)
                 ->addColumn('category',function($data){
                     $categories = Option::where('type','subject-category')->get();
                     $subjectCategory = '';
@@ -319,7 +332,11 @@ class SubjectsController extends Controller
     {
         if(request()->ajax())
         {
-            return DataTables::of(Subject::latest()->get())
+            $requests = Subject::where('ay',$this->globalAySem('ay'))
+                    ->where('sem',$this->globalAySem('sem'))
+                    ->get();
+        
+            return DataTables::of($requests)
                 ->addColumn('instructor',function($data){
                     $instructors = Profile::select('id','first_name','last_name','role')
                                             ->where('role', 4)
@@ -360,11 +377,15 @@ class SubjectsController extends Controller
     public function studentRoster($id)
     {
         $students = Enrollment::where('enrollments.subject_id',$id)
+                                ->where('ay',$this->globalAySem('ay'))
+                                ->where('sem',$this->globalAySem('sem'))
                                 ->join('profiles','enrollments.profile_id','=','profiles.id')
                                 ->join('courses','profiles.course','=','courses.id')
                                 ->select('enrollments.subject_id as subject_id','profiles.school_id','profiles.id as student_id','profiles.last_name','profiles.first_name','profiles.year_level','profiles.gender','courses.code as course')
                                 ->get();
         $subject = Subject::where('subjects.id',$id)
+                    ->where('ay',$this->globalAySem('ay'))
+                    ->where('sem',$this->globalAySem('sem'))
                     ->join('options','subjects.category','=','options.id')
                     ->join('profiles','subjects.instructor','=','profiles.id')
                     ->join('schedules','subjects.schedule','=','schedules.id')

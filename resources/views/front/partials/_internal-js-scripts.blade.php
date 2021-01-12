@@ -532,7 +532,7 @@
 
                     $('#print-applicant-img').attr('src', data.success.applicant_img);
                     
-                    let initialFee = '₱ 3,000.00';
+                    let initialFee = '₱ 1,500.00';
                     if(data.success.year_level == 1){
                         initialFee = '₱ 3,500.00';
                     } 

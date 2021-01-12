@@ -120,7 +120,7 @@
                                             @if($student->grade == null)
                                                 <input type="text" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
                                             @else
-                                                <p class="m-0" id="grade-{{$student->grade_id}}">{{$student->grade}}</p>
+                                                <p id="grade-{{$student->grade_id}}" class="m-0 {{$student->grade == '5.0' ? 'text-danger' : ''}} {{$student->grade == 'INC' ? 'text-warning' : ''}} {{$student->grade == 'NG' ? 'text-primary' : ''}}">{{$student->grade}}</p>
                                                 <input type="hidden" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
                                             @endif
                                         </td>

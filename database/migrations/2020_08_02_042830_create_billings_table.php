@@ -13,13 +13,17 @@ class CreateBillingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('billings', function (Blueprint $table) {
-            $table->id();
-            $table->integer('enrollment_id');
-            $table->string('fee');
-            $table->decimal('amount',9,2);
-            $table->timestamps();
-        });
+        $checkTable = Schema::hasTable('billings');
+
+        if(!$checkTable){
+            Schema::create('billings', function (Blueprint $table) {
+                $table->id();
+                $table->integer('enrollment_id');
+                $table->string('fee');
+                $table->decimal('amount',9,2);
+                $table->timestamps();
+            });
+        }
     }
 
     /**

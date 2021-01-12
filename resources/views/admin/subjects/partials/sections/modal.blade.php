@@ -39,7 +39,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    {{-- <div class="col-12 col-md-6">
                       <div class="form-group">
                         <select name="academic-year" id="ay" class="form-control">
                         </select>
@@ -50,7 +50,7 @@
                         <select name="sem" id="sem" class="form-control">
                         </select>
                       </div>
-                    </div>
+                    </div> --}}
                     <div class="col-12 col-md-6">
                       <div class="form-group">
                         <input type="text" name="units" id="units" class="form-control" placeholder="Units">

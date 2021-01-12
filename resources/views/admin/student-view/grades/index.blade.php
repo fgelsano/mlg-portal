@@ -38,17 +38,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($subjects as $subject)
+                                    @foreach($gradesBySubject as $subject)
                                         <tr>
-                                            <td>{{ $subject->code }}</td>
-                                            <td>{{ $subject->description }}</td>
-                                            <td>{{ $subject->first_name }} {{ $subject->last_name }}</td>
-                                            <td>{{ $subject->day }} | {{ $subject->time }} | {{ $subject->classroomType === '0' ? 'Room' : '' }} {{ $subject->classroomType === '1' ? 'Lab' : '' }} {{ $subject->classroomType === '2' ? 'Home' : '' }} {{ $subject->location }}</td>
+                                            <td>{{ $subject['code'] }}</td>
+                                            <td>{{ $subject['description'] }}</td>
+                                            <td>{{ $subject['instructor_firstName'] }} {{ $subject['instructor_lastName'] }}</td>
+                                            <td>{{ $subject['day'] }} | {{ $subject['time'] }} | {{ $subject['classroomType'] === '0' ? 'Room' : '' }} {{ $subject['classroomType'] === '1' ? 'Lab' : '' }} {{ $subject['classroomType'] === '2' ? 'Home' : '' }} {{ $subject['location'] }}</td>
                                             <td>
-                                                @if($subject->grade == null)
-                                                    <p class="m-0 text-danger">No Grade</p>
+                                                @if($subject['grade'] == 'No Grade')
+                                                    <p class="m-0 text-danger">No Grade Yet</p>
                                                 @else
-                                                    <p class="m-0">{{ $subject->grade }}</p>
+                                                    <p class="m-0 {{$subject['grade'] == '5.0' ? 'text-danger' : ''}} {{$subject['grade'] == 'INC' ? 'text-warning' : ''}} {{$subject['grade'] == 'NG' ? 'text-primary' : ''}}">{{ $subject['grade'] }}</p>
                                                 @endif
                                             </td>
                                         </tr>

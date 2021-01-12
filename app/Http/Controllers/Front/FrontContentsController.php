@@ -11,6 +11,7 @@ use App\Models\Profile;
 use App\Models\Document;
 use App\Models\Course;
 use App\Models\Payment;
+use App\Models\Option;
 
 class FrontContentsController extends Controller
 {
@@ -25,9 +26,9 @@ class FrontContentsController extends Controller
      */
     public function createAdmission()
     {
-        // $courses = Course::where('id','!=','5')->get();
-        // return view('front.online-admission')->with('courses', $courses);
-        return view('front.closed-online-admission');
+        $courses = Course::where('id','!=','5')->get();
+        return view('front.online-admission')->with('courses', $courses);
+        // return view('front.closed-online-admission');
     }
 
     public function registrarAdmission()
@@ -211,23 +212,24 @@ class FrontContentsController extends Controller
                 $profile->documents()->save($documents);
             }
             
-            $checkAdmission = Admission::where('profile_id',$profile->id)->first();
-            if(empty($checkAdmission)){
-                $admission = new Admission;
-                $admission->profile_id = $profile->id;
-                $admission->academic_year = '2020-2021'; // ########### make this dynamic ########## //
-                $admission->semester = '1'; // ########### make this dynamic ########## //
-                $admission->status = '0';
-                $admission->save();
-            }
+            $admission = new Admission;
+            $admission->profile_id = $profile->id;
+            $admission->academic_year = $this->globalAySem('ay'); // ########### make this dynamic ########## //
+            $admission->semester = $this->globalAySem('sem'); // ########### make this dynamic ########## //
+            $admission->status = '0';
+            $admission->save();
 
-            $checkPayment = Payment::where('profile_id',$profile->id)->first();
+            $checkPayment = Payment::where('profile_id',$profile->id)
+                                        ->where('ay',$this->globalAySem('ay'))
+                                        ->where('sem',$this->globalAySem('sem'))
+                                        ->first();
+            $initialEnrollFee = Option::where('type','initial-enrollment-fee')->first();
             if(empty($checkPayment)){
                 $initialBalance = 0;
-                if($profile->year_level == 1){
+                if($profile->year_level == 1 && $studentType != 'old'){
                     $initialBalance = 3500.00;
                 } else {
-                    $initialBalance = 3000.00;
+                    $initialBalance = $initialEnrollFee->name;
                 }
             
                 $payment = new Payment;
@@ -238,6 +240,8 @@ class FrontContentsController extends Controller
                 $payment->or_number = 'none';
                 $payment->ref_number = 'none';
                 $payment->others = 'Enrollment fee unpaid';
+                $payment->ay = $this->globalAySem('ay');
+                $payment->sem = $this->globalAySem('sem');
                 $payment->save();
             }
 

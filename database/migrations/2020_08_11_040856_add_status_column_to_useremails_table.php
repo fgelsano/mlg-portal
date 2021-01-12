@@ -13,9 +13,13 @@ class AddStatusColumnToUseremailsTable extends Migration
      */
     public function up()
     {
-        Schema::table('useremails', function (Blueprint $table) {
-            $table->integer('status')->default('0')->after('lms_password')->comments('0 = Not Activated, 1 = Activated');
-        });
+        $checkColumn = Schema::hasColumn('useremails','status');
+
+        if(!$checkColumn){
+            Schema::table('useremails', function (Blueprint $table) {
+                $table->integer('status')->default('0')->after('lms_password')->comments('0 = Not Activated, 1 = Activated');
+            });
+        }
     }
 
     /**
