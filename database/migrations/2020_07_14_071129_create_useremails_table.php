@@ -13,14 +13,18 @@ class CreateUseremailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('useremails', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id');
-            $table->string('user_email');
-            $table->string('email_password')->default('No Data');
-            $table->string('lms_password')->default('No Data');
-            $table->timestamps();
-        });
+        $checkTable = Schema::hasTable('useremails');
+
+        if(!$checkTable){
+            Schema::create('useremails', function (Blueprint $table) {
+                $table->id();
+                $table->integer('user_id');
+                $table->string('user_email');
+                $table->string('email_password')->default('No Data');
+                $table->string('lms_password')->default('No Data');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

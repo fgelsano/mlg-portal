@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveAySemFromSubjectsTable extends Migration
+class AddAyAndSemColumnsToSubjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class RemoveAySemFromSubjectsTable extends Migration
     public function up()
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->dropColumn('academic_year');
-            $table->dropColumn('semester');
+            $table->string('ay')->after('status');
+            $table->string('sem')->after('ay');
         });
     }
 
@@ -27,8 +27,8 @@ class RemoveAySemFromSubjectsTable extends Migration
     public function down()
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->integer('academic_year')->after('type');
-            $table->integer('semester')->after('academic_year');
+            $table->dropColumn('ay');
+            $table->dropColumn('sem');
         });
     }
 }

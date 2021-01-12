@@ -50,7 +50,10 @@ class InstructorSubjectsController extends Controller
      */
     public function show($id)
     {
-        $subjects = Subject::where('instructor',$id)->get();
+        $subjects = Subject::where('instructor',$id)
+                            ->where('ay',$this->globalAySem('ay'))
+                            ->where('sem',$this->globalAySem('sem'))
+                            ->get();
         $schedules = Schedule::all();
         $totalUnits = 0;
         foreach($subjects as $subject){

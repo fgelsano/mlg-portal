@@ -9,6 +9,7 @@ use DataTables;
 use App\Models\Admission;
 use App\Models\Profile;
 use App\Models\Course;
+use App\Models\Option;
 
 class EnrolledController extends Controller
 {
@@ -95,6 +96,8 @@ class EnrolledController extends Controller
     public function generateDatatables()
     {
         $requests = Admission::where('status',4)
+                    ->where('academic_year',$this->globalAySem('ay'))
+                    ->where('semester',$this->globalAySem('sem'))
                     ->join('profiles','profiles.id','=','admissions.profile_id')
                     ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.course','admissions.id','admissions.created_at','admissions.profile_id','admissions.updated_at')
                     ->get();

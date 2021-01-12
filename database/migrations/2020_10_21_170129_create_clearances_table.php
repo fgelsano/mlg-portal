@@ -13,14 +13,18 @@ class CreateClearancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('clearances', function (Blueprint $table) {
-            $table->id();
-            $table->integer('subjectId');
-            $table->integer('studentId');
-            $table->integer('ay');
-            $table->integer('sem');
-            $table->timestamps();
-        });
+        $checkTable = Schema::hasTable('clearances');
+
+        if(!$checkTable){
+            Schema::create('clearances', function (Blueprint $table) {
+                $table->id();
+                $table->integer('subjectId');
+                $table->integer('studentId');
+                $table->integer('ay');
+                $table->integer('sem');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

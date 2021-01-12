@@ -13,15 +13,19 @@ class CreateGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('grades', function (Blueprint $table) {
-            $table->id();
-            $table->integer('subjectId');
-            $table->integer('profileId');
-            $table->string('grade');
-            $table->integer('ay');
-            $table->integer('sem');
-            $table->timestamps();
-        });
+        $checkTable = Schema::hasTable('grades');
+
+        if(!$checkTable){
+            Schema::create('grades', function (Blueprint $table) {
+                $table->id();
+                $table->integer('subjectId');
+                $table->integer('profileId');
+                $table->string('grade');
+                $table->integer('ay');
+                $table->integer('sem');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

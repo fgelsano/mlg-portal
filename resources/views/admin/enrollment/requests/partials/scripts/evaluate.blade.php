@@ -64,7 +64,11 @@
                 
                 let print_year_level = ['Year Level','First Year','Second Year','Third Year','Fourth Year'];
                 $('#year-level').text(print_year_level[data.profile.year_level]);
-                $('#lrn').text(data.profile.lrn);
+                let lrn = '';
+                if(data.profile.lrn == '0'){
+                    lrn = 'NO LEARNER\'S REFERENCE NUMBER';
+                }
+                $('#lrn').text(lrn);
                 // let trans_id = data.profile.id;
                 // let request_id = trans_id.toString();
                 // $('#request-id').text(request_id.padStart(6,'0'));
@@ -115,7 +119,7 @@
                     status = 'Accepted';
                 } else if(data.profile.status == 3){
                     status = 'Rejected: '+data.profile.comment;
-                } else {
+                } else if(data.profile.status == 4){
                     status = 'Enrolled';
                 }
                 $('#admission-status').text(status);

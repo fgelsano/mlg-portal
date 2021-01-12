@@ -10,6 +10,7 @@ use App\User;
 use App\Models\Admission;
 use App\Models\Profile;
 use App\Models\Subject;
+use App\Models\Option;
 
 class DashboardController extends Controller
 {
@@ -31,12 +32,14 @@ class DashboardController extends Controller
     }
 
     public function dashboardCheck()
-    {
-        $requests = Admission::all();
-        $enrolled = Admission::where('status',4)->get();
+    {        
+        $requests = Admission::where('academic_year',$this->globalAySem('ay'))
+                                ->where('semester',$this->globalAySem('sem'))->get();
+        
+        $enrolled = Admission::where('status',4)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
         $instructors = Profile::where('role',4)->orWhere('role',5)->get();
         $students = User::where('role',3)->get();
-        $subjects = Subject::all();
+        $subjects = Subject::where('ay',$this->globalAySem('ay'))->where('sem',$this->globalAySem('sem'))->get();
 
         return response()->json([
             'requests' => $requests->count(),
@@ -51,21 +54,27 @@ class DashboardController extends Controller
     {
         // New Admissions
         $newAdmissions = Admission::where('status',0)
-                        ->join('profiles','admissions.profile_id','=','profiles.id')
-                        ->select('last_name','first_name','profile_id','admissions.created_at')
-                        ->get();
+                                    ->where('academic_year',$this->globalAySem('ay'))
+                                    ->where('semester',$this->globalAySem('sem'))
+                                    ->join('profiles','admissions.profile_id','=','profiles.id')
+                                    ->select('last_name','first_name','profile_id','admissions.created_at')
+                                    ->get();
             
         // New For Enrollments
         $forEnrollments = Admission::where('status',2)
-                        ->join('profiles','admissions.profile_id','=','profiles.id')
-                        ->select('last_name','first_name','profile_id','admissions.updated_at')
-                        ->get();
+                                    ->where('academic_year',$this->globalAySem('ay'))
+                                    ->where('semester',$this->globalAySem('sem'))
+                                    ->join('profiles','admissions.profile_id','=','profiles.id')
+                                    ->select('last_name','first_name','profile_id','admissions.updated_at')
+                                    ->get();
 
         // Rejected Requests
         $rejectedRequests = Admission::where('status',3)
-                        ->join('profiles','admissions.profile_id','=','profiles.id')
-                        ->select('last_name','first_name','profile_id','comment','admissions.updated_at')
-                        ->get();
+                                    ->where('academic_year',$this->globalAySem('ay'))
+                                    ->where('semester',$this->globalAySem('sem'))
+                                    ->join('profiles','admissions.profile_id','=','profiles.id')
+                                    ->select('last_name','first_name','profile_id','comment','admissions.updated_at')
+                                    ->get();
 
         return response()->json([
             'newAdmissions' => $newAdmissions,

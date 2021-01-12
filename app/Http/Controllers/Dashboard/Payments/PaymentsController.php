@@ -58,10 +58,13 @@ class PaymentsController extends Controller
      */
     public function show($id)
     {
-        $student = Payment::where('profile_id',$id)
+        $student = Payment::where('payments.id',$id)
+                        // ->where('ay',$this->globalAySem('ay'))
+                        // ->where('sem',$this->globalAySem('sem'))
                         ->join('profiles','payments.profile_id','=','profiles.id')
                         ->select('profiles.school_id','profiles.first_name','profiles.last_name','profiles.middle_name','profiles.course','profiles.year_level','payments.*')
                         ->first();
+
         $courses = Course::all();
 
         $output = [
@@ -99,7 +102,7 @@ class PaymentsController extends Controller
                 'amount' => 'required',
                 'or_number' => 'required',
             ]);
-            
+            // dd($request->all(), $id);
             $error_array = array();
 
             if($validation->fails()){
@@ -110,7 +113,10 @@ class PaymentsController extends Controller
                     'error' => $error_array,
                 ],414);
             } else {
-                $payment = Payment::where('id',$request->input('payment_id'))->first();
+                $payment = Payment::where('id',$request->input('payment_id'))  
+                                    ->where('ay',$this->globalAySem('ay'))
+                                    ->where('sem',$this->globalAySem('sem'))
+                                    ->first();
 
                 $payment->type = $request->input('payment_type');
                 $payment->amount = $request->input('amount');
@@ -154,13 +160,21 @@ class PaymentsController extends Controller
 
     public function generateDatatables()
     {
-        $requests = Admission::where('status',1)   
-                                ->orWhere('status',2)
-                                ->orWhere('status',4)
-                                ->select('payments.id as paymentId','payments.balance','courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','profiles.year_level','admissions.status','admissions.created_at','admissions.profile_id','admissions.id')
+        $requests = Admission::where('academic_year',$this->globalAySem('ay'))
+                                ->where('semester',$this->globalAySem('sem'))
+                                ->where(function($query){
+                                    return $query->where('status', 1)
+                                        ->orWhere('status', 2)
+                                        ->orWhere('status', 4);
+                                })
                                 ->join('profiles','profiles.id','=','admissions.profile_id')
                                 ->join('courses','profiles.course','=','courses.id')
-                                ->join('payments','profiles.id','payments.profile_id')
+                                ->leftjoin('payments',function($join){
+                                    $join->on('payments.profile_id','=','admissions.profile_id')
+                                        ->on('payments.ay','=','admissions.academic_year')
+                                        ->on('payments.sem','=','admissions.semester');
+                                })
+                                ->select('payments.id as paymentId','payments.balance','courses.code as course','profiles.last_name','profiles.first_name','profiles.school_id','profiles.year_level','admissions.status','admissions.created_at','admissions.profile_id','admissions.id as admissionId')
                                 ->get();
         // dd($requests->all());
         return DataTables::of($requests)
@@ -213,10 +227,10 @@ class PaymentsController extends Controller
                     if($data->status == 1){
                         $print = 'd-none';
                     }
-                    $actionButtons = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm makePayment btn-primary">
+                    $actionButtons = '<a href="" data-id="'.$data->paymentId.'" class="btn btn-sm makePayment btn-primary">
                                         <i class="fas fa-money-bill-alt"></i> Payment
                                       </a>
-                                      <a href="" data-id="'.$data->id.'" data-balance="'.$data->balance.'" class="btn btn-sm btn-success '.$display.'acceptAdmission '.$display.'">
+                                      <a href="" data-id="'.$data->paymentId.'" data-balance="'.$data->balance.'" class="btn btn-sm btn-success '.$display.'acceptAdmission '.$display.'">
                                         <i class="fas fa-user-check"></i> Accept
                                       </a>
                                       <a href="" data-admission-id="'.$data->id.'" class="btn btn-sm btn-info showBill '.$bill.'">

@@ -9,6 +9,8 @@ use DataTables;
 use App\Models\Admission;
 use App\Models\Profile;
 use App\Models\Course;
+use App\Models\Option;
+use App\Models\Payment;
 
 class AdmissionRequestsController extends Controller
 {
@@ -57,6 +59,8 @@ class AdmissionRequestsController extends Controller
     {
         if(request()->ajax()){
             $profile = Profile::where('profiles.id',$id)
+                                ->where('academic_year',$this->globalAySem('ay'))
+                                ->where('semester',$this->globalAySem('sem'))
                                 ->join('admissions','profiles.id','=','admissions.profile_id')
                                 ->select('profiles.*','admissions.status','admissions.comment')
                                 ->with('documents')
@@ -93,12 +97,20 @@ class AdmissionRequestsController extends Controller
     {
         if(request()->ajax()){
             
-            $admission = Admission::where('profile_id',$id)->first();
+            $payment = Payment::where('id',$id)->first();
+
+            $admission = Admission::where('profile_id',$payment->profile_id)
+                                    ->where('academic_year',$this->globalAySem('ay'))
+                                    ->where('semester',$this->globalAySem('sem'))
+                                    ->first();
 
             if($request->requestType == 'CashierAccepted'){
-                $admission = Admission::where('id',$id)->first();
+                $admission = Admission::where('profile_id',$payment->profile_id)
+                                        ->where('academic_year',$this->globalAySem('ay'))
+                                        ->where('semester',$this->globalAySem('sem'))
+                                        ->first();
             } 
-
+            // dd($id,$admission,$request->all());
             if($request->requestType == 'markAccept'){
                 $admission->status = 1;
             } else if($request->requestType == 'CashierAccepted'){
@@ -136,11 +148,9 @@ class AdmissionRequestsController extends Controller
 
     public function generateDatatables()
     {
-        // $requests = Admission::where('status','!=',1)
-        //                         ->join('profiles','profiles.id','=','admissions.profile_id')
-        //                         ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
-        //                         ->get();
-        $requests = Admission::where('status',0)
+        $requests = Admission::where('admissions.status',0)
+                    ->where('admissions.academic_year',$this->globalAySem('ay'))
+                    ->where('admissions.semester',$this->globalAySem('sem'))
                     ->join('profiles','profiles.id','=','admissions.profile_id')
                     ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();

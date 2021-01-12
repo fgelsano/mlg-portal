@@ -23,9 +23,9 @@
         <span class="ml-2">Profile</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-    @if (Auth::user()->role == 1 || Auth::user()->role == 0)
+    @if (Auth::user()->role == 1 || Auth::user()->role == 0 || Auth::user()->role == 7)
+        <!-- Divider -->
+        <hr class="sidebar-divider">
         <!-- Heading -->
         <div class="sidebar-heading">
           Registrar Menus
@@ -78,27 +78,37 @@
             <i class="fas fa-book"></i>
             <span class="ml-2">Subjects</span></a>
         </li>
-    @endif
 
-    @if (Auth::user()->role == 1 || Auth::user()->role == 0 || Auth::user()->role == 7)
-      <!-- Nav Item - Instructors -->
-      <li class="nav-item
-        {{ url()->current() === route('instructors.index') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('instructors.index') }}">
-          <i class="fas fa-chalkboard-teacher"></i>
-          <span class="ml-2">Instructors</span></a>
-      </li>
-
-        <!-- Nav Item - Students -->
+        <!-- Nav Item - Instructors -->
         <li class="nav-item
-        {{ url()->current() === route('students.index') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('students.index') }}">
-          <i class="fas fa-user-graduate"></i>
-          <span class="ml-2">Students</span></a>
-      </li>
+          {{ url()->current() === route('instructors.index') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('instructors.index') }}">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span class="ml-2">Instructors</span></a>
+        </li>
+
+          <!-- Nav Item - Students -->
+        <li class="nav-item
+          {{ url()->current() === route('students.index') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('students.index') }}">
+            <i class="fas fa-user-graduate"></i>
+            <span class="ml-2">Students</span></a>
+        </li>
+
+        <!-- Nav Item - Registrar Admission -->
+        <li class="nav-item">
+          <a class="nav-link" href="/registrar-admission" target="_blank">
+            <i class="fas fa-user"></i>
+            <span class="ml-2">Registrar Admission</span></a>
+        </li>
     @endif
     
     @if (Auth::user()->role == 0 || Auth::user()->role == 2 || Auth::user()->role == 7)
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        Cashier Menus
+      </div>
         <!-- Nav Item - Payments -->
         <li class="nav-item
         {{ url()->current() === route('payments.index') ? 'active' : '' }}">
@@ -106,9 +116,21 @@
           <i class="fas fa-money-bill-alt"></i>
           <span class="ml-2">Payments</span></a>
       </li>
+
+      <!-- Nav Item - eClearance -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('cashier-clearances.show',Auth::user()->profile_id) }}">
+          <i class="fas fa-spell-check"></i>
+          <span class="ml-2">eClearance</span></a>
+      </li>
     @endif
 
     @if (Auth::user()->role == 0 || Auth::user()->role == 3 || Auth::user()->role == 6)
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        Student Menus
+      </div>
       <!-- Nav Item - Subjects -->
       <li class="nav-item
         {{ url()->current() === route('student-subjects.show',Auth::user()->profile_id) ? 'active' : '' }}">
@@ -116,8 +138,43 @@
           <i class="fas fa-book"></i>
           <span class="ml-2">Subjects & Schedules</span></a>
       </li>
+
+      <!-- Nav Item - eClearance -->
+      <li class="nav-item 
+        {{ url()->current() === route('student-clearances.show', Auth::user()->profile_id) ? 'active' : 'Failed' }}
+        ">
+        <a class="nav-link" href="{{ route('student-clearances.show',Auth::user()->profile_id) }}">
+          <i class="fas fa-spell-check"></i>
+          <span class="ml-2">eClearance</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Grades -->
+      <li class="nav-item 
+        {{ url()->current() === route('student-grades.show', Auth::user()->profile_id) ? 'active' : '' }}
+        @if(isset($subject))
+          {{ url()->current() === route('student-grades.show', $subject['id']) ? 'active' : '' }}
+          {{ url()->current() === route('student-grades.edit', $subject['id']) ? 'active' : '' }}
+        @endif
+        ">
+        <a class="nav-link" href="{{ route('student-grades.show', Auth::user()->profile_id) }}">
+          <i class="fas fa-percentage"></i>
+          <span class="ml-2">Grades</span></a>
+      </li>
+
+      <!-- Nav Item - Billing -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('student-billings.show', Auth::user()->profile_id) }}">
+          <i class="fas fa-money-bill-alt"></i>
+          <span class="ml-2">Billing</span></a>
+      </li>
     @endif
 
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+      Instructor Menus
+    </div>
     @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 7)
       <!-- Nav Item - Subject Loads -->
       <li class="nav-item
@@ -126,24 +183,19 @@
           <i class="fas fa-book"></i>
           <span class="ml-2">Subject Loads</span></a>
       </li>
-    @endif
 
-    @if (Auth::user()->role == 3 || Auth::user()->role == 6)
-      <!-- Nav Item - Grades -->
+      <!-- Nav Item - eClearance -->
       <li class="nav-item 
-        {{ url()->current() === route('student-grades.show', Auth::user()->profile_id) ? 'active' : '' }}
+        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
         @if(isset($subject))
-          {{ url()->current() === route('student-grades.show', $subject->id) ? 'active' : '' }}
-          {{ url()->current() === route('student-grades.edit', $subject->id) ? 'active' : '' }}
+          {{ url()->current() === route('clear-students.show', $subject->id) ? 'active' : '' }}
         @endif
         ">
-        <a class="nav-link" href="{{ route('student-grades.show', Auth::user()->profile_id) }}">
-          <i class="fas fa-percentage"></i>
-          <span class="ml-2">Grades</span></a>
+        <a class="nav-link" href="{{ route('instructor-clearances.show', Auth::user()->profile_id) }}">
+          <i class="fas fa-spell-check"></i>
+          <span class="ml-2">eClearance</span></a>
       </li>
-    @endif
 
-    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 4 || Auth::user()->role == 5)
       <!-- Nav Item - Grades -->
       <li class="nav-item
         {{ url()->current() === route('instructor-grades.show', Auth::user()->profile_id) ? 'active' : '' }}
@@ -158,15 +210,6 @@
       </li>
     @endif
 
-    @if (Auth::user()->role == 0 || Auth::user()->role == 3 || Auth::user()->role == 6 || Auth::user()->role == 7)
-      <!-- Nav Item - Billing -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('student-billings.show', Auth::user()->profile_id) }}">
-          <i class="fas fa-money-bill-alt"></i>
-          <span class="ml-2">Billing</span></a>
-      </li>
-    @endif
-
     @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 7)
       <!-- Nav Item - Announcements -->
       <li class="nav-item">
@@ -175,43 +218,10 @@
           <span class="ml-2">Announcements</span></a>
       </li>
     @endif
-
-    @if (Auth::user()->role == 0 || Auth::user()->role == 3 ||  Auth::user()->role == 6 ||  Auth::user()->role == 7)
-      <!-- Nav Item - eClearance -->
-      <li class="nav-item 
-        {{ url()->current() === route('student-clearances.show', Auth::user()->profile_id) ? 'active' : 'Failed' }}
-        ">
-        <a class="nav-link" href="{{ route('student-clearances.show',Auth::user()->profile_id) }}">
-          <i class="fas fa-spell-check"></i>
-          <span class="ml-2">eClearance</span>
-        </a>
-      </li>
-    @endif
-
-    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 4 ||  Auth::user()->role == 5)
-      <!-- Nav Item - eClearance -->
-      <li class="nav-item 
-        {{ url()->current() === route('instructor-clearances.show', Auth::user()->profile_id) ? 'active' : '' }}
-        @if(isset($subject))
-          {{ url()->current() === route('clear-students.show', $subject->id) ? 'active' : '' }}
-        @endif
-        ">
-        <a class="nav-link" href="{{ route('instructor-clearances.show', Auth::user()->profile_id) }}">
-          <i class="fas fa-spell-check"></i>
-          <span class="ml-2">eClearance</span></a>
-      </li>
-    @endif
-
-    @if (Auth::user()->role == 2)
-      <!-- Nav Item - eClearance -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('cashier-clearances.show',Auth::user()->profile_id) }}">
-          <i class="fas fa-spell-check"></i>
-          <span class="ml-2">eClearance</span></a>
-      </li>
-    @endif
     
     @if(Auth::user()->role == 0)
+      <!-- Divider -->
+      <hr class="sidebar-divider">
       <!-- Heading -->
       <div class="sidebar-heading">
         Admin Menus
@@ -241,30 +251,10 @@
           <span class="ml-2">Options</span></a>
       </li>
     @endif
-
-    @if (!Auth::user()->role == 6)
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-      <!-- Nav Item - Web Mail -->
-      <li class="nav-item">
-        <a class="nav-link" href="">
-          <i class="fas fa-envelope"></i>
-          <span class="ml-2">Web Mail</span></a>
-      </li>        
-    @endif
-    <!-- Divider -->
-    @if (Auth::user()->role == 0 || Auth::user()->role == 1)
-    <hr class="sidebar-divider d-none d-md-block">
-        <!-- Nav Item - Registrar Admission -->
-      <li class="nav-item">
-        <a class="nav-link" href="/registrar-admission" target="_blank">
-          <i class="fas fa-user"></i>
-          <span class="ml-2">Registrar Admission</span></a>
-      </li>
-    @endif
+    
     <!-- Divider -->
     @if (Auth::user()->role == 0)
-    <hr class="sidebar-divider d-none d-md-block">
+      <hr class="sidebar-divider d-none d-md-block">
         <!-- Nav Item - Online Admission -->
       <li class="nav-item">
         <a class="nav-link" href="/online-admission" target="_blank">
@@ -272,7 +262,20 @@
           <span class="ml-2">Online Admission</span></a>
       </li>
     @endif
+
+    <!-- Nav Item - Web Mail -->
+    <li class="nav-item">
+      <a class="nav-link" href="" target="_blank">
+        <i class="fas fa-envelope"></i>
+        <span class="ml-2">Web Mail</span></a>
+    </li>    
+
+    <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Support
+    </div>
     <!-- Nav Item - Tutorials -->
     <li class="nav-item {{ url()->current() === route('tutorials.index') ? 'active' : '' }}">
       <a class="nav-link" href="{{ route('tutorials.index') }}">

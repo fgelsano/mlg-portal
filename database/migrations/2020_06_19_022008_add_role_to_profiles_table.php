@@ -13,9 +13,13 @@ class AddRoleToProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->integer('role')->after('complete_profile');
-        });
+        $checkColumn = Schema::hasColumn('profiles','role');
+
+        if(!$checkColumn){
+            Schema::table('profiles', function (Blueprint $table) {
+                $table->integer('role')->after('complete_profile');
+            });
+        }
     }
 
     /**

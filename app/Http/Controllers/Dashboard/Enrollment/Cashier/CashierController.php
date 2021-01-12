@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Admission;
+use App\Models\Option;
 use DataTables;
 
 class CashierController extends Controller
@@ -22,6 +23,8 @@ class CashierController extends Controller
     public function generateDatatables()
     {
         $requests = Admission::where('status',1)
+                                ->where('academic_year',$this->globalAySem('ay'))
+                                ->where('semester',$this->globalAySem('sem'))
                                 ->join('profiles','profiles.id','=','admissions.profile_id')
                                 ->select('profiles.last_name','profiles.first_name','profiles.school_graduated','profiles.year_level','admissions.id','admissions.created_at','admissions.profile_id')
                                 ->get();
