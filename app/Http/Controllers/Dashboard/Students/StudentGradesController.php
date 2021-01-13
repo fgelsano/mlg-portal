@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Students;
 
 use App\Http\Controllers\Controller;
+use App\Models\Clearance;
 use App\Models\Enrollment;
 use App\Models\Grade;
 use Illuminate\Http\Request;
@@ -98,7 +99,12 @@ class StudentGradesController extends Controller
             $subjectDetails = Subject::where('id',$subject->subject_id)
                                 ->select('id','code','description')
                                 ->first();
-            
+
+            $clearance = Clearance::where('studentId',$id)
+                                    ->where('subjectId',$subject->subject_id)
+                                    ->select('id')
+                                    ->first();
+
             $grade = Grade::where('profileId',$id)
                             ->where('subjectId',$subject->subject_id)
                             ->first();
@@ -106,9 +112,11 @@ class StudentGradesController extends Controller
             array_push($givenGrade,[
                 'code' => $subjectDetails->code,
                 'description' => $subjectDetails->description,
+                'clearance' => $clearance == null ? 'Not Cleared' : $clearance->id,
                 'grade' => $grade == null ? 'No Grade Yet' : $grade->grade
-                ]);
+            ]);
         }
+        // dd($givenGrade);
         $profile = Profile::where('id',$id)->first();
         // dd($grades);
         return view('admin.students.viewGrades.index',compact('givenGrade','profile'));

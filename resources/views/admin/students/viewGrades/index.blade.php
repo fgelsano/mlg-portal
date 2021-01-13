@@ -240,6 +240,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Code</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Clearance</th>
                             <th scope="col">Grade</th>
                         </tr>
                     </thead>
@@ -250,6 +251,13 @@
                                 <td>{{ $count }}</td>
                                 <td>{{ $grade['code'] }}</td>
                                 <td>{{ $grade['description'] }}</td>
+                                <td>
+                                    @if($grade['clearance'] == 'Not Cleared')
+                                        <span class="badge badge-danger">Not Cleared</span>
+                                    @else
+                                        <span class="badge badge-success">Cleared</span>
+                                    @endif
+                                </td>
                                 <td class="
                                     {{ $grade['grade'] == 'No Grade Yet' ? 'bg-warning text-white' : 'bg-success text-white'}}
                                     {{ $grade['grade'] == '5.0' ? 'bg-danger text-white' : 'bg-success text-white'}}
