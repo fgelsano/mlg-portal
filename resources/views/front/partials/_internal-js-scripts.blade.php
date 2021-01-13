@@ -95,7 +95,7 @@
                             '<input id="lastName" class="form-control my-3" placeholder="Last Name">' +
                             '<input id="firstName" class="form-control my-3" placeholder="First Name">',
                         inputAttributes: {
-                            autocapitalize: 'off'
+                            autocapitalize: 'on'
                         },
                         showCancelButton: true,
                         confirmButtonText: 'Look up',
@@ -275,10 +275,37 @@
                                     
                                 },
                                 error: function(error){
-                                    Swal.fire({
-                                        title: error.responseJSON.error,
-                                        icon: 'error'
+                                    $.each(error.responseJSON,function(key,value){
+                                        if(key === 'noGrade' || key === 'notCleared'){
+                                            let notClearedSubject = '<div class="not-cleared"><p class="bg-warning text-white text-left p-2 mb-0">Not Cleared Subjects:</p>';
+                                            let noGradeSubject = '<div class="not-cleared"><p class="bg-danger text-white text-left p-2 mb-0">No Grades Yet:</p>';
+                                            console.log(notClearedSubject);
+                                            $.each(error.responseJSON.notCleared,function(key,value){
+                                                $.each(value,function(key,value){
+                                                    notClearedSubject += '<li class="m-0 text-left">'+key+' ('+value+')</li>';
+                                                })
+                                            })
+                                            $.each(error.responseJSON.noGrade,function(key,value){
+                                                $.each(value,function(key,value){
+                                                    noGradeSubject += '<li class="m-0 text-left">'+key+' ('+value+')</li>';
+                                                })
+                                            })
+                                            console.log(notClearedSubject);
+                                            Swal.fire({
+                                                title: 'We Encountered Issues',
+                                                icon: 'error',
+                                                backdrop: 'rgba(255,0,0,0.3)',
+                                                html: notClearedSubject + '</div>' + noGradeSubject + '</div>',
+                                                footer: '<p class="text-danger">Please coordinate with your instructor to resolve the issues.</p>'
+                                            })
+                                        } else {
+                                            Swal.fire({
+                                                title: error.responseJSON,
+                                                icon: 'error'
+                                            })
+                                        }
                                     })
+                                    
                                 }
                         })
                     },
