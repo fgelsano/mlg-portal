@@ -92,7 +92,7 @@ class InstructorGradesController extends Controller
         $subject = Subject::where('subjects.id',$id)
                             ->join('schedules','subjects.schedule','=','schedules.id')
                             ->leftjoin('options','schedules.ay','=','options.id')
-                            ->select('subjects.id','code','description','units','subjects.type','options.name as ay','sem','location','day','time')
+                            ->select('subjects.id','code','description','units','subjects.type','options.name as ay','subjects.sem','location','day','time')
                             ->first();
         $students = Subject::where('subjects.id',$id)
                             ->join('enrollments','subjects.id','=','subject_id')
