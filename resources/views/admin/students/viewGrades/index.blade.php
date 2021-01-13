@@ -259,9 +259,9 @@
                                     @endif
                                 </td>
                                 <td class="
-                                    {{ $grade['grade'] == 'No Grade Yet' ? 'bg-warning text-white' : 'bg-success text-white'}}
-                                    {{ $grade['grade'] == '5.0' ? 'bg-danger text-white' : 'bg-success text-white'}}
-                                    {{ $grade['grade'] == 'NG' ? 'bg-info text-white' : 'bg-success text-white'}}
+                                    {{ $grade['grade'] == 'No Grade Yet' ? 'font-weight-bold text-warning' : 'font-weight-bold text-success'}}
+                                    {{ $grade['grade'] == '5.0' ? 'font-weight-bold text-danger' : 'font-weight-bold text-success'}}
+                                    {{ $grade['grade'] == 'NG' ? 'font-weight-bold text-info' : 'font-weight-bold text-success'}}
                                 ">
                                     {{ $grade['grade'] }}
                                 </td>
@@ -271,8 +271,23 @@
                     </tbody>
                 </table>
             </div>
+            <p class="text-center bg-danger text-white p-2">This is a system generated report. If you need a signed version of this report. Please bring a printed out copy of this report to the registrar's office for signing.</p>
         </div>
-
+        <div class="row mt-5">
+            <div class="col-12 col-md-4">
+                <h5>Approved by:</h5>
+                {{-- <img src="{{ asset('admin/img/registrar-signature-no-bg.png') }}" alt="Registrar's Signature" width="50%" id="registrarSignature"> --}}
+                <h5 class="mb-0 mt-5 text-uppercase font-weight-bold border-bottom">Emma Roa Wagas, MBA</h5>
+                <p class="m-0">School Registrar</p>
+            </div>
+        </div>
+        <div class="row my-5 no-print">
+            <div class="col-12 col-md-2">
+                <button id="printCOR" class="btn btn-warning btn-block">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+        </div>
     </div>
     <!-- /.container-fluid -->
 
