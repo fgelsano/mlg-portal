@@ -296,7 +296,7 @@
                                                 icon: 'error',
                                                 backdrop: 'rgba(255,0,0,0.3)',
                                                 html: notClearedSubject + '</div>' + noGradeSubject + '</div>',
-                                                footer: '<p class="text-danger">Please coordinate with your instructor to resolve the issues.</p>'
+                                                footer: '<p class="text-danger">Please coordinate with your instructors to resolve the issues.</p>'
                                             })
                                         } else {
                                             Swal.fire({

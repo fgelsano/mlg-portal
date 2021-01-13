@@ -62,6 +62,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/student-grades','Students\StudentGradesController');
     Route::resource('/dashboard/student-billings','Students\StudentBillingsController');
     Route::resource('/dashboard/student-clearances','Students\StudentClearancesController');
+    Route::get('/dashboard/student/grades/{id}','Students\StudentGradesController@viewGrades');
 
     Route::get('/dashboard/subjects/enroll-subjects', 'Subjects\SubjectsController@enrollSubjects')->name('enroll-subjects.list');
     Route::get('/dashboard/subjects/pick-subjects/{id}', 'Subjects\SubjectsController@pickedSubjects')->name('subjects.pick');
