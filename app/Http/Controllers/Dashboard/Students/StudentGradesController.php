@@ -90,6 +90,30 @@ class StudentGradesController extends Controller
         return view('admin.student-view.grades.index',compact('gradesBySubject','profile','displayGrade'));
     }
 
+    public function viewGrades($id)
+    {
+        $enrollment = Enrollment::where('profile_id',$id)->select('subject_id')->get();
+        $givenGrade = [];
+        foreach($enrollment as $subject){
+            $subjectDetails = Subject::where('id',$subject->subject_id)
+                                ->select('id','code','description')
+                                ->first();
+            
+            $grade = Grade::where('profileId',$id)
+                            ->where('subjectId',$subject->subject_id)
+                            ->first();
+                            
+            array_push($givenGrade,[
+                'code' => $subjectDetails->code,
+                'description' => $subjectDetails->description,
+                'grade' => $grade == null ? 'No Grade Yet' : $grade->grade
+                ]);
+        }
+        $profile = Profile::where('id',$id)->first();
+        // dd($grades);
+        return view('admin.students.viewGrades.index',compact('givenGrade','profile'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

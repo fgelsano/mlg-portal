@@ -319,21 +319,13 @@ class FrontContentsController extends Controller
         if($searchId){
             $oldStudent = Profile::where('profiles.school_id', $fname)->first();
             if($oldStudent){
-                // $clearance = Clearance::where('studentId',$oldStudent->id)->get();
-                // $grade = Grade::where('profileId',$oldStudent->id)->get();
                 $enrollment = Enrollment::where('profile_id',$oldStudent->id)->get();
-                // dd($clearance, $grade, $enrollment);
             }
-            // dd('SearchId ', $oldStudent);
         } else {
             $oldStudent = Profile::where('last_name',$lname)->where('first_name',$fname)->first();
             if($oldStudent){
-                // $clearance = Clearance::where('studentId',$oldStudent->id)->select('subjectId')->get();
-                // $grade = Grade::where('profileId',$oldStudent->id)->select('subjectId','grade')->get();
                 $enrollment = Enrollment::where('profile_id',$oldStudent->id)->select('subject_id')->get();
-                // dd($oldStudent->id,$clearance->all(), $grade->all(), $enrollment->all());
             }
-            // dd('SearchName ', $oldStudent);
         }
         
         if($oldStudent == null){

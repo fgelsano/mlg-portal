@@ -97,27 +97,29 @@ class StudentsController extends Controller
 
     public function generateDatatables()
     {
-        $requests = Admission::where('status',4)->with('profile')
-                                ->get();
-                                // dd($requests->all());
+        $requests = Profile::where('profiles.role',3)
+                            // ->join('courses','profiles.course','=','courses.id')
+                            // ->select('school_id','last_name','first_name','course','year_level')
+                            ->get();
+        // dd($requests);
         return DataTables::of($requests)
                 ->addColumn('school_id', function($data){
-                    $id = $data->profile->school_id;
+                    $id = $data->school_id;
                     return $id;
                 })
                 ->addColumn('last_name', function($data){
-                    $lastName = $data->profile->last_name;
+                    $lastName = $data->last_name;
                     return $lastName;
                 })
                 ->addColumn('first_name', function($data){
-                    $firstName = $data->profile->first_name;
+                    $firstName = $data->first_name;
                     return $firstName;
                 })
                 ->addColumn('course', function($data){
                     $courses = Course::all();
                     $studentCourse = '';
                     foreach($courses as $course){
-                        if($course->id == $data->profile->course){
+                        if($course->id == $data->course){
                             $studentCourse = $course->name;
                         }
                     }
@@ -125,12 +127,13 @@ class StudentsController extends Controller
                 })
                 ->addColumn('year_level', function($data){
                     $yearLevels = ['Year','1st Year','2nd Year','3rd Year','4th Year'];
-                    $year = $yearLevels[$data->profile->year_level];
+                    $year = $yearLevels[$data->year_level];
                     return $year;
                 })
                 ->addColumn('action', function($data){
-                    $actionButtons = '<button class="btn btn-primary btn-sm viewProfile" target="_blank" title="View Profile" data-id="'.$data->profile->id.'" data-toggle="modal" data-target="#profile-modal"><i class="fas fa-eye"></i></button>
-                                        <a href="/dashboard/cor/print/'.$data->profile->id.'" class="btn btn-warning btn-sm viewCOR" target="_blank" title="View COR"><i class="fas fa-scroll"></i></a><a href="" class="btn btn-success btn-sm ml-1" target="_blank" title="View Grades" data-id="'.$data->profile->id.'"><i class="fas fa-percentage"></i></a>';
+                    $actionButtons = '<button class="btn btn-primary btn-sm viewProfile" target="_blank" title="View Profile" data-id="'.$data->id.'" data-toggle="modal" data-target="#profile-modal"><i class="fas fa-eye"></i></button>
+                                        <a href="/dashboard/cor/print/'.$data->id.'" class="btn btn-warning btn-sm viewCOR" target="_blank" title="View COR"><i class="fas fa-scroll"></i></a>
+                                        <a href="/dashboard/student/grades/'.$data->id.'" class="btn btn-success btn-sm ml-1" target="_blank" title="View Grades" data-id="'.$data->id.'"><i class="fas fa-percentage"></i></a>';
                     return $actionButtons;
                 })
                 ->rawColumns(['action','school_id','last_name','first_name','course','year_level'])

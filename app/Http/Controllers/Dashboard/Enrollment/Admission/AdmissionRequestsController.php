@@ -154,6 +154,7 @@ class AdmissionRequestsController extends Controller
                     ->join('profiles','profiles.id','=','admissions.profile_id')
                     ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();
+
         return DataTables::of($requests)
                 ->addColumn('year_level', function($data){
                     $year = '';
