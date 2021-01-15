@@ -88,7 +88,21 @@ class FrontContentsController extends Controller
                 'errors' => $validation->getMessageBag()->toArray()
             ],414);
         } else {
-            // file upload
+
+            $profile = Profile::where('last_name',$request->input('last-name'))
+                                ->where('first_name',$request->input('first-name'))
+                                ->select('id')
+                                ->first();
+            $checkIfAdmissionExists = Admission::where('profile_id',$profile->id)
+                                                ->where('academic_year',$this->globalAySem('ay'))
+                                                ->where('semester',$this->globalAySem('sem'))
+                                                ->first();
+            if($checkIfAdmissionExists){
+                return response()->json([
+                    'error' => 'Admission request already exists!',
+                ], 400);
+            } else {
+                // file upload
             $now = new \DateTime('NOW');
             $date = $now->format('m-d-Y_H.i.s');
 
@@ -177,115 +191,117 @@ class FrontContentsController extends Controller
                 $profile = new Profile;
                 $profile->school_id               = 'No Data';
             }
-            $profile->profile_pic             = $applicant_img;
-            $profile->first_name              = $request->input('first-name');
-            $profile->middle_name             = $request->input('middle-name');
-            $profile->last_name               = $request->input('last-name');
-            $profile->gender                  = $request->input('gender');
-            $profile->contact_number          = $request->input('contact-number');
-            $profile->civil_status            = $request->input('civil-status');
-            $profile->religion                = $request->input('religion');
-            $profile->purok                   = $request->input('purok');
-            $profile->sitio                   = $request->input('sitio');
-            $profile->barangay                = $request->input('street-barangay');
-            $profile->municipality            = $request->input('municipality');
-            $profile->province                = $request->input('province');
-            $profile->zipcode                 = $request->input('zip-code');
-            $profile->emergency_contact_name  = $request->input('parent-guardian-name');
-            $profile->emergency_contact_number= $request->input('parent-guardian-contact');
-            $profile->school_graduated        = $request->input('school-graduated');
-            $profile->school_address          = $request->input('school-address');
-            $profile->year_graduated          = $request->input('year-graduated');
-            $profile->lrn                     = $request->input('lrn');
-            $profile->course                  = $request->input('course');
-            $profile->year_level              = $request->input('year-level');
-            $profile->complete_profile        = 1;
-            $profile->dpa_agreement           = $request->input('dpa-agreement-date');
-            $profile->role                    = 3;
-            $profile->save();
+                $profile->profile_pic             = $applicant_img;
+                $profile->first_name              = $request->input('first-name');
+                $profile->middle_name             = $request->input('middle-name');
+                $profile->last_name               = $request->input('last-name');
+                $profile->gender                  = $request->input('gender');
+                $profile->contact_number          = $request->input('contact-number');
+                $profile->civil_status            = $request->input('civil-status');
+                $profile->religion                = $request->input('religion');
+                $profile->purok                   = $request->input('purok');
+                $profile->sitio                   = $request->input('sitio');
+                $profile->barangay                = $request->input('street-barangay');
+                $profile->municipality            = $request->input('municipality');
+                $profile->province                = $request->input('province');
+                $profile->zipcode                 = $request->input('zip-code');
+                $profile->emergency_contact_name  = $request->input('parent-guardian-name');
+                $profile->emergency_contact_number= $request->input('parent-guardian-contact');
+                $profile->school_graduated        = $request->input('school-graduated');
+                $profile->school_address          = $request->input('school-address');
+                $profile->year_graduated          = $request->input('year-graduated');
+                $profile->lrn                     = $request->input('lrn');
+                $profile->course                  = $request->input('course');
+                $profile->year_level              = $request->input('year-level');
+                $profile->complete_profile        = 1;
+                $profile->dpa_agreement           = $request->input('dpa-agreement-date');
+                $profile->role                    = 3;
+                $profile->save();
 
-            $checkDocs = Document::where('profile_id',$profile->id)->first();
-            if(empty($checkDocs)){
-                $documents = new Document;
-                $documents->report_card_front = $sf9_front;
-                $documents->report_card_back = $sf9_back;
-                $documents->good_moral = $gmc;
-                $documents->psa_birth_cert = $psa_bc;
-                $documents->med_cert = $med_cert;
-                $documents->honorable_dismissal = $hd;
-                $profile->documents()->save($documents);
-            }
-            
-            $admission = new Admission;
-            $admission->profile_id = $profile->id;
-            $admission->academic_year = $this->globalAySem('ay'); // ########### make this dynamic ########## //
-            $admission->semester = $this->globalAySem('sem'); // ########### make this dynamic ########## //
-            $admission->status = '0';
-            $admission->save();
-
-            $checkPayment = Payment::where('profile_id',$profile->id)
-                                        ->where('ay',$this->globalAySem('ay'))
-                                        ->where('sem',$this->globalAySem('sem'))
-                                        ->first();
-            $initialEnrollFee = Option::where('type','initial-enrollment-fee')->first();
-            if(empty($checkPayment)){
-                $initialBalance = 0;
-                if($profile->year_level == 1 && $studentType != 'old'){
-                    $initialBalance = 3500.00;
-                } else {
-                    $initialBalance = $initialEnrollFee->name;
+                $checkDocs = Document::where('profile_id',$profile->id)->first();
+                if(empty($checkDocs)){
+                    $documents = new Document;
+                    $documents->report_card_front = $sf9_front;
+                    $documents->report_card_back = $sf9_back;
+                    $documents->good_moral = $gmc;
+                    $documents->psa_birth_cert = $psa_bc;
+                    $documents->med_cert = $med_cert;
+                    $documents->honorable_dismissal = $hd;
+                    $profile->documents()->save($documents);
                 }
-            
-                $payment = new Payment;
-                $payment->profile_id = $profile->id;
-                $payment->type = 'Enrollment Fee';
-                $payment->amount = 0;
-                $payment->balance = $initialBalance;
-                $payment->or_number = 'none';
-                $payment->ref_number = 'none';
-                $payment->others = 'Enrollment fee unpaid';
-                $payment->ay = $this->globalAySem('ay');
-                $payment->sem = $this->globalAySem('sem');
-                $payment->save();
+                
+                $admission = new Admission;
+                $admission->profile_id = $profile->id;
+                $admission->academic_year = $this->globalAySem('ay'); // ########### make this dynamic ########## //
+                $admission->semester = $this->globalAySem('sem'); // ########### make this dynamic ########## //
+                $admission->status = '0';
+                $admission->save();
+
+                $checkPayment = Payment::where('profile_id',$profile->id)
+                                            ->where('ay',$this->globalAySem('ay'))
+                                            ->where('sem',$this->globalAySem('sem'))
+                                            ->first();
+                $initialEnrollFee = Option::where('type','initial-enrollment-fee')->first();
+                if(empty($checkPayment)){
+                    $initialBalance = 0;
+                    if($profile->year_level == 1 && $studentType != 'old'){
+                        $initialBalance = 3500.00;
+                    } else {
+                        $initialBalance = $initialEnrollFee->name;
+                    }
+                
+                    $payment = new Payment;
+                    $payment->profile_id = $profile->id;
+                    $payment->type = 'Enrollment Fee';
+                    $payment->amount = 0;
+                    $payment->balance = $initialBalance;
+                    $payment->or_number = 'none';
+                    $payment->ref_number = 'none';
+                    $payment->others = 'Enrollment fee unpaid';
+                    $payment->ay = $this->globalAySem('ay');
+                    $payment->sem = $this->globalAySem('sem');
+                    $payment->save();
+                }
+
+                $applicantDetails['first_name']             = $request->input('first-name');
+                $applicantDetails['middle_name']            = $request->input('middle-name');
+                $applicantDetails['last_name']              = $request->input('last-name');
+                $applicantDetails['gender']                 = $request->input('gender');
+                $applicantDetails['first_name']             = $request->input('first-name');
+                $applicantDetails['contact_number']         = $request->input('contact-number');
+                $applicantDetails['civil_status']           = $request->input('civil-status');
+                $applicantDetails['religion']               = $request->input('religion');
+                $applicantDetails['house_number']           = $request->input('house-number');
+                $applicantDetails['sitio']                  = $request->input('sitio');
+                $applicantDetails['street_barangay']        = $request->input('street-barangay');
+                $applicantDetails['municipality']           = $request->input('municipality');
+                $applicantDetails['province']               = $request->input('province');
+                $applicantDetails['zip_code']               = $request->input('zip-code');
+                $applicantDetails['parent_guardian_name']   = $request->input('parent-guardian-name');
+                $applicantDetails['parent_guardian_contact']= $request->input('parent-guardian-contact');
+                $applicantDetails['school_graduated']       = $request->input('school-graduated');
+                $applicantDetails['school_address']         = $request->input('school-address');
+                $applicantDetails['year_graduated']         = $request->input('year-graduated');
+                $applicantDetails['lrn']                    = $request->input('lrn');
+                $applicantDetails['course']                 = $request->input('course');
+                $applicantDetails['year_level']             = $request->input('year-level');
+                
+                $noUploadedDoc = 'admin/img/no-document-uploaded.jpg';
+                $filePath = 'storage/uploads/';
+                $applicantDetails['applicant_img']          = $filePath.'applicant-img/'.$applicant_img;
+                $applicantDetails['sf9_front']              = $sf9_front ? $filePath.'sf9-front/'.$sf9_front : $noUploadedDoc;
+                $applicantDetails['sf9_back']               = $sf9_back ? $filePath.'sf9-back/'.$sf9_back : $noUploadedDoc;
+                $applicantDetails['gmc']                    = $gmc ? $filePath.'gmc/'.$gmc : $noUploadedDoc;
+                $applicantDetails['psa_bc']                 = $psa_bc ? $filePath.'psa-bc/'.$psa_bc : $noUploadedDoc;
+                $applicantDetails['med_cert']               = $med_cert ? $filePath.'med-cert/'.$med_cert : $noUploadedDoc;
+                $applicantDetails['hd']                     = $hd ? $filePath.'hd/'.$hd : $noUploadedDoc;
+                $applicantDetails['courses']                = Course::select('id','code')->get();
+
+                return response()->json([
+                    'success' => $applicantDetails
+                ], 200);
             }
-
-            $applicantDetails['first_name']             = $request->input('first-name');
-            $applicantDetails['middle_name']            = $request->input('middle-name');
-            $applicantDetails['last_name']              = $request->input('last-name');
-            $applicantDetails['gender']                 = $request->input('gender');
-            $applicantDetails['first_name']             = $request->input('first-name');
-            $applicantDetails['contact_number']         = $request->input('contact-number');
-            $applicantDetails['civil_status']           = $request->input('civil-status');
-            $applicantDetails['religion']               = $request->input('religion');
-            $applicantDetails['house_number']           = $request->input('house-number');
-            $applicantDetails['sitio']                  = $request->input('sitio');
-            $applicantDetails['street_barangay']        = $request->input('street-barangay');
-            $applicantDetails['municipality']           = $request->input('municipality');
-            $applicantDetails['province']               = $request->input('province');
-            $applicantDetails['zip_code']               = $request->input('zip-code');
-            $applicantDetails['parent_guardian_name']   = $request->input('parent-guardian-name');
-            $applicantDetails['parent_guardian_contact']= $request->input('parent-guardian-contact');
-            $applicantDetails['school_graduated']       = $request->input('school-graduated');
-            $applicantDetails['school_address']         = $request->input('school-address');
-            $applicantDetails['year_graduated']         = $request->input('year-graduated');
-            $applicantDetails['lrn']                    = $request->input('lrn');
-            $applicantDetails['course']                 = $request->input('course');
-            $applicantDetails['year_level']             = $request->input('year-level');
             
-            $noUploadedDoc = 'admin/img/no-document-uploaded.jpg';
-            $filePath = 'storage/uploads/';
-            $applicantDetails['applicant_img']          = $filePath.'applicant-img/'.$applicant_img;
-            $applicantDetails['sf9_front']              = $sf9_front ? $filePath.'sf9-front/'.$sf9_front : $noUploadedDoc;
-            $applicantDetails['sf9_back']               = $sf9_back ? $filePath.'sf9-back/'.$sf9_back : $noUploadedDoc;
-            $applicantDetails['gmc']                    = $gmc ? $filePath.'gmc/'.$gmc : $noUploadedDoc;
-            $applicantDetails['psa_bc']                 = $psa_bc ? $filePath.'psa-bc/'.$psa_bc : $noUploadedDoc;
-            $applicantDetails['med_cert']               = $med_cert ? $filePath.'med-cert/'.$med_cert : $noUploadedDoc;
-            $applicantDetails['hd']                     = $hd ? $filePath.'hd/'.$hd : $noUploadedDoc;
-            $applicantDetails['courses']                = Course::select('id','code')->get();
-
-            return response()->json([
-                'success' => $applicantDetails
-            ], 200);
         }     
     }
 
@@ -317,12 +333,12 @@ class FrontContentsController extends Controller
         
         $courses = Course::where('id','!=','5')->get();
         if($searchId){
-            $oldStudent = Profile::where('profiles.school_id', $fname)->first();
+            $oldStudent = Profile::where('profiles.school_id', $fname)->select('id')->first();
             if($oldStudent){
                 $enrollment = Enrollment::where('profile_id',$oldStudent->id)->get();
             }
         } else {
-            $oldStudent = Profile::where('last_name',$lname)->where('first_name',$fname)->first();
+            $oldStudent = Profile::where('last_name',$lname)->where('first_name',$fname)->select('id')->first();
             if($oldStudent){
                 $enrollment = Enrollment::where('profile_id',$oldStudent->id)->select('subject_id')->get();
             }
@@ -330,7 +346,7 @@ class FrontContentsController extends Controller
         
         if($oldStudent == null){
             return response()->json([
-                $error
+                'error' => $error
             ], 404);
         }
 
@@ -359,7 +375,7 @@ class FrontContentsController extends Controller
                 $gradeStatus = false;
             }
         }
-        // dd($clearanceStatus,$gradeStatus);
+        $profile = Profile::where('id',$oldStudent->id)->get();
         if($clearanceStatus == false || $gradeStatus == false){
             return response()->json([
                 'notCleared' => $notClearedYet,
@@ -367,7 +383,7 @@ class FrontContentsController extends Controller
             ], 400);
         } else {
             return response()->json([
-                'profiles' => $oldStudent,
+                'profiles' => $profile,
                 'courses' => $courses
             ], 200);
         }

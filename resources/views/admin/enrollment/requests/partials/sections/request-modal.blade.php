@@ -205,7 +205,7 @@
             </div>
             <div class="modal-footer text-left">
                 <form action="" id="acceptForm">
-                    <button type="button" class="btn btn-success btn-sm px-5" id="enrollAdmission" data-id="">
+                    <button type="button" class="btn btn-success btn-sm px-5" id="enrollAdmission" data-id="" data-payment-id="">
                         <i class="fas fa-user-check mr-2"></i> Accept
                     </button>
                     <input type="hidden" name="_method" value="PUT">

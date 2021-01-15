@@ -4,11 +4,14 @@
         e.preventDefault();
         
         let id = $('#enrollAdmission').attr('data-id');
+        let paymentId = $('#enrollAdmission').attr('data-payment-id');
         $('#applicant-id').val(id);
 
         let form = $('#acceptForm')[0];
         let formData = new FormData(form);
         
+        formData.append('paymentId',paymentId);
+
         let routeUrl = "{{ route('requests.update','id') }}";
 
         let acceptUrl = routeUrl.replace('id', id);

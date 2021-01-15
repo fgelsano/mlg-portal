@@ -7,6 +7,7 @@
         e.preventDefault();
         $('#request-loading').removeClass('d-none');
         let admissionId = $(this).attr('data-id');
+        let paymentId = $(this).attr('data-payment-id');
         let routeUrl = "{{ route('requests.show','id') }}";
         let evalUrl = routeUrl.replace('id', admissionId);
         $.ajax({
@@ -16,9 +17,9 @@
             processData: false,
             dataType: 'json',
             success: function(data){
-                console.log(data);
                 $('#rejectAdmission').attr('data-id', data.profile.id);
                 $('#enrollAdmission').attr('data-id', data.profile.id);
+                $('#enrollAdmission').attr('data-payment-id',paymentId);
                 $('#schoolId').text(data.profile.school_id);
                 let middleName = data.profile.middle_name;
                 if(data.profile.middle_name == null){
