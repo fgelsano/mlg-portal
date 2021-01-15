@@ -217,11 +217,11 @@
                                                                     icon: 'question',
                                                                     title: 'Is this correct?',
                                                                     html: 
-                                                                    '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.profiles.school_id+'</strong></p>' +
-                                                                    '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.profiles.first_name+'</strong></p>' +
-                                                                    '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.profiles.middle_name+'</strong></p>' +
-                                                                    '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.profiles.last_name+'</strong></p>'+
-                                                                    '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.profiles.course+'</strong></p>',
+                                                                    '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.profiles[0].school_id+'</strong></p>' +
+                                                                    '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.profiles[0].first_name+'</strong></p>' +
+                                                                    '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.profiles[0].middle_name+'</strong></p>' +
+                                                                    '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.profiles[0].last_name+'</strong></p>'+
+                                                                    '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.profiles[0].course+'</strong></p>',
                                                                     showCancelButton: true,
                                                                     confirmButtonText: 'Yes, that\'s me!',
                                                                     cancelButtonText: 'No, that\'s not me!',
@@ -259,12 +259,50 @@
                                                                     }
                                                                 });
                                                             },
-                                                            error: function(err){
-                                                                swalWithBootstrapButtons.fire(
-                                                                    'Sorry we can\'t find your student details',
-                                                                    'Please try searching again or you may register as NEW STUDENT instead.',
-                                                                    'info'
-                                                                )
+                                                            error: function(error){
+                                                                // swalWithBootstrapButtons.fire(
+                                                                //     'Sorry we can\'t find your student details',
+                                                                //     'Please try searching again or you may register as NEW STUDENT instead.',
+                                                                //     'info'
+                                                                // )
+                                                                if(Object.keys(error.responseJSON).length > 1){
+                                                                    $.each(error.responseJSON,function(key,value){
+                                                                        if(key === 'noGrade' || key === 'notCleared'){
+                                                                            let notClearedSubject = '<div class="not-cleared"><p class="bg-warning text-white text-left p-2 mb-0">Not Cleared Subjects:</p>';
+                                                                            let noGradeSubject = '<div class="not-cleared"><p class="bg-danger text-white text-left p-2 mb-0">No Grades Yet:</p>';
+                                                                            console.log(notClearedSubject);
+                                                                            $.each(error.responseJSON.notCleared,function(key,value){
+                                                                                $.each(value,function(key,value){
+                                                                                    notClearedSubject += '<li class="m-0 text-left">'+key+' ('+value+')</li>';
+                                                                                })
+                                                                            })
+                                                                            $.each(error.responseJSON.noGrade,function(key,value){
+                                                                                $.each(value,function(key,value){
+                                                                                    noGradeSubject += '<li class="m-0 text-left">'+key+' ('+value+')</li>';
+                                                                                })
+                                                                            })
+                                                                            console.log(notClearedSubject);
+                                                                            Swal.fire({
+                                                                                title: 'We Encountered Issues',
+                                                                                icon: 'error',
+                                                                                backdrop: 'rgba(255,0,0,0.3)',
+                                                                                html: notClearedSubject + '</div>' + noGradeSubject + '</div>',
+                                                                                footer: '<p class="text-danger">Please coordinate with your instructors to resolve the issues.</p>'
+                                                                            })
+                                                                        } else {
+                                                                            Swal.fire({
+                                                                                title: error.responseJSON,
+                                                                                icon: 'error'
+                                                                            })
+                                                                        }
+                                                                    })
+                                                                } else {
+                                                                    Swal.fire({
+                                                                        title: 'Invalid Request',
+                                                                        icon: 'error',
+                                                                        text: error.responseJSON.error
+                                                                    })
+                                                                }
                                                             }
                                                         })
                                                     }

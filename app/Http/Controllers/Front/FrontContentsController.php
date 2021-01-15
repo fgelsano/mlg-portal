@@ -330,17 +330,96 @@ class FrontContentsController extends Controller
                 'error' => 'You did not enter your first name!',
             ], 404);
         }
-        
+        // dd($searchId);
         $courses = Course::where('id','!=','5')->get();
         if($searchId){
             $oldStudent = Profile::where('profiles.school_id', $fname)->select('id')->first();
             if($oldStudent){
                 $enrollment = Enrollment::where('profile_id',$oldStudent->id)->get();
             }
+            // dd($oldStudent);
+            $notClearedYet = [];
+            $noGradeYet = [];
+            $clearanceStatus = true;
+            $gradeStatus = true;
+            // dd($oldStudent);
+            foreach($enrollment as $subject){
+                $clearance = Clearance::where('subjectId',$subject->subject_id)
+                                        ->where('studentId',$oldStudent->id)
+                                        ->get();
+                if($clearance->count() == 0){
+                    $notCleared = Subject::where('id',$subject->subject_id)->first();
+                    array_push($notClearedYet,[$notCleared->code => $notCleared->description]);
+                    $clearanceStatus = false;
+                }
+
+                $grade = Grade::where('subjectId',$subject->subject_id)
+                                ->where('profileId',$oldStudent->id)
+                                ->get();
+                
+                if($grade->count() == 0){
+                    $noGrade = Subject::where('id',$subject->subject_id)->first();
+                    array_push($noGradeYet,[$noGrade->code => $noGrade->description]);
+                    $gradeStatus = false;
+                }
+            }
+            // dd($clearanceStatus, $gradeStatus);
+            $profile = Profile::where('id',$oldStudent->id)->get();
+            if($clearanceStatus == false || $gradeStatus == false){
+                return response()->json([
+                    'notCleared' => $notClearedYet,
+                    'noGrade' => $noGradeYet
+                ], 400);
+            } else {
+                return response()->json([
+                    'profiles' => $profile,
+                    'courses' => $courses
+                ], 200);
+            }
         } else {
             $oldStudent = Profile::where('last_name',$lname)->where('first_name',$fname)->select('id')->first();
             if($oldStudent){
                 $enrollment = Enrollment::where('profile_id',$oldStudent->id)->select('subject_id')->get();
+            }
+
+            // dd($oldStudent);
+            $notClearedYet = [];
+            $noGradeYet = [];
+            $clearanceStatus = true;
+            $gradeStatus = true;
+            // dd($oldStudent);
+            foreach($enrollment as $subject){
+                $clearance = Clearance::where('subjectId',$subject->subject_id)
+                                        ->where('studentId',$oldStudent->id)
+                                        ->get();
+                if($clearance->count() == 0){
+                    $notCleared = Subject::where('id',$subject->subject_id)->first();
+                    array_push($notClearedYet,[$notCleared->code => $notCleared->description]);
+                    $clearanceStatus = false;
+                }
+
+                $grade = Grade::where('subjectId',$subject->subject_id)
+                                ->where('profileId',$oldStudent->id)
+                                ->get();
+                
+                if($grade->count() == 0){
+                    $noGrade = Subject::where('id',$subject->subject_id)->first();
+                    array_push($noGradeYet,[$noGrade->code => $noGrade->description]);
+                    $gradeStatus = false;
+                }
+            }
+            // dd($clearanceStatus, $gradeStatus);
+            $profile = Profile::where('id',$oldStudent->id)->get();
+            if($clearanceStatus == false || $gradeStatus == false){
+                return response()->json([
+                    'notCleared' => $notClearedYet,
+                    'noGrade' => $noGradeYet
+                ], 400);
+            } else {
+                return response()->json([
+                    'profiles' => $profile,
+                    'courses' => $courses
+                ], 200);
             }
         }
         
@@ -349,43 +428,6 @@ class FrontContentsController extends Controller
                 'error' => $error
             ], 404);
         }
-
-        $notClearedYet = [];
-        $noGradeYet = [];
-        $clearanceStatus = true;
-        $gradeStatus = true;
-
-        foreach($enrollment as $subject){
-            $clearance = Clearance::where('subjectId',$subject->subject_id)
-                                    ->where('studentId',$oldStudent->id)
-                                    ->get();
-            if($clearance->count() == 0){
-                $notCleared = Subject::where('id',$subject->subject_id)->first();
-                array_push($notClearedYet,[$notCleared->code => $notCleared->description]);
-                $clearanceStatus = false;
-            }
-
-            $grade = Grade::where('subjectId',$subject->subject_id)
-                            ->where('profileId',$oldStudent->id)
-                            ->get();
-            
-            if($grade->count() == 0){
-                $noGrade = Subject::where('id',$subject->subject_id)->first();
-                array_push($noGradeYet,[$noGrade->code => $noGrade->description]);
-                $gradeStatus = false;
-            }
-        }
-        $profile = Profile::where('id',$oldStudent->id)->get();
-        if($clearanceStatus == false || $gradeStatus == false){
-            return response()->json([
-                'notCleared' => $notClearedYet,
-                'noGrade' => $noGradeYet
-            ], 400);
-        } else {
-            return response()->json([
-                'profiles' => $profile,
-                'courses' => $courses
-            ], 200);
-        }
+        
     }
 }
