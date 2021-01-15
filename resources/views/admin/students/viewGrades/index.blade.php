@@ -271,8 +271,8 @@
                     </tbody>
                 </table>
             </div>
-            <p class="text-center bg-danger text-white p-2">This is a system generated report. If you need a signed version of this report. Please bring a printed out copy of this report to the registrar's office for signing.</p>
         </div>
+        <p class="text-center bg-danger text-white p-2">This is a system generated report. If you need a signed version of this report. Please visit the registrar's office.</p>
         <div class="row mt-5">
             <div class="col-12 col-md-4">
                 <h5>Approved by:</h5>
