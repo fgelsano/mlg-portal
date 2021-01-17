@@ -153,7 +153,7 @@ class AdmissionRequestsController extends Controller
                     ->where('admissions.academic_year',$this->globalAySem('ay'))
                     ->where('admissions.semester',$this->globalAySem('sem'))
                     ->join('profiles','profiles.id','=','admissions.profile_id')
-                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status as status','admissions.id','admissions.created_at','admissions.profile_id')
+                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','admissions.status as status','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();
         // dd($requests);
         return DataTables::of($requests)
@@ -173,15 +173,15 @@ class AdmissionRequestsController extends Controller
                 ->addColumn('status', function($data){
                     $status = '';
 
-                    if($data->status === 0){
+                    if($data->status == 0){
                         $status = '<span class="badge badge-pill badge-warning">Pending</span>';
-                    } else if($data->status === 1){
+                    } else if($data->status == 1){
                         $status = '<span class="badge badge-pill badge-primary">Cashier\'s Hold</span>';
-                    } else if($data->status === 2){
+                    } else if($data->status == 2){
                         $status = '<span class="badge badge-pill badge-success">Accepted</span>';
-                    } else if($data->status === 3){
+                    } else if($data->status == 3){
                         $status = '<span class="badge badge-pill badge-danger">Rejected</span>';
-                    } else if($data->status === 4){
+                    } else if($data->status == 4){
                         $status = '<span class="badge badge-pill badge-info">Enrolled</span>';
                     }
 
@@ -189,17 +189,17 @@ class AdmissionRequestsController extends Controller
                 })
                 ->addColumn('action', function($data){
                     $color = '';
-                    if($data->status === 0 || $data->status === 1){
+                    if($data->status == 0 || $data->status == 1){
                         $color = 'warning';
-                    } else if ($data->status === 2){
+                    } else if ($data->status == 2){
                         $color = 'success';
-                    } else if($data->status === 3) {
+                    } else if($data->status == 3) {
                         $color = 'danger';
-                    } else if($data->status === 4){
+                    } else if($data->status == 4){
                         $color = 'info';
                     }
 
-                    if($data->status === 2 || $data->status == 3 || $data->status == 4){
+                    if($data->status == 2 || $data->status == 3 || $data->status == 4){
                         $status = 'd-none';
                     } else {
                         $status = '';
