@@ -89,20 +89,7 @@ class FrontContentsController extends Controller
             ],414);
         } else {
 
-            $profile = Profile::where('last_name',$request->input('last-name'))
-                                ->where('first_name',$request->input('first-name'))
-                                ->select('id')
-                                ->first();
-            $checkIfAdmissionExists = Admission::where('profile_id',$profile->id)
-                                                ->where('academic_year',$this->globalAySem('ay'))
-                                                ->where('semester',$this->globalAySem('sem'))
-                                                ->first();
-            if($checkIfAdmissionExists){
-                return response()->json([
-                    'error' => 'Admission request already exists!',
-                ], 400);
-            } else {
-                // file upload
+            // file upload
             $now = new \DateTime('NOW');
             $date = $now->format('m-d-Y_H.i.s');
 
@@ -299,9 +286,7 @@ class FrontContentsController extends Controller
 
                 return response()->json([
                     'success' => $applicantDetails
-                ], 200);
-            }
-            
+                ], 200);            
         }     
     }
 
@@ -429,5 +414,71 @@ class FrontContentsController extends Controller
             ], 404);
         }
         
+    }
+
+    public function checkIfAdmissionExists($id)
+    {
+        $profile = Profile::where('id',$id)->select('id')->first();
+        $checkIfAdmissionExists = Admission::where('profile_id',$profile->id)
+                                            ->where('academic_year',$this->globalAySem('ay'))
+                                            ->where('semester',$this->globalAySem('sem'))
+                                            ->first();
+        $courses = Course::all();
+        // dd($profile,$checkIfAdmissionExists);
+        if($checkIfAdmissionExists){
+            return response()->json([
+                'error' => 'Admission request already exists!',
+            ], 400);
+        } else {
+            return response()->json([
+                'profile' => $profile,
+                'courses' => $courses
+            ], 200);
+        }
+    }
+
+    public function admitOldStudent(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        $admission = new Admission;
+        $admission->profile_id = $id;
+        $admission->academic_year = $this->globalAySem('ay');
+        $admission->semester = $this->globalAySem('sem');
+        $admission->status = '0';
+        $admission->save();
+
+        $checkPayment = Payment::where('profile_id',$id)
+                                    ->where('ay',$this->globalAySem('ay'))
+                                    ->where('sem',$this->globalAySem('sem'))
+                                    ->first();
+        $initialEnrollFee = Option::where('type','initial-enrollment-fee')->first();
+        if(empty($checkPayment)){
+            $payment = new Payment;
+            $payment->profile_id = $id;
+            $payment->type = 'Enrollment Fee';
+            $payment->amount = 0;
+            $payment->balance = $initialEnrollFee->name;
+            $payment->or_number = 'none';
+            $payment->ref_number = 'none';
+            $payment->others = 'Enrollment fee unpaid';
+            $payment->ay = $this->globalAySem('ay');
+            $payment->sem = $this->globalAySem('sem');
+            $payment->save();
+        }
+        // dd($id,$profile);
+        return response()->json([
+            'id' => $id
+        ], 200);
+    }
+
+    public function show($id)
+    {
+        $profile = Profile::where('profiles.id',$id)
+                            ->join('courses','profiles.course','=','courses.id')
+                            ->select('profiles.*','courses.code','courses.name')
+                            ->first();
+        $initialEnrollFee = Option::where('type','initial-enrollment-fee')->first();
+        $enrollmentFee = $initialEnrollFee->name;
+        return view ('front.partials._old-student-confirmation',compact('profile','enrollmentFee'));
     }
 }

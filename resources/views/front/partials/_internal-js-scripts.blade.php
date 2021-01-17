@@ -32,26 +32,98 @@
     });
 
     $(document).on('click','.studentDetail', function(){
-        $('#consent-block').fadeOut();
-        $('#admission').animate();
-        $('#admission').addClass('d-block');
-        $('#admission').removeClass('d-none');
-        $('#first-name').val($(this).attr('data-fname'));
-        $('#middle-name').val($(this).attr('data-mname'));
-        $('#last-name').val($(this).attr('data-lname'));
-        $('#student-type').val('old');
-        $('#profile-id').val($(this).attr('data-id'));
-        $('#file-uploads-panel').remove();
-        $('#file-upload-btn').remove();
-        let firstName = $(this).attr('data-fname');
-        studentType = 'old';
-        Swal.close();
-        Swal.fire(
-            'Welcome Back '+firstName+'!',
-            'Please fill-out the form below.',
-            'success'
-        )
-        openCam();
+        let id = $(this).attr('data-id');
+        let routeUrl = "{{ route('admissionRequest.check','id') }}";
+        let fetchUrl = routeUrl.replace('id', id);
+        $.ajax({
+            url: fetchUrl,
+            type: 'GET',
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(data){
+                let courses = '';
+                let id = data.profile.id;
+                $.each(data.courses,function(key,value){
+                    courses += '<div class="form-check" style="padding-left: 0rem; text-align: left"><input class="form-check-input course" type="radio" name="course" value="'+value.id+'" style="margin: 0 10px 0 0; display: inline; height: 20px; width: auto;"><label class="form-check-label" for="course" style="position: relative; left: 20px">'+value.code+'</label></div>'
+                    // courses.push(value.id+':'+value.name)
+                })
+                let year = [
+                    '<div class="form-check" style="padding-left: 0rem; text-align: left"><input class="form-check-input year" type="radio" name="year" value="1" style="margin: 0 10px 0 0; display: inline; height: 20px; width: auto;"><label class="form-check-label" for="year" style="position: relative; left: 20px">First Year</label></div>'+
+                    '<div class="form-check" style="padding-left: 0rem; text-align: left"><input class="form-check-input year" type="radio" name="year" value="2" style="margin: 0 10px 0 0; display: inline; height: 20px; width: auto;"><label class="form-check-label" for="year" style="position: relative; left: 20px">Second Year</label></div>'+
+                    '<div class="form-check" style="padding-left: 0rem; text-align: left"><input class="form-check-input year" type="radio" name="year" value="3" style="margin: 0 10px 0 0; display: inline; height: 20px; width: auto;"><label class="form-check-label" for="year" style="position: relative; left: 20px">Third Year</label></div>'+
+                    '<div class="form-check" style="padding-left: 0rem; text-align: left"><input class="form-check-input year" type="radio" name="year" value="4" style="margin: 0 10px 0 0; display: inline; height: 20px; width: auto;"><label class="form-check-label" for="year" style="position: relative; left: 20px">Fourth Year</label></div>'
+                ]
+                Swal.fire({
+                    title: 'May we know what course you would like to enroll this time?',
+                    icon: 'question',
+                    html:
+                        '<form id="admitOldStudent">'+
+                            '@csrf'+
+                            '<div class="row">'+
+                                '<div class="col-12 col-md-6 px-5 mb-3"><div class="alert alert-primary mb-0">Course</div>'+courses+'</div>'+
+                                '<div class="col-12 col-md-6 px-5"><div class="alert alert-primary mb-0">Year Level</div>'+year+'</div>'+
+                            '</div>'+
+                            '@method("PUT")'+
+                        '</form>',                        
+                    inputAttributes: {
+                        autocapitalize: 'on'
+                    }
+                }).then((result) => {
+                    if(result.value){
+                        let form = $('#admitOldStudent')[0];
+                        let formData = new FormData(form);
+
+                        let profileId = id;
+
+                        let routeUrl = "{{ route('old-student.admit','id') }}";
+                        let fetchUrl = routeUrl.replace('id', profileId);
+                        $.ajax({
+                            url: fetchUrl,
+                            type: 'POST',
+                            contentType: false,
+                            processData: false,    
+                            data: formData,
+                            dataType: 'json',
+                            success: function(data){
+                                console.log(data);
+                                window.location = '/admission-confirmation/'+data.id;
+                            },
+                            error: function(data){}
+                        })
+                    }
+                })
+            },
+            error: function(error){
+                Swal.fire({
+                    title: 'Duplicate Admission Request',
+                    icon: 'error',
+                    text: error.responseJSON.error,
+                    footer: '<p class="text-center">You have already requested for admission and it is now under evaluation by the registrar. Please wait for the registrar to process your request.</p>'
+                })
+            }
+        })
+
+        // $('#consent-block').fadeOut();
+        // $('#admission').animate();
+        // $('#admission').addClass('d-block');
+        // $('#admission').removeClass('d-none');
+        // $('#first-name').val($(this).attr('data-fname'));
+        // $('#middle-name').val($(this).attr('data-mname'));
+        // $('#last-name').val($(this).attr('data-lname'));
+        // $('#student-type').val('old');
+        // $('#profile-id').val($(this).attr('data-id'));
+        // $('#file-uploads-panel').remove();
+        // $('#file-upload-btn').remove();
+        // let firstName = $(this).attr('data-fname');
+        // studentType = 'old';
+        // Swal.close();
+        // Swal.fire(
+        //     'Welcome Back '+firstName+'!',
+        //     'Please fill-out the form below.',
+        //     'success'
+        // )
+        // openCam();
     })
     // Consent Button
     $('#consent-btn').click(function(){
@@ -166,29 +238,7 @@
                                             cancelButtonText: 'No, that\'s not me!',
                                         }).then((result) => {
                                             if (result.value) {
-                                                $('#consent-block').fadeOut();
-                                                $('#admission').animate();
-                                                $('#admission').addClass('d-block');
-                                                $('#admission').removeClass('d-none');
-                                                $('#first-name').val(data.profiles[0].first_name);
-                                                $('#middle-name').val(data.profiles[0].middle_name);
-                                                $('#last-name').val(data.profiles[0].last_name);
-                                                $('#student-type').val('old');
-                                                $('#profile-id').val(data.profiles[0].id);
-                                                $('#submitAdmissionBtn-course-panel').removeClass('d-none');
-                                                $('#file-uploads-panel').addClass('d-none');
-                                                $('#file-upload-btn').addClass('d-none');
-                                                $('#profile-pic').attr('src','/admin/img/empty-profile-img.png');
-                                                $('#profile-pic').attr('data-imng','empty');;
-                                                $('#data-privacy-agreement-course-panel').removeClass('d-none');
-                                                $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
-                                                studentType = 'old';
-                                                Swal.fire(
-                                                    'Welcome Back '+data.profiles[0].first_name+'!',
-                                                    'Please fill-out the form below.',
-                                                    'success'
-                                                )
-                                                openCam();
+                                                $('.studentDetail').click();
                                             } else if (result.dismiss === Swal.DismissReason.cancel) {
                                                 Swal.fire({
                                                     title: 'Try Again using your Id number!',
@@ -217,39 +267,21 @@
                                                                     icon: 'question',
                                                                     title: 'Is this correct?',
                                                                     html: 
-                                                                    '<p class="px-md-5 text-left text-lead mb-0 mt-5">Id Number: <strong class="float-right">'+data.profiles[0].school_id+'</strong></p>' +
-                                                                    '<p class="px-md-5 text-left text-lead my-0">First Name: <strong class="float-right">'+data.profiles[0].first_name+'</strong></p>' +
-                                                                    '<p class="px-md-5 text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.profiles[0].middle_name+'</strong></p>' +
-                                                                    '<p class="px-md-5 text-left text-lead my-0">Last Name: <strong class="float-right">'+data.profiles[0].last_name+'</strong></p>'+
-                                                                    '<p class="px-md-5 text-left text-lead my-0">Course: <strong class="float-right">'+data.profiles[0].course+'</strong></p>',
+                                                                    '<div class="row mt-3 py-3 mx-3 studentDetail border" data-id="'+data.profiles[0].id+'" data-fname="'+data.profiles[0].first_name+'" data-lname="'+data.profiles[0].last_name+'" data-mname="'+data.profiles[0].middle_name+'" data-course=""">'+
+                                                                        '<div class="col-12 text-left">'+
+                                                                            '<p class="text-left text-lead mb-0">Id Number: <strong class="float-right">'+data.profiles[0].school_id+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">First Name: <strong class="float-right">'+data.profiles[0].first_name+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">Middle Name: <strong class="float-right">'+data.profiles[0].middle_name+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">Last Name: <strong class="float-right">'+data.profiles[0].last_name+'</strong></p>' +
+                                                                            '<p class="text-left text-lead my-0">Course: <strong class="float-right">'+data.profiles[0].course+'</strong></p>'+
+                                                                        '</div>'+
+                                                                    '</div>',
                                                                     showCancelButton: true,
                                                                     confirmButtonText: 'Yes, that\'s me!',
                                                                     cancelButtonText: 'No, that\'s not me!',
                                                                 }).then((result) => {
                                                                     if (result.value) {
-                                                                        $('#consent-block').fadeOut();
-                                                                        $('#admission').animate();
-                                                                        $('#admission').addClass('d-block');
-                                                                        $('#admission').removeClass('d-none');
-                                                                        $('#first-name').val(data.profiles.first_name);
-                                                                        $('#middle-name').val(data.profiles.middle_name);
-                                                                        $('#last-name').val(data.profiles.last_name);
-                                                                        $('#student-type').val('old');
-                                                                        $('#profile-id').val(data.profiles.id);
-                                                                        $('#submitAdmissionBtn-course-panel').removeClass('d-none');
-                                                                        $('#file-uploads-panel').addClass('d-none');
-                                                                        $('#file-upload-btn').addClass('d-none');
-                                                                        $('#profile-pic').attr('src','/admin/img/empty-profile-img.png');
-                                                                        $('#profile-pic').attr('data-imng','empty');;
-                                                                        $('#data-privacy-agreement-course-panel').removeClass('d-none');
-                                                                        $('#data-privacy-agreement-file-upload-panel').addClass('d-none');
-                                                                        studentType = 'old';
-                                                                        swalWithBootstrapButtons.fire(
-                                                                            'Welcome Back '+data.profiles.first_name+'!',
-                                                                            'Please fill-out the form below.',
-                                                                            'success'
-                                                                        )
-                                                                        openCam();
+                                                                        $('.studentDetail').click();
                                                                     } else {
                                                                         swalWithBootstrapButtons.fire(
                                                                             'Sorry we can\'t find your student details',
@@ -260,11 +292,6 @@
                                                                 });
                                                             },
                                                             error: function(error){
-                                                                // swalWithBootstrapButtons.fire(
-                                                                //     'Sorry we can\'t find your student details',
-                                                                //     'Please try searching again or you may register as NEW STUDENT instead.',
-                                                                //     'info'
-                                                                // )
                                                                 if(Object.keys(error.responseJSON).length > 1){
                                                                     $.each(error.responseJSON,function(key,value){
                                                                         if(key === 'noGrade' || key === 'notCleared'){
@@ -369,8 +396,18 @@
                 + date.getMinutes() + ":" 
                 + date.getSeconds();
         $('#dpa-agree-date').text('Agreed date: '+date);
-        $('#dpa-agreement-date').val(date);
-        
+        $('#dpa-agreement-date').val(date);        
+    })
+    $('#dpa-agree-modal').click(function(){
+        var date = new Date();
+        date = date.getDate() + "/"
+                + (date.getMonth()+1)  + "/" 
+                + date.getFullYear() + " - "  
+                + date.getHours() + ":"  
+                + date.getMinutes() + ":" 
+                + date.getSeconds();
+        $('#dpa-agree-date-modal').text('Agreed date: '+date);
+        $('#dpa-agreement-date-modal').val(date);        
     })
 
     // onBlur Last Name
@@ -612,14 +649,24 @@
                     $('html,body').animate({scrollTop: $('#admission-submitted').offset().top},'slow');
                     
                 },
-                error: function(err){
-                    let error_html = '<ul class="text-left">';
-                    for(let x = 0; x < err.length; x++){
-                        error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
-                        if(x==err.responseJSON.error.length){
-                            error_html += '</ul>';
-                        }
-                    }   
+                error: function(error){
+                    if(Object.keys(error.responseJSON).length > 1){
+                            $.each(error.responseJSON,function(key,value){
+                                let error_html = '<ul class="text-left">';
+                                for(let x = 0; x < err.length; x++){
+                                error_html += '<li class="text-left">'+err.responseJSON.error[x]+'</li>';
+                                if(x==err.responseJSON.error.length){
+                                    error_html += '</ul>';
+                                }
+                            }   
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Invalid Request',
+                            icon: 'error',
+                            text: error.responseJSON.error
+                        });
+                    }
                 }
             });  
         }
