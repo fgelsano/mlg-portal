@@ -10,7 +10,6 @@
                                 <th>Year Level</th>
                                 <th>Last Name</th>
                                 <th>First Name</th>
-                                <th>School</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>

@@ -19,10 +19,6 @@
                     name: 'first_name'
                 },
                 {
-                    data: 'school_graduated',
-                    name: 'school'
-                },
-                {
                     data: 'status',
                     name: 'status'
                 },
@@ -40,7 +36,7 @@
                 }
 
             ],
-            "order": [[ 6, 'desc'],[0, 'asc']]
+            "order": [[ 5, 'desc'],[0, 'asc']]
         });
     } );
 </script>
