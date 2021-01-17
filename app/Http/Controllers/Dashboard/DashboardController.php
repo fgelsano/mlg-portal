@@ -34,7 +34,9 @@ class DashboardController extends Controller
     public function dashboardCheck()
     {        
         $requests = Admission::where('academic_year',$this->globalAySem('ay'))
-                                ->where('semester',$this->globalAySem('sem'))->get();
+                                ->where('semester',$this->globalAySem('sem'))
+                                ->where('status',0)
+                                ->get();
         
         $enrolled = Admission::where('status',4)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
         $rejected = Admission::where('status',3)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
