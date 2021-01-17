@@ -41,16 +41,9 @@ class EnrollController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // dd(is_array(explode(',',$request->input('enrolledSubject'))));
         $validation = Validator::make($request->all(),[
             'enrolledSubject'     => 'required',
         ]);
-
-        $currentAY = Option::where('type','current-ay')->select('id')->first();
-        $currentSem = Option::where('type','current-sem')->select('id')->first();
-
-        // dd($currentAY, $currentSem);
 
         $error_array = array();        
         $studentDetails = Profile::select('school_id','course','year_level')->where('id',$request->applicant_id)->first();
@@ -81,7 +74,12 @@ class EnrollController extends Controller
                 $laboratory_units = 0;
                 $subjectsToEnroll = explode(',',$request->input('enrolledSubject'));
                 foreach($subjectsToEnroll as $subjectToEnroll){
-                    $existingSubjects = Enrollment::where('profile_id',$request->input('applicant_id'))->where('subject_id',$subjectToEnroll)->first();
+                    // dd('Applicant Id:'.$request->input('applicant_id'),$subjectToEnroll);
+                    $existingSubjects = Enrollment::where('profile_id',$request->input('applicant_id'))
+                                                    ->where('subject_id',$subjectToEnroll)
+                                                    ->where('academic_year',$this->globalAySem('ay'))
+                                                    ->where('semester',$this->globalAySem('sem'))
+                                                    ->first();
                     // dd($existingSubjects);
                     if($existingSubjects <> null){
                         $subjectExists[] = $existingSubjects->subject_id;
@@ -91,8 +89,8 @@ class EnrollController extends Controller
                         $enrollee->profile_id = $request->input('applicant_id');
                         $enrollee->course = $studentDetails->course;
                         $enrollee->year_level = $studentDetails->year_level;
-                        $enrollee->academic_year = $currentAY->id;
-                        $enrollee->semester = $currentSem->id;
+                        $enrollee->academic_year = $this->globalAySem('ay');
+                        $enrollee->semester = $this->globalAySem('sem');
                         $enrollee->status = 0;
                         $enrollee->save();
                     }
@@ -104,9 +102,13 @@ class EnrollController extends Controller
                         $laboratory_units = $laboratory_units + $unitType->units;
                     }
                 }
+                // dd('Subject Exist:'.$subjectExists);
                 // dd('Lecture: '.$lecture_units, 'Laboratory: '.$laboratory_units);
                 if(empty($subjectExists)){
-                    $enroll = Admission::where('profile_id', $request->input('applicant_id'))->first();
+                    $enroll = Admission::where('profile_id', $request->input('applicant_id'))
+                                        ->where('academic_year',$this->globalAySem('ay'))
+                                        ->where('semester',$this->globalAySem('sem'))
+                                        ->first();
                     $enroll->status = '4';
                     $enroll->save();
 
@@ -114,20 +116,26 @@ class EnrollController extends Controller
                     $profile->school_id = $schoolId;
                     $profile->save();
 
-                    $user = new User;
-                    $origfname = strtolower(str_replace(' ','.',$profile->first_name));
-                    $firstLetter = explode('.',$origfname);
-                    $fname = '';
-                    foreach($firstLetter as $fLetter){
-                        $fname = $fname . substr($fLetter,0,1);
-                    }   
-                    $lname = strtolower(str_replace(' ','.',$profile->last_name));                
-                    $user->email = $fname.'.'.$lname.'@mlgcl.edu.ph';
+                    $checkUserExists = User::where('profile_id',$request->input('applicant_id'))->first();
+                    $userStat = '';
+                    if(empty($checkUserExists)){
+                        $user = new User;
+                        $origfname = strtolower(str_replace(' ','.',$profile->first_name));
+                        $firstLetter = explode('.',$origfname);
+                        $fname = '';
+                        foreach($firstLetter as $fLetter){
+                            $fname = $fname . substr($fLetter,0,1);
+                        }   
+                        $lname = strtolower(str_replace(' ','.',$profile->last_name));                
+                        $user->email = $fname.'.'.$lname.'@mlgcl.edu.ph';
 
-                    $user->password = Hash::make($profile->school_id);
-                    $user->role = 3;
-                    $user->profile_id = $profile->id;
-                    $user->save();
+                        $user->password = Hash::make($profile->school_id);
+                        $user->role = 3;
+                        $user->profile_id = $profile->id;
+                        $user->save();
+
+                        $userStat = $user;
+                    }
 
                     $fees = Option::where('type','fees')->get();
                     
@@ -137,18 +145,24 @@ class EnrollController extends Controller
                             $bill->admission_id = $enroll->id;
                             $bill->fee = $fee->name;
                             $bill->amount = $lecture_units * $fee->extra;
+                            $bill->ay = $this->globalAySem('sem');
+                            $bill->sem = $this->globalAySem('sem');
                             $bill->save();
                         } else if($fee->name == 'A. Laboratory Tuition'){
                             $bill = new Billing;
                             $bill->admission_id = $enroll->id;
                             $bill->fee = $fee->name;
                             $bill->amount = $laboratory_units * $fee->extra;
+                            $bill->ay = $this->globalAySem('sem');
+                            $bill->sem = $this->globalAySem('sem');
                             $bill->save();
                         } else {
                             $bill = new Billing;
                             $bill->admission_id = $enroll->id;
                             $bill->fee = $fee->name;
                             $bill->amount = $fee->extra;
+                            $bill->ay = $this->globalAySem('sem');
+                            $bill->sem = $this->globalAySem('sem');
                             $bill->save();
                         }
                         
@@ -158,7 +172,7 @@ class EnrollController extends Controller
                         'enrolment' => $enrollee,
                         'admission' => $enroll,
                         'profile' => $profile,
-                        'user' => $user
+                        'user' => $userStat
                     ],200);
                 } else {
                     $subjects = Subject::select('id','code')->get();
@@ -197,8 +211,8 @@ class EnrollController extends Controller
                                 $enrollee->profile_id = $request->input('applicant_id');
                                 $enrollee->course = $studentDetails->course;
                                 $enrollee->year_level = $studentDetails->year_level;
-                                $enrollee->academic_year = $currentAY->id;
-                                $enrollee->semester = $currentSem->id;
+                                $enrollee->academic_year = $this->globalAySem('ay');
+                                $enrollee->semester = $this->globalAySem('sem');
                                 $enrollee->status = 0;
                                 $enrollee->save();
                                 $enrolled[] = $enrollee->subject_id;
@@ -220,18 +234,24 @@ class EnrollController extends Controller
                                 $bill->admission_id = $enroll->id;
                                 $bill->fee = $fee->name;
                                 $bill->amount = $lecture_units * $fee->extra;
+                                $bill->ay = $this->globalAySem('ay');
+                                $bill->sem = $this->globalAySem('sem');
                                 $bill->save();
                             } else if($fee->name == 'A. Laboratory Tuition'){
                                 $bill = new Billing;
                                 $bill->admission_id = $enroll->id;
                                 $bill->fee = $fee->name;
                                 $bill->amount = $laboratory_units * $fee->extra;
+                                $bill->ay = $this->globalAySem('ay');
+                                $bill->sem = $this->globalAySem('sem');
                                 $bill->save();
                             } else {
                                 $bill = new Billing;
                                 $bill->admission_id = $enroll->id;
                                 $bill->fee = $fee->name;
                                 $bill->amount = $fee->extra;
+                                $bill->ay = $this->globalAySem('ay');
+                                $bill->sem = $this->globalAySem('sem');
                                 $bill->save();
                             }
                         }
@@ -245,8 +265,8 @@ class EnrollController extends Controller
                             $enrollee->profile_id = $request->input('applicant_id');
                             $enrollee->course = $studentDetails->course;
                             $enrollee->year_level = $studentDetails->year_level;
-                            $enrollee->academic_year = $currentAY->id;
-                            $enrollee->semester = $currentSem->id;
+                            $enrollee->academic_year = $this->globalAySem('ay');
+                            $enrollee->semester = $this->globalAySem('sem');
                             $enrollee->status = 0;
                             $enrollee->save();
                             $enrolled[] = $enrollee->subject_id;
@@ -268,18 +288,24 @@ class EnrollController extends Controller
                                 $bill->admission_id = $enroll->id;
                                 $bill->fee = $fee->name;
                                 $bill->amount = $lecture_units * $fee->extra;
+                                $bill->ay = $this->globalAySem('ay');
+                                $bill->sem = $this->globalAySem('sem');
                                 $bill->save();
                             } else if($fee->name == 'A. Laboratory Tuition'){
                                 $bill = new Billing;
                                 $bill->admission_id = $enroll->id;
                                 $bill->fee = $fee->name;
                                 $bill->amount = $laboratory_units * $fee->extra;
+                                $bill->ay = $this->globalAySem('ay');
+                                $bill->sem = $this->globalAySem('sem');
                                 $bill->save();
                             } else {
                                 $bill = new Billing;
                                 $bill->admission_id = $enroll->id;
                                 $bill->fee = $fee->name;
                                 $bill->amount = $fee->extra;
+                                $bill->ay = $this->globalAySem('ay');
+                                $bill->sem = $this->globalAySem('sem');
                                 $bill->save();
                             }
                         }
@@ -384,6 +410,8 @@ class EnrollController extends Controller
     public function getEnrolledSubjects($id)
     {
         $enrolledSubjects = Enrollment::where('enrollments.profile_id',$id)
+                                    ->where('academic_year',$this->globalAySem('ay'))
+                                    ->where('semester',$this->globalAySem('sem'))
                                     ->join('subjects','enrollments.subject_id','subjects.id')
                                     ->join('schedules','subjects.schedule','schedules.id')
                                     ->join('profiles','subjects.instructor','profiles.id')
