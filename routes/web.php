@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,9 @@ Route::get('/online-admission', 'Front\FrontContentsController@createAdmission')
 Route::get('/registrar-admission','Front\FrontContentsController@registrarAdmission')->name('admission.registrar');
 Route::post('/online-admission', 'Front\FrontContentsController@storeAdmission')->name('admission.store');
 Route::get('/fetchOldStudent/{name}', 'Front\FrontContentsController@fetchOldStudent')->name('oldStudent.fetch');
+Route::get('/fetchOldStudent/checkIfAdmissionExists/{id}', 'Front\FrontContentsController@checkIfAdmissionExists')->name('admissionRequest.check');
+Route::put('/fetchOldStudent/admit-old-student/{id}', 'Front\FrontContentsController@admitOldStudent')->name('old-student.admit');
+Route::get('/admission-confirmation/{id}','Front\FrontContentsController@show');
 
 Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( function(){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');

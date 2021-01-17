@@ -153,8 +153,7 @@ class AdmissionRequestsController extends Controller
                     ->where('admissions.academic_year',$this->globalAySem('ay'))
                     ->where('admissions.semester',$this->globalAySem('sem'))
                     ->join('profiles','profiles.id','=','admissions.profile_id')
-                    ->join('payments','profiles.id','=','payments.profile_id')
-                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id','payments.id as paymentId')
+                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status as status','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();
         // dd($requests);
         return DataTables::of($requests)
@@ -205,8 +204,11 @@ class AdmissionRequestsController extends Controller
                     } else {
                         $status = '';
                     }
-
-                    $evaluateBtn = '<a href="" data-payment-id="'.$data->paymentId.'" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' evalAdmission"><i class="fas fa-eye"></i> Evaluate</a>';
+                    $paymentId = Payment::where('profile_id',$data->profile_id)
+                                            ->where('ay',$this->globalAySem('ay'))
+                                            ->where('sem',$this->globalAySem('sem'))
+                                            ->first();
+                    $evaluateBtn = '<a href="" data-payment-id="'.$paymentId.'" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' evalAdmission"><i class="fas fa-eye"></i> Evaluate</a>';
                     $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' enrollStudent" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-folder-open"></i> Enroll</a>';
                     $editEnrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' editEnrollment" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-edit"></i> Edit</a>';
                     
