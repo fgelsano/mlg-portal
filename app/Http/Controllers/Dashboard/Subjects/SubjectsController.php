@@ -76,8 +76,6 @@ class SubjectsController extends Controller
                 'error' => $error_array,
             ],414);
         } else {
-            $upcomingAy = Option::where('type','current-ay')->select('id')->first();
-            $upcomingSem = Option::where('type','upcoming-sem')->select('id')->first();
             // create subject
             $subject = new Subject;
             $subject->code = $request->input('code');
@@ -89,8 +87,8 @@ class SubjectsController extends Controller
             $subject->units = $request->input('units');
             $subject->type = $request->input('subjectType');
             $subject->status = 0;
-            $subject->ay = $upcomingAy->id;
-            $subject->sem = $upcomingSem->id;
+            $subject->ay = $this->globalAySem('ay');
+            $subject->sem = $this->globalAySem('sem');
             $subject->save();
 
             if(!$subject->save()){
@@ -129,8 +127,8 @@ class SubjectsController extends Controller
                                 ->join('schedules','subjects.schedule','=','subjects.schedule')
                                 ->join('profiles','subjects.instructor','=','profiles.id')
                                 ->where('subjects.id',$id)
-                                ->where('ay',$this->globalAySem('ay'))
-                                ->where('sem',$this->globalAySem('sem'))
+                                ->where('subjects.ay',$this->globalAySem('ay'))
+                                ->where('subjects.sem',$this->globalAySem('sem'))
                                 ->get();
             return response()->json($subject);
         }

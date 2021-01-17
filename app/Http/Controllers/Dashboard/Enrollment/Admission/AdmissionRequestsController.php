@@ -97,10 +97,10 @@ class AdmissionRequestsController extends Controller
     {
         // dd($request->all());
         if(request()->ajax()){
-            
-            $payment = Payment::where('id',$request->paymentId)->first();
-            // dd($id,$payment);
-            $admission = Admission::where('profile_id',$payment->profile_id)
+            // dd($request->all());
+            $payment = Payment::where('id',$request->paymentId)->orWhere('id',$id)->first();
+            // dd($id,$payment,$request->all());
+            $admission = Admission::where('profile_id',$payment->profile_id)                                    
                                     ->where('academic_year',$this->globalAySem('ay'))
                                     ->where('semester',$this->globalAySem('sem'))
                                     ->first();
@@ -208,7 +208,7 @@ class AdmissionRequestsController extends Controller
                                             ->where('ay',$this->globalAySem('ay'))
                                             ->where('sem',$this->globalAySem('sem'))
                                             ->first();
-                    $evaluateBtn = '<a href="" data-payment-id="'.$paymentId.'" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' evalAdmission"><i class="fas fa-eye"></i> Evaluate</a>';
+                    $evaluateBtn = '<a href="" data-payment-id="'.$paymentId->id.'" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' evalAdmission"><i class="fas fa-eye"></i> Evaluate</a>';
                     $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' enrollStudent" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-folder-open"></i> Enroll</a>';
                     $editEnrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-'.$color.' editEnrollment" data-toggle="modal" data-target="#enroll-modal"><i class="fas fa-edit"></i> Edit</a>';
                     
