@@ -28,13 +28,89 @@
             <!-- Content Row -->
             <div class="row">
                 
+                <!-- Requests Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-secondary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Requests</div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="requests-count"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Rejected Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-secondary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected</div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="rejected-count"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Cashier's Hold Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-secondary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Cashier's Hold</div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="cashier-hold-count"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- For Enrollment Card -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-secondary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">For Enrollment</div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="for-enroll-count"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
                 <!-- Online Admission Card -->
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-danger shadow h-100 py-2">
+                    <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Online Admissions</div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Admissions Status</div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="online-admissions"></div>
@@ -61,7 +137,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Instructors</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Instructors</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800" id="instructors"></div>
                         </div>
                         <div class="col-auto">
@@ -79,7 +155,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Students</div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Enrolled Students</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800" id="students"></div>
                         </div>
                         <div class="col-auto">
@@ -220,6 +296,10 @@
                     $('#instructors').text(data.instructors);
                     $('#students').text(data.enrolled);
                     $('#subjects').text(data.subjects);
+                    $('#requests-count').text(data.requests);
+                    $('#rejected-count').text(data.rejected);
+                    $('#cashier-hold-count').text(data.cashierHold);
+                    $('#for-enroll-count').text(data.forEnroll);
                 }
             });
         })

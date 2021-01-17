@@ -37,6 +37,9 @@ class DashboardController extends Controller
                                 ->where('semester',$this->globalAySem('sem'))->get();
         
         $enrolled = Admission::where('status',4)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
+        $rejected = Admission::where('status',3)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
+        $cashierHold = Admission::where('status',1)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
+        $forEnroll = Admission::where('status',2)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
         $instructors = Profile::where('role',4)->orWhere('role',5)->get();
         $students = User::where('role',3)->get();
         $subjects = Subject::where('ay',$this->globalAySem('ay'))->where('sem',$this->globalAySem('sem'))->get();
@@ -44,6 +47,9 @@ class DashboardController extends Controller
         return response()->json([
             'requests' => $requests->count(),
             'enrolled' => $enrolled->count(),
+            'rejected' => $rejected->count(),
+            'cashierHold' => $cashierHold->count(),
+            'forEnroll' => $forEnroll->count(),
             'instructors' => $instructors->count(),
             'students' => $students->count(),
             'subjects' => $subjects->count()
