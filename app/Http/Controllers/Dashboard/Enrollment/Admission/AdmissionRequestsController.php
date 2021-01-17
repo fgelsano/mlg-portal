@@ -153,7 +153,7 @@ class AdmissionRequestsController extends Controller
                     ->where('admissions.academic_year',$this->globalAySem('ay'))
                     ->where('admissions.semester',$this->globalAySem('sem'))
                     ->join('profiles','profiles.id','=','admissions.profile_id')
-                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status','admissions.id','admissions.created_at','admissions.profile_id')
+                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.status as status','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();
         // dd($requests);
         return DataTables::of($requests)
@@ -204,7 +204,7 @@ class AdmissionRequestsController extends Controller
                     } else {
                         $status = '';
                     }
-                    $paymentId = Payment::where('profileId',$data->profile_id)
+                    $paymentId = Payment::where('profile_id',$data->profile_id)
                                             ->where('ay',$this->globalAySem('ay'))
                                             ->where('sem',$this->globalAySem('sem'))
                                             ->first();
