@@ -20,11 +20,10 @@ class ReportsController extends Controller
     {
         $now = new \DateTime('NOW');
         $today = $now->format('m/d/Y');
-        
-        $upcomingAy = Option::where('type','current-ay')->select('id')->first();
-        $upcomingSem = Option::where('type','upcoming-sem')->select('id')->first();
 
-        $totalStudents = Admission::where('status',4)->where('ay',$upcomingAy->id)->where('sem',$upcomingSem->id)->get();
+        $totalStudents = Admission::where('status',4)
+                                    ->where('academic_year',$this->globalAySem('ay'))
+                                    ->where('semester',$this->globalAySem('sem'))->get();
         $yearLevel['1'] = 0;
         $yearLevel['2'] = 0;
         $yearLevel['3'] = 0;
