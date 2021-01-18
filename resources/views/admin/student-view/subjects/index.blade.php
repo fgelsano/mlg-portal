@@ -35,34 +35,29 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php 
+                                    $totalUnits = 0; 
+                                    $count = 1;
+                                @endphp
                                 @foreach ($profile->enrollments as $key => $enrollment)
                                     <tr>
                                         @foreach ($subjects as $subject)
-                                            @if($subject->id == $enrollment->subject_id)
-                                                <td>{{ $key+1 }}.</td>
+                                            @if($subject->subjectId == $enrollment->subject_id)
+                                                <td>{{ $count }}.</td>
                                                 <td class="code">{{ $subject->code }}</td>
                                                 <td class="desc">{{ $subject->description }}</td>
                                                 <td class="instructor">
-                                                    @foreach ($instructors as $instructor)
-                                                        @if($instructor->id == $subject->instructor)
-                                                            {{ $instructor->first_name . ' ' . $instructor->last_name  }}
-                                                        @endif
-                                                    @endforeach
+                                                    {{ $subject->first_name }} {{ $subject->last_name }}
                                                 </td>
                                                 <td class="schedule">
-                                                    @foreach ($schedules as $schedule)
-                                                        @if($schedule->id == $subject->schedule)
-                                                            {{ $schedule->day }} ({{ $schedule->time }}) at 
-                                                            @if($schedule->type == 0)
-                                                                Room {{ $schedule->location }}
-                                                            @elseif($schedule->type == 1)
-                                                                Lab {{ $schedule->location }}
-                                                            @else
-                                                                Home
-                                                            @endif
-                                                            
-                                                        @endif
-                                                    @endforeach
+                                                    {{ $subject->day }} | {{ $subject->time }} at 
+                                                    @if($subject->roomType == 0)
+                                                        Room {{ $subject->location }} 
+                                                    @elseif($subject->roomType == 1)
+                                                        Lab {{{ $subject->location }}} 
+                                                    @else
+                                                        Home 
+                                                    @endif
                                                 </td>
                                                 <td class="type">
                                                     {!! $subject->type == 0 ? '<span class="badge badge-warning">Lecture</span>' : '<span class="badge badge-primary">Laboratory</span>'!!}
@@ -85,7 +80,9 @@
                                                         <a href="{{ $subject->url }}" class="btn btn-sm btn-primary px-3"><i class="far fa-folder-open"></i> Open</a>
                                                     @endif
                                                 </td>
+                                                @php $count++ @endphp
                                             @endif
+                                            @php $totalUnits += $subject->units; @endphp
                                         @endforeach
                                     </tr>
                                 @endforeach

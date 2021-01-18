@@ -223,7 +223,11 @@ class SubjectsController extends Controller
                 $validation->getMessageBag()->toArray()
             ,400);
         } else {
-
+            if($request->status == 'null'){
+                return response()->json([
+                    'error' => 'Please select status for this subject',
+                ],400);
+            } 
             $subject = Subject::where('id', $id)->first();
 
             $subject->url = $request->input('url');
