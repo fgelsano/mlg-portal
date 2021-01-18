@@ -99,7 +99,8 @@ class ForEnrollmentController extends Controller
                     ->where('academic_year',$this->globalAySem('ay'))
                     ->where('semester',$this->globalAySem('sem'))
                     ->join('profiles','admissions.profile_id','=','profiles.id')
-                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.id','admissions.created_at','admissions.profile_id')
+                    ->join('courses','profiles.course','=','courses.id')
+                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','admissions.id','admissions.created_at','admissions.profile_id','courses.code as course')
                     ->get();
         return DataTables::of($requests)
                 ->addColumn('year_level', function($data){

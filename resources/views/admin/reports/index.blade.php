@@ -414,7 +414,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     <i class="fas fa-user-plus fa-2x mr-3"></i> 
-                                    Total Number of <span class="font-weight-bold text-danger">BSED-SocStu</span> Students
+                                    Total Number of <span class="font-weight-bold text-danger">BSED-SS</span> Students
                                 </div>
                             </div>
                             <div class="col-auto">

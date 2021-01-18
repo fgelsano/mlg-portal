@@ -8,9 +8,9 @@
                         <thead>
                             <tr>
                                 <th>Year Level</th>
+                                <th>Course</th>
                                 <th>Last Name</th>
                                 <th>First Name</th>
-                                <th>Course</th>
                                 <th>Date Enrolled</th>
                                 <th>Action</th>
                             </tr>
