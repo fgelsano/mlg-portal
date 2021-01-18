@@ -98,7 +98,7 @@ class ForEnrollmentController extends Controller
         $requests = Admission::where('status',2)
                     ->where('academic_year',$this->globalAySem('ay'))
                     ->where('semester',$this->globalAySem('sem'))
-                    ->join('profiles','profiles.id','=','admissions.profile_id')
+                    ->join('profiles','admissions.profile_id','=','profiles.id')
                     ->select('profiles.year_level','profiles.last_name','profiles.first_name','profiles.school_graduated','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();
         return DataTables::of($requests)

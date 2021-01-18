@@ -98,7 +98,11 @@ class AdmissionRequestsController extends Controller
         // dd($request->all());
         if(request()->ajax()){
             // dd($request->all());
-            $payment = Payment::where('id',$request->paymentId)->first();
+            $payment = Payment::where('id',$id)->first();
+            if(isset($request->paymentId)){
+                $payment = Payment::where('id',$request->paymentId)->first();
+            }            
+            
             // dd($id,$payment,$request->all());
             $admission = Admission::where('profile_id',$payment->profile_id)                                    
                                     ->where('academic_year',$this->globalAySem('ay'))
