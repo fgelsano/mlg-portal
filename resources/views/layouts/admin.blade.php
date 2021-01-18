@@ -264,7 +264,7 @@
               }
             },
         });
-    }, 1 * 1000); // 60 * 1000 milsec
+    }, 5 * 1000); 
     function isEmpty( el ){
         return !$.trim(el.html())
     }
