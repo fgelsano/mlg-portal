@@ -65,7 +65,7 @@
             },
             error: function(err){
                 console.log(err);
-                alertify.error(err.responseJSON.status);
+                alertify.error(err.responseJSON.error);
             }
         });
     })
