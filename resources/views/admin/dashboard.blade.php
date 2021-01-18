@@ -285,7 +285,7 @@
                 processData: false,
                 dataType: 'json',
                 success: function(data){
-                    let admissions = (data.enrolled / data.requests)*100;
+                    let admissions = (data.enrolled / data.totalRequests)*100;
                     let percent = admissions.toFixed(1);
                     $('#online-admissions').text(percent+'%');
                     $('#online-admission-percent').attr('style','width: '+percent+'%');

@@ -37,6 +37,9 @@ class DashboardController extends Controller
                                 ->where('semester',$this->globalAySem('sem'))
                                 ->where('status',0)
                                 ->get();
+        $totalRequests = Admission::where('academic_year',$this->globalAySem('ay'))
+                                ->where('semester',$this->globalAySem('sem'))
+                                ->get();
         
         $enrolled = Admission::where('status',4)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
         $rejected = Admission::where('status',3)->where('academic_year',$this->globalAySem('ay'))->where('semester',$this->globalAySem('sem'))->get();
@@ -48,6 +51,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'requests' => $requests->count(),
+            'totalRequests' => $totalRequests->count(),
             'enrolled' => $enrolled->count(),
             'rejected' => $rejected->count(),
             'cashierHold' => $cashierHold->count(),
