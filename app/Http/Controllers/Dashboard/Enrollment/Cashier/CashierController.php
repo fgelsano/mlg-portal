@@ -26,7 +26,8 @@ class CashierController extends Controller
                                 ->where('academic_year',$this->globalAySem('ay'))
                                 ->where('semester',$this->globalAySem('sem'))
                                 ->join('profiles','profiles.id','=','admissions.profile_id')
-                                ->select('profiles.last_name','profiles.first_name','profiles.school_graduated','profiles.year_level','admissions.id','admissions.created_at','admissions.profile_id')
+                                ->join('courses','profiles.course','=','courses.id')
+                                ->select('profiles.last_name','profiles.first_name','profiles.school_graduated','profiles.year_level','admissions.id','admissions.created_at','admissions.profile_id','courses.code as course')
                                 ->get();
         // dd($requests);
         return DataTables::of($requests)

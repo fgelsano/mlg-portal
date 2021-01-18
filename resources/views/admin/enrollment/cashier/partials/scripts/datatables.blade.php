@@ -7,20 +7,20 @@
             ajax: '{{ route('cashier.list') }}',
             columns: [
                 {
+                    data: 'year_level',
+                    name: 'year_level'
+                },
+                {
+                    data: 'course',
+                    name: 'course'
+                },
+                {
                     data: 'last_name',
                     name: 'last_name'
                 },
                 {
                     data: 'first_name',
                     name: 'first_name'
-                },
-                {
-                    data: 'school_graduated',
-                    name: 'school'
-                },
-                {
-                    data: 'year_level',
-                    name: 'year_level'
                 },
                 {
                     data: 'action',

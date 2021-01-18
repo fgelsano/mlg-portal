@@ -81,8 +81,8 @@
                                                     @endif
                                                 </td>
                                                 @php $count++ @endphp
+                                                @php $totalUnits += $subject->units; @endphp
                                             @endif
-                                            @php $totalUnits += $subject->units; @endphp
                                         @endforeach
                                     </tr>
                                 @endforeach

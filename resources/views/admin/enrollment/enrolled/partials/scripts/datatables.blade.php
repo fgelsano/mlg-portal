@@ -11,16 +11,16 @@
                     name: 'year_level'
                 },
                 {
+                    data: 'course',
+                    name: 'course'
+                },
+                {
                     data: 'last_name',
                     name: 'last_name'
                 },
                 {
                     data: 'first_name',
                     name: 'first_name'
-                },
-                {
-                    data: 'course',
-                    name: 'course'
                 },
                 {
                     data: 'date',
@@ -40,7 +40,7 @@
                 }
 
             ],
-            "order": [[4, 'asc']]
+            "order": [[6, 'asc']]
         });
     } );
 </script>
