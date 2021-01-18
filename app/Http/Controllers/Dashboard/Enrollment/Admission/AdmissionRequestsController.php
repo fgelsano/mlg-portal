@@ -65,7 +65,7 @@ class AdmissionRequestsController extends Controller
                                 ->select('profiles.*','admissions.status','admissions.comment')
                                 ->with('documents')
                                 ->first();
-            $courses = Course::all();
+            $courses = Course::select('code')->get();
 
             $details = [
                 'profile' => $profile,
@@ -98,20 +98,20 @@ class AdmissionRequestsController extends Controller
         // dd($request->all());
         if(request()->ajax()){
             // dd($request->all());
-            $payment = Payment::where('id',$request->paymentId)->orWhere('id',$id)->first();
+            $payment = Payment::where('id',$request->paymentId)->first();
             // dd($id,$payment,$request->all());
             $admission = Admission::where('profile_id',$payment->profile_id)                                    
                                     ->where('academic_year',$this->globalAySem('ay'))
                                     ->where('semester',$this->globalAySem('sem'))
                                     ->first();
-
+            
             if($request->requestType == 'CashierAccepted'){
                 $admission = Admission::where('profile_id',$payment->profile_id)
                                         ->where('academic_year',$this->globalAySem('ay'))
                                         ->where('semester',$this->globalAySem('sem'))
                                         ->first();
             } 
-            // dd($id,$admission,$request->all());
+            // dd($id,$payment,$admission,$request->all());
             if($request->requestType == 'markAccept'){
                 $admission->status = 1;
             } else if($request->requestType == 'CashierAccepted'){
@@ -153,7 +153,8 @@ class AdmissionRequestsController extends Controller
                     ->where('admissions.academic_year',$this->globalAySem('ay'))
                     ->where('admissions.semester',$this->globalAySem('sem'))
                     ->join('profiles','profiles.id','=','admissions.profile_id')
-                    ->select('profiles.year_level','profiles.last_name','profiles.first_name','admissions.status as status','admissions.id','admissions.created_at','admissions.profile_id')
+                    ->join('courses','profiles.course','=','courses.id')
+                    ->select('profiles.last_name','profiles.first_name','profiles.year_level','courses.code as course','admissions.status as status','admissions.id','admissions.created_at','admissions.profile_id')
                     ->get();
         // dd($requests);
         return DataTables::of($requests)
@@ -169,6 +170,10 @@ class AdmissionRequestsController extends Controller
                         $year = '4th Year';
                     }
                     return $year;
+                })
+                ->addColumn('course',function($data){
+                    $course = $data->course;
+                    return $course;
                 })
                 ->addColumn('status', function($data){
                     $status = '';
