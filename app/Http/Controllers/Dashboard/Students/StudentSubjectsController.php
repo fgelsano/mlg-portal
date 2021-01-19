@@ -63,7 +63,7 @@ class StudentSubjectsController extends Controller
         $user = User::where('profile_id',$id)->select('id')->first();
         $credentials = UserEmail::where('user_id',$user->id)->first();
         
-        // dd($profile->enrollments,$subjects);
+        // dd($user,$credentials);
         return view('admin.student-view.subjects.index',compact('profile', 'subjects','credentials'));
     }
 
