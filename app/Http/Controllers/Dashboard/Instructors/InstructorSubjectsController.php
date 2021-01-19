@@ -51,15 +51,17 @@ class InstructorSubjectsController extends Controller
     public function show($id)
     {
         $subjects = Subject::where('instructor',$id)
-                            ->where('ay',$this->globalAySem('ay'))
-                            ->where('sem',$this->globalAySem('sem'))
+                            ->where('subjects.ay',$this->globalAySem('ay'))
+                            ->where('subjects.sem',$this->globalAySem('sem'))
+                            ->join('schedules','subjects.schedule','=','schedules.id')
+                            ->select('subjects.id','subjects.code','subjects.description','subjects.url','subjects.category','subjects.units','schedules.time','schedules.day','schedules.location','schedules.type')
                             ->get();
-        $schedules = Schedule::all();
+        // dd($subjects);
         $totalUnits = 0;
         foreach($subjects as $subject){
             $totalUnits = $totalUnits + $subject->units;
         }
-        return view('admin.instructor-view.subjects.index',compact('subjects','schedules','totalUnits'));
+        return view('admin.instructor-view.subjects.index',compact('subjects','totalUnits'));
     }
 
     /**

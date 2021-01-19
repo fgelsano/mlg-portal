@@ -45,24 +45,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($subjects as $key => $subject)
+                                @php $count = 1; @endphp
+                                @foreach ($subjects as $subject)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $count }}</td>
                                         <td>{{ $subject->code }}</td>
                                         <td>{{ $subject->description }}</td>
                                         <td>
-                                            @foreach ($schedules as $schedule)
-                                                @if ($schedule->id == $subject->schedule)
-                                                    {{ $schedule->day }} ({{ $schedule->time }}) at 
-                                                    @if($schedule->type == 0)
-                                                        Room {{ $schedule->location }}
-                                                    @elseif($schedule->type == 1)
-                                                        Lab {{ $schedule->location }}
-                                                    @else
-                                                        Home
-                                                    @endif
-                                                @endif
-                                            @endforeach
+                                            {{ $subject->day }} | {{ $subject->time }} at 
+                                            @if($subject->type == 0)
+                                                Room {{ $subject->location }}
+                                            @elseif($subject->type == 1)
+                                                Lab {{ $subject->location }}
+                                            @else
+                                                {{ $subject->location }}
+                                            @endif
                                         </td>
                                         <td>{{ $subject->units }}</td>
                                         <td>
@@ -86,6 +83,7 @@
                                             <a href="/dashboard/subjects/student-roster/{{ $subject->id }}" class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-list"></i> Roster</a>
                                         </td>
                                     </tr> 
+                                    @php $count++ @endphp
                                 @endforeach
                             </tbody>
                         </table>
