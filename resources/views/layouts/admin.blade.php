@@ -118,8 +118,14 @@
 
   {{-- Notifications Check --}}
   <script>
+    checkNotifications();
+    
     setInterval(function() {
-        let routeUrl = "{{ route('notifications.check') }}";
+        checkNotifications();
+    }, 5 * 1000); 
+
+    function checkNotifications(){
+      let routeUrl = "{{ route('notifications.check') }}";
         $.ajax({
             url: routeUrl,
             type: 'GEt',
@@ -264,7 +270,7 @@
               }
             },
         });
-    }, 5 * 1000); 
+    }
     function isEmpty( el ){
         return !$.trim(el.html())
     }
