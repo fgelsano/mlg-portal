@@ -98,7 +98,6 @@ class AdmissionRequestsController extends Controller
         // dd($request->all());
         if(request()->ajax()){
             // dd($request->all(),$id);
-            $payment = Payment::where('id',$id)->first();
             if(isset($request->paymentId)){
                 $payment = Payment::where('id',$request->paymentId)->first();
             }   
