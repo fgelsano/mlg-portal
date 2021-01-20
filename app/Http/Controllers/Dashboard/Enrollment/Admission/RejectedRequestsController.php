@@ -134,13 +134,13 @@ class RejectedRequestsController extends Controller
                 })
                 ->addColumn('action', function($data){
                     $color = '';
-                    if($data->status === 0 || $data->status === 1){
+                    if($data->status == 0 || $data->status == 1){
                         $color = 'warning';
-                    } else if ($data->status === 2){
+                    } else if ($data->status == 2){
                         $color = 'success';
-                    } else if($data->status === 3) {
+                    } else if($data->status == 3) {
                         $color = 'danger';
-                    } else if($data->status === 4){
+                    } else if($data->status == 4){
                         $color = 'info';
                     }
 
