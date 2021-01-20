@@ -97,14 +97,19 @@ class AdmissionRequestsController extends Controller
     {
         // dd($request->all());
         if(request()->ajax()){
-            // dd($request->all());
+            // dd($request->all(),$id);
             $payment = Payment::where('id',$id)->first();
             if(isset($request->paymentId)){
                 $payment = Payment::where('id',$request->paymentId)->first();
-            }            
-            
-            // dd($id,$payment,$request->all());
-            $admission = Admission::where('profile_id',$payment->profile_id)                                    
+            }   
+            $lookUpId = '';         
+            if($payment == null){
+                $lookUpId = $id;
+            } else {
+                $lookUpId = $payment->profile_id;
+            }
+            // dd($id,$payment,$request->all(),$lookUpId);
+            $admission = Admission::where('profile_id',$lookUpId)                                    
                                     ->where('academic_year',$this->globalAySem('ay'))
                                     ->where('semester',$this->globalAySem('sem'))
                                     ->first();
