@@ -212,7 +212,7 @@ class ProfilesController extends Controller
             } else if($profile->profile_pic != $profile_pic){
                 $profile->profile_pic = $profile_pic;
             }
-            $profile->school_id               = $request->input('school_id');
+            $profile->school_id               = $request->input('school-id');
             $profile->first_name              = $request->input('first-name');
             $profile->middle_name             = $request->input('middle-name');
             $profile->last_name               = $request->input('last-name');
