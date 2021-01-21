@@ -187,15 +187,15 @@ class PaymentsController extends Controller
                 ->addColumn('status', function($data){
                     $status = '';
 
-                    if($data->status === 0){
+                    if($data->status == 0){
                         $status = '<span class="badge badge-pill badge-warning">Pending</span>';
-                    } else if($data->status ===1){
+                    } else if($data->status ==1){
                         $status = '<sapan class="badge badge-pill badge-primary">Cashier\'s Hold</span>';
-                    } else if($data->status === 2){
+                    } else if($data->status == 2){
                         $status = '<span class="badge badge-pill badge-success">Accepted</span>';
-                    } else if($data->status === 3){
+                    } else if($data->status == 3){
                         $status = '<span class="badge badge-pill badge-danger">Rejected</span>';
-                    } else {
+                    } else if($data->status == 4){
                         $status = '<span class="badge badge-pill badge-info">Enrolled</span>';
                     }
 
