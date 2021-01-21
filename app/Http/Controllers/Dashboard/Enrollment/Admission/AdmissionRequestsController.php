@@ -95,9 +95,7 @@ class AdmissionRequestsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         if(request()->ajax()){
-            // dd($request->all(),$id);
             $payment = null;
             if(isset($request->paymentId)){
                 $payment = Payment::where('id',$request->paymentId)->first();
@@ -109,21 +107,18 @@ class AdmissionRequestsController extends Controller
                 $lookUpId = $payment->profile_id;
             }
             
-            $paymentId = Payment::where('id',$lookUpId)->select('profile_id')->first();
-            
-            $admission = Admission::where('profile_id',$paymentId->profile_id)                                    
+            $admission = Admission::where('profile_id',$lookUpId)                                    
                                     ->where('academic_year',$this->globalAySem('ay'))
                                     ->where('semester',$this->globalAySem('sem'))
                                     ->first();
             
             if($request->requestType == 'CashierAccepted'){
-                $admission = Admission::where('profile_id',$paymentId->profile_id)
+                $id = Payment::where('id',$lookUpId)->select('profile_id')->first();
+                $admission = Admission::where('profile_id',$id->profile_id)
                                         ->where('academic_year',$this->globalAySem('ay'))
                                         ->where('semester',$this->globalAySem('sem'))
                                         ->first();
             } 
-            // dd($admission,$lookUpId);
-            // dd($id,$payment,$admission,$request->all());
             if($request->requestType == 'markAccept'){
                 $admission->status = 1;
             } else if($request->requestType == 'CashierAccepted'){
