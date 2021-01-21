@@ -189,64 +189,61 @@
         @endif
 
         <!-- Content Column -->
-        <div class="">
+        {{-- <div class=""> --}}
 
             <!-- Announcements -->
             <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
-            </div>
-            <div class="card-body px-3">
-                <!-- Color System -->
-                <div class="mb-4">
-                    @if (Auth::user()->role != 3)    
-                        <div class="card bg-danger text-white shadow mb-1">
-                            <div class="card-body text-white">
-                                <h5>No Announcements at the moment.</h5>
-                                <p>This section will just automatically update once an announcement becomes available for you to view.</p>
-                            </div>
-                        </div>
-                    @endif
-                    @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3)
-                        {{-- <div class="card">
-                            <div class="alert alert-success mb-0">
-                                <strong>Reminder: </strong>
-                                <p>All students must fillout the Guidance Center Student Profile Form</p>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpgUFCgZoIS5e4MEYfMNrj5doQB7xKweyZumPzCUvQ_dmmrQ/viewform" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
-                            </div>
-                        </div>
-                        <div class="card my-1">
-                            <div class="alert alert-success mb-0">
-                                <strong>Reminder: </strong>
-                                <p>All NSTP Students, please fill-out the form in the link below. Disregard if you have already fill it out previously.</p>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWk3K6CoH6eVckIrK4sGAu40wKMHypZMbq_F0dioLQE2K5kQ/viewform?usp=sf_link" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
-                            </div>
-                        </div> --}}
-                        <div class="card my-3">
-                            <div class="alert alert-primary mb-0">
-                                <i class="fas fa-tools"></i> <span class="font-weight-bold">Technical Support</span>
-                                <p>If you need assistance in using your student portal and the LMS, please just click the "Technical Support" menu to the left.</p>
-                            </div>
-                        </div>
-                        <div class="card my-3">
-                            <div class="alert alert-success mb-0">
-                                <div class="row">
-                                    <h4>Zoom Meeting Schedules</h4>
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                            {{-- <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=bmQyOHVwZGMyYmxxNXQycWRzdDA3cnM2NjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%234285F4&amp;showTitle=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe> --}}
-                                            <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=YWRtaW5AbWxnY2wuZWR1LnBo&amp;src=ZW4ucGhpbGlwcGluZXMjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23039BE5&amp;color=%230B8043&amp;showTitle=0&amp;showTabs=0&amp;showPrint=0&amp;title=Administrator%20Calendar" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe>
-                                        </div>
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
+                </div>
+                <div class="card-body px-3">
+                    <!-- Color System -->
+                    <div class="mb-4">
+                        @if (Auth::user()->role != 3)    
+                            <div class="card bg-danger text-white shadow mb-1">
+                                <div class="card-body text-white">
+                                    <h5>No Announcements at the moment.</h5>
+                                    <p>This section will just automatically update once an announcement becomes available for you to view.</p>
                                 </div>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                        @if (Auth::user()->role == 0 || Auth::user()->role == 1 || Auth::user()->role == 3)
+                            {{-- <div class="card">
+                                <div class="alert alert-success mb-0">
+                                    <strong>Reminder: </strong>
+                                    <p>All students must fillout the Guidance Center Student Profile Form</p>
+                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfpgUFCgZoIS5e4MEYfMNrj5doQB7xKweyZumPzCUvQ_dmmrQ/viewform" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
+                                </div>
+                            </div>
+                            <div class="card my-1">
+                                <div class="alert alert-success mb-0">
+                                    <strong>Reminder: </strong>
+                                    <p>All NSTP Students, please fill-out the form in the link below. Disregard if you have already fill it out previously.</p>
+                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWk3K6CoH6eVckIrK4sGAu40wKMHypZMbq_F0dioLQE2K5kQ/viewform?usp=sf_link" class="btn btn-warning btn-sm m-0" target="_blank">Fill out the form</a>
+                                </div>
+                            </div> --}}
+                            <div class="card my-3">
+                                <div class="alert alert-primary mb-0">
+                                    <i class="fas fa-tools"></i> <span class="font-weight-bold">Technical Support</span>
+                                    <p>If you need assistance in using your student portal and the LMS, please just click the "Technical Support" menu to the left.</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 
-            
-
-        </div>
-
+            <div class="card my-3">
+                <div class="alert alert-success mb-0">
+                    <div class="row">
+                        <h4>Zoom Meeting Schedules</h4>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                {{-- <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=bmQyOHVwZGMyYmxxNXQycWRzdDA3cnM2NjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%234285F4&amp;showTitle=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe> --}}
+                                <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=YWRtaW5AbWxnY2wuZWR1LnBo&amp;src=ZW4ucGhpbGlwcGluZXMjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23039BE5&amp;color=%230B8043&amp;showTitle=0&amp;showTabs=0&amp;showPrint=0&amp;title=Administrator%20Calendar" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe>
+                            </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <!-- /.container-fluid -->
 
