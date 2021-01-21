@@ -87,12 +87,20 @@
             <span class="ml-2">Instructors</span></a>
         </li>
 
-          <!-- Nav Item - Students -->
+        <!-- Nav Item - Students -->
         <li class="nav-item
           {{ url()->current() === route('students.index') ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('students.index') }}">
             <i class="fas fa-user-graduate"></i>
             <span class="ml-2">Students</span></a>
+        </li>
+
+        <!-- Nav Item - Profiles -->
+        <li class="nav-item
+          {{ url()->current() === route('profiles.index') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('profiles.index') }}">
+            <i class="fas fa-id-card"></i>
+            <span class="ml-2">Profiles</span></a>
         </li>
 
         <!-- Nav Item - Registrar Admission -->

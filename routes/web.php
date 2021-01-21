@@ -35,6 +35,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::get('/dashboard/check','DashboardController@dashboardCheck')->name('dashboard.check');
     Route::get('/dashboard/notifications','DashboardController@notifications')->name('notifications.check');
     Route::resource('/dashboard/profile','Profile\ProfileController');    
+    Route::resource('/dashboard/profiles','Profiles\ProfilesController');
     Route::get('/dashboard/cor/print/{id}','Students\StudentsController@print')->name('cor.print');
     Route::post('/dashboard/profile/password/reset/','Users\UsersController@resetPassword')->name('reset.password');
     Route::get('/dashboard/profile/check/profile/{id}','Profile\ProfileController@profileCheck')->name('profile.check');

@@ -38,8 +38,8 @@
                     <div class="col-12 col-md-6">
                         <p class="m-0"><strong>Schedule: </strong>{{ $subject->day }}</p>
                         <p class="m-0"><strong>Time & Location: </strong>{{ $subject->time . ' ' . $subject->location }}</p>
-                        <p class="m-0"><strong>Semester: </strong>{{ $subject->sem == '1' ? 'First Sem' : 'Second Sem' }}</p>
-                        <p class="m-0"><strong>Academic Year: </strong> {{ $subject->ay }}</p>
+                        <p class="m-0"><strong>Semester: </strong>{{ $subjectAySem['sem'] }}</p>
+                        <p class="m-0"><strong>Academic Year: </strong> {{ $subjectAySem['ay'] }}</p>
                     </div>
                 </div>
                 <div class="row mt-3">

@@ -102,24 +102,27 @@ class AdmissionRequestsController extends Controller
             if(isset($request->paymentId)){
                 $payment = Payment::where('id',$request->paymentId)->first();
             }   
-            $lookUpId = '';         
+            $lookUpId = '';      
             if($payment == null){
                 $lookUpId = $id;
             } else {
                 $lookUpId = $payment->profile_id;
             }
-            // dd($id,$payment,$request->all(),$lookUpId);
-            $admission = Admission::where('profile_id',$lookUpId)                                    
+            
+            $paymentId = Payment::where('id',$lookUpId)->select('profile_id')->first();
+            
+            $admission = Admission::where('profile_id',$paymentId->profile_id)                                    
                                     ->where('academic_year',$this->globalAySem('ay'))
                                     ->where('semester',$this->globalAySem('sem'))
                                     ->first();
             
             if($request->requestType == 'CashierAccepted'){
-                $admission = Admission::where('profile_id',$payment->profile_id)
+                $admission = Admission::where('profile_id',$paymentId->profile_id)
                                         ->where('academic_year',$this->globalAySem('ay'))
                                         ->where('semester',$this->globalAySem('sem'))
                                         ->first();
             } 
+            // dd($admission,$lookUpId);
             // dd($id,$payment,$admission,$request->all());
             if($request->requestType == 'markAccept'){
                 $admission->status = 1;

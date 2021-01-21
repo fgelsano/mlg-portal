@@ -91,9 +91,15 @@ class InstructorGradesController extends Controller
     {
         $subject = Subject::where('subjects.id',$id)
                             ->join('schedules','subjects.schedule','=','schedules.id')
-                            ->leftjoin('options','schedules.ay','=','options.id')
-                            ->select('subjects.id','code','description','units','subjects.type','options.name as ay','subjects.sem','location','day','time')
+                            ->select('subjects.id','code','description','units','subjects.type','location','day','time','subjects.ay','subjects.sem')
                             ->first();
+        
+        $subjectAy = Option::where('id',$subject->ay)->select('name')->first();
+        $subjectSem = Option::where('id',$subject->sem)->select('name')->first();
+        $subjectAySem = [
+            'ay' => $subjectAy->name,
+            'sem' => $subjectSem->name
+        ];
         $students = Subject::where('subjects.id',$id)
                             ->join('enrollments','subjects.id','=','subject_id')
                             ->join('profiles','enrollments.profile_id','=','profiles.id')
@@ -105,7 +111,7 @@ class InstructorGradesController extends Controller
                             ->select('code','description','school_id','first_name','last_name','profiles.id as profile_id','grade','grades.id as grade_id')
                             ->get()->sortBy('last_name');
         // dd($students, $subject);
-        return view('admin.instructor-view.grades.sections.grade', compact('subject','students'));
+        return view('admin.instructor-view.grades.sections.grade', compact('subject','students','subjectAySem'));
     }
 
     /**
