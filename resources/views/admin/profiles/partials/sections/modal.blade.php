@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     @if (Auth::user()->role == 3 || Auth::user()->role == 0 || Auth::user()->role == 1)
-                        <div class="row">
+                        <div class="row d-none" id="uploaded-documents">
                             <div class="col-12 col-md-4 form-group ">
                                 <input type="file" class="dropify" id="med-cert" name="med-cert">
                                 <p class="text-center mb-0 bg-danger text-white py-2">Upload Medical Certificate</p>
