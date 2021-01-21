@@ -56,6 +56,13 @@
       height: 300px;
       overflow: auto;
     }
+    span.ptxt {
+        font-style: italic;
+        font-size: small;
+    }
+    #profile-modal #profile-pic-container .dropify-wrapper.has-preview {
+        height: 370px;
+    }
     @media print {
         .no-print{
             display: none !important;

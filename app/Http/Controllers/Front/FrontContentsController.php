@@ -221,6 +221,7 @@ class FrontContentsController extends Controller
                 $admission->profile_id = $profile->id;
                 $admission->academic_year = $this->globalAySem('ay'); // ########### make this dynamic ########## //
                 $admission->semester = $this->globalAySem('sem'); // ########### make this dynamic ########## //
+                $admission->course = $profile->course;
                 $admission->status = '0';
                 $admission->save();
 
@@ -444,6 +445,7 @@ class FrontContentsController extends Controller
         $admission->profile_id = $id;
         $admission->academic_year = $this->globalAySem('ay');
         $admission->semester = $this->globalAySem('sem');
+        $admission->course = $request->course;
         $admission->status = '0';
         $admission->save();
 
@@ -465,7 +467,12 @@ class FrontContentsController extends Controller
             $payment->sem = $this->globalAySem('sem');
             $payment->save();
         }
-        // dd($id,$profile);
+
+        $profile = Profile::where('id',$id)->first();
+        $profile->course = $request->course;
+        $profile->year_level = $request->year;
+        $profile->save();
+
         return response()->json([
             'id' => $id
         ], 200);
