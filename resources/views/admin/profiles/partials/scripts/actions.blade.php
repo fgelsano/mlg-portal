@@ -131,30 +131,32 @@
                 let profileUrl = '{{ asset("storage/uploads/applicant-img") }}'+'/'+profileImg;
                 initDropify('#profile-pic',profileUrl);
                 
-                console.log(data);
-                let medCertImg = data.profile.documents[0].med_cert == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].med_cert;
-                let medCertUrl = '{{ asset("storage/uploads/med-cert") }}'+'/'+medCertImg;
-                initDropify('#med-cert',medCertUrl);
+                if(data.profile.documents[0] != null){
+                    $('#uploaded-documents').removeClass('d-none');
+                    let medCertImg = data.profile.documents[0].med_cert == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].med_cert;
+                    let medCertUrl = '{{ asset("storage/uploads/med-cert") }}'+'/'+medCertImg;
+                    initDropify('#med-cert',medCertUrl);
 
-                let gmctImg = data.profile.documents[0].good_moral == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].good_moral;
-                let gmcUrl = '{{ asset("storage/uploads/gmc") }}'+'/'+gmctImg;
-                initDropify('#gmc',gmcUrl);
+                    let gmctImg = data.profile.documents[0].good_moral == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].good_moral;
+                    let gmcUrl = '{{ asset("storage/uploads/gmc") }}'+'/'+gmctImg;
+                    initDropify('#gmc',gmcUrl);
 
-                let psaBcImg = data.profile.documents[0].psa_birth_cert == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].psa_birth_cert;
-                let psaBcUrl = '{{ asset("storage/uploads/psa-bc") }}'+'/'+psaBcImg;
-                initDropify('#psa-bc',psaBcUrl);
+                    let psaBcImg = data.profile.documents[0].psa_birth_cert == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].psa_birth_cert;
+                    let psaBcUrl = '{{ asset("storage/uploads/psa-bc") }}'+'/'+psaBcImg;
+                    initDropify('#psa-bc',psaBcUrl);
 
-                let sf9FImg = data.profile.documents[0].report_card_front == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].report_card_front;
-                let sf9FUrl = '{{ asset("storage/uploads/sf9-front") }}'+'/'+sf9FImg;
-                initDropify('#sf9-f',sf9FUrl);
+                    let sf9FImg = data.profile.documents[0].report_card_front == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].report_card_front;
+                    let sf9FUrl = '{{ asset("storage/uploads/sf9-front") }}'+'/'+sf9FImg;
+                    initDropify('#sf9-f',sf9FUrl);
 
-                let sf9BImg = data.profile.documents[0].report_card_back == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].report_card_back;
-                let sf9BUrl = '{{ asset("storage/uploads/sf9-back") }}'+'/'+sf9BImg;
-                initDropify('#sf9-b',sf9BUrl);
+                    let sf9BImg = data.profile.documents[0].report_card_back == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].report_card_back;
+                    let sf9BUrl = '{{ asset("storage/uploads/sf9-back") }}'+'/'+sf9BImg;
+                    initDropify('#sf9-b',sf9BUrl);
 
-                let honDImg = data.profile.documents[0].honorable_dismissal == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].honorable_dismissal;
-                let honDUrl = '{{ asset("storage/uploads/hd") }}'+'/'+honDImg;
-                initDropify('#hon-d',honDUrl);
+                    let honDImg = data.profile.documents[0].honorable_dismissal == 'No Data' ? 'no-document-uploaded.jpg' : data.profile.documents[0].honorable_dismissal;
+                    let honDUrl = '{{ asset("storage/uploads/hd") }}'+'/'+honDImg;
+                    initDropify('#hon-d',honDUrl);
+                }
 
                 $('#profile-modal').modal('show');
             }
