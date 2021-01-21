@@ -233,7 +233,8 @@
                                 <div class="row">
                                     <h4>Zoom Meeting Schedules</h4>
                                         <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=bmQyOHVwZGMyYmxxNXQycWRzdDA3cnM2NjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%234285F4&amp;showTitle=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe>
+                                            {{-- <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=bmQyOHVwZGMyYmxxNXQycWRzdDA3cnM2NjRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%234285F4&amp;showTitle=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe> --}}
+                                            <iframe class="embed-responsive-item" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FManila&amp;src=YWRtaW5AbWxnY2wuZWR1LnBo&amp;src=ZW4ucGhpbGlwcGluZXMjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23039BE5&amp;color=%230B8043&amp;showTitle=0&amp;showTabs=0&amp;showPrint=0&amp;title=Administrator%20Calendar" style="border:solid 1px #777" width="1080" height="600" frameborder="0" scrolling="no"></iframe>
                                         </div>
                                 </div>
                             </div>
