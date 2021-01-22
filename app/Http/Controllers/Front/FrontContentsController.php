@@ -31,8 +31,8 @@ class FrontContentsController extends Controller
     public function createAdmission()
     {
         $courses = Course::where('id','!=','5')->get();
-        return view('front.online-admission')->with('courses', $courses);
-        // return view('front.closed-online-admission');
+        // return view('front.online-admission')->with('courses', $courses);
+        return view('front.closed-online-admission');
     }
 
     public function registrarAdmission()
