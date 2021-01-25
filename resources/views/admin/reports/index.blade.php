@@ -5,44 +5,7 @@
 
 @section('styles')
 <style>
-    .merriweather{
-        font-family: 'Merriweather', serif;
-    }
-    #logo{
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-    @media print {
-        .no-print{
-            display: none;
-        }
-        .card-body{
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-        body,
-        #wrapper #content-wrapper,
-        .card-body{
-            background-color: #fff !important;
-        }
-        .shadow{
-            box-shadow: none !important;
-        }
-        .row {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            margin-right: -.75rem !important;
-            margin-left: -.75rem !important;
-        }
-        .col-6 {
-            flex: 0 0 50% !important;
-            max-width: 50% !important;
-        }
-        #letterhead{
-            display: block !important;
-        }
-    }
+    
 </style>
 @endsection
 

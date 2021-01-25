@@ -145,9 +145,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $count = 1;
+                                        @endphp
                                         @foreach ($students->sortBy('last_name')->sortBy('gender') as $key => $student)
                                             <tr>
-                                                <td>{{ $key+1 }}</td>
+                                                <td>{{ $count }}</td>
                                                 <td>{{ $student->school_id }}</td>
                                                 <td>{{ $student->last_name }}</td>
                                                 <td>{{ $student->first_name }}</td>
@@ -165,6 +168,9 @@
                                                 </td>
                                                 <td class="no-print"><button class="btn btn-sm btn-primary viewStudentProfile" data-id="{{ $student->student_id }}"><i class="fas fa-eye"></i> View Profile</button></td>
                                             </tr>
+                                            @php
+                                                $count++;
+                                            @endphp
                                         @endforeach
                                     </tbody>
                                 </table>

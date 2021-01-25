@@ -17,8 +17,14 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="row mt-1">
-                    <div class="col-12">
+                <div class="merriweather p-3 d-none text-center border-bottom mb-3" id="letterhead">
+                    <img src="{{ asset('admin/img/MLG_Logo-Since-1999.jpg') }}" width="10%">
+                    <h3 class="mb-0">MLG College of Learning, Inc</h3>
+                    <p class="mb-3">Brgy. Atabay, Hilongos, Leyte</p>
+                    <h3 class="text-uppercase mb-3">Grade Sheet</h3>
+                </div>
+                <div class="row mt-1 no-print">
+                    <div class="col-12 no-print">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
@@ -105,7 +111,7 @@
                                     <th scope="col" class="py-3">Last Name</th>
                                     <th scope="col" class="py-3">First Name</th>
                                     <th scope="col" class="py-3">Grade</th>
-                                    <th scope="col" class="py-3">Actions</th>
+                                    <th scope="col" class="py-3 no-print">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,7 +130,7 @@
                                                 <input type="hidden" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="no-print">
                                             @if($student->grade == null)
                                                 <p class="m-0 text-danger">No Grade</p>
                                             @else
@@ -144,37 +150,38 @@
                         </table>
                         </form>
                         @if(Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 1)
-                            <button class="btn btn-primary btn-sm px-5" id="saveGrades"><i class="fa fa-save mr-1"></i>Save</button>
+                            <div class="row my-5 no-print">    
+                                <div class="col-12 col-md-2">
+                                    <button class="btn btn-primary btn-block no-print" id="saveGrades">
+                                        <i class="fa fa-save mr-1"></i>Save
+                                    </button>
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <button id="printCOR" class="btn btn-warning btn-block no-print">
+                                        <i class="fas fa-print"></i> Print
+                                    </button>
+                                </div>
+                            </div>
                         @endif
-                    </div>
-                </div>
-                {{-- <div class="alert bg-danger text-white mt-5">
-                    <strong>File Upload:</strong> please upload a scanned or image file of the printed version of your gradesheet showing your signature.
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-6 my-3">
-                        <div class="form-group ">
-                            <input type="file" class="dropify" id="profile-pic" name="profile-pic">
+                        <div id="instructor">
+                            <div class="row mt-5">
+                                <div class="col-12 col-md-4 border-bottom text-uppercase font-weight-bold">
+                                    {{ $subject->first_name }} {{ $subject->last_name }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    Subject Instructor
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 my-3">
-                        <p class="m-0 border-bottom mb-3">Filename/s:</p>
-                        <div class="filenames">
-                            <p class="text-danger m-0">Filename 1</p>
-                            <p class="text-danger m-0">Filename 2</p>
-                            <p class="text-danger m-0">Filename 3</p>
-                        </div>
-                        <button class="btn btn-info btn-save btn-block mt-3"><i class="fa fa-save mr-1"></i>Save</button>
-                    </div>
-                </div> --}}
-                {{-- <p class="text-center bg-danger text-white py-2">This is a system generated report. Please visit the registrar's office personally if you want it signed by the registrar.</p> --}}
-                
+                </div>
             </div>
         </div>
-
+        
     </div>
     <!-- /.container-fluid -->
-
 @endsection
 
 @section('scripts')

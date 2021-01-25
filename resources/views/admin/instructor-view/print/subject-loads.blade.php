@@ -166,9 +166,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($subjects as $key => $subject)
+                        @php $count = 1; @endphp
+                        @foreach ($subjects $subject)
                             <tr>
-                                <td>{{ $key }}</td>
+                                <td>{{ $count }}</td>
                                 <td>{{ $subject->code }}</td>
                                 <td>{{ $subject->description }}</td>
                                 <td>
@@ -187,6 +188,7 @@
                                 </td>
                                 <td>{{ $subject->units }}</td>
                             </tr> 
+                            @php $count++; @endphp
                         @endforeach
                     </tbody>
                 </table>
