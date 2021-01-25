@@ -76,9 +76,10 @@
                                                     @if ($subject->status == 3)
                                                         <span class="badge badge-danger py-2 px-3"><i class="fas fa-times"></i> Not Yet Ready</span>
                                                     @endif
-                                                    @if ($subject->status == 4)
+                                                    @if ($subject->status == 4) --}}
                                                         <a href="{{ $subject->url }}" class="btn btn-sm btn-primary px-3"><i class="far fa-folder-open"></i> Open</a>
                                                     @endif
+                                                    {{-- <a href="{{ $subject->url }}" class="btn btn-sm btn-primary px-3"><i class="far fa-folder-open"></i> Open</a> --}}
                                                 </td>
                                                 @php $count++ @endphp
                                                 @php $totalUnits += $subject->units; @endphp

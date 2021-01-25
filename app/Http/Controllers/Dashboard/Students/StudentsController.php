@@ -142,29 +142,16 @@ class StudentsController extends Controller
 
     public function print($id)
     {
-        // $profile = Profile::where('id',$id)->with('enrollments')->first();
-        // $subjects = Subject::all();
-        // $instructors = Profile::where('role',4)->orWhere('role',5)->get();
-        // $schedules = Schedule::all();
-        // $totalUnits = 0;
-        // foreach($subjects as $subject){
-        //     foreach($profile->enrollments as $enrollment){
-        //         if($enrollment->subject_id == $subject->id){
-        //             $totalUnits = $totalUnits + $subject->units;
-        //         }
-        //     }
-        // }
-
         $profile = Profile::where('id',$id)->first();
         
         $subjects = Subject::where('subjects.ay',$this->globalAySem('ay'))
                             ->where('subjects.sem',$this->globalAySem('sem'))
                             ->join('profiles','subjects.instructor','=','profiles.id')
                             ->join('schedules','subjects.schedule','=','schedules.id')
-                            ->select('profiles.id','profiles.last_name','profiles.first_name','subjects.id as subjectId','subjects.code','subjects.description','subjects.units','subjects.type as subjectType','schedules.day','schedules.time','schedules.location','schedules.type as roomType')
-                            ->get();
-        
-        // dd($user,$credentials);
+                            ->select('profiles.id','profiles.last_name','profiles.first_name','subjects.id as subjectId','subjects.code','subjects.description','subjects.units','subjects.status','subjects.url','subjects.type as subjectType','schedules.day','schedules.time','schedules.location','schedules.type as roomType','schedules.id as scheduleId')
+                            ->get()
+                            ->sortBy('scheduleId',2);
+                            
         // return view('admin.student-view.subjects.index',compact('profile', 'subjects','credentials'));
         return view('admin.students.cor.print',compact('profile', 'subjects'));
     }

@@ -54,12 +54,14 @@ class StudentSubjectsController extends Controller
     {
         $profile = Profile::where('id',$id)->with('enrollments')->first();
         
-        $subjects = Subject::where('subjects.ay',$this->globalAySem('ay'))
+        $getSubjects = Subject::where('subjects.ay',$this->globalAySem('ay'))
                             ->where('subjects.sem',$this->globalAySem('sem'))
                             ->join('profiles','subjects.instructor','=','profiles.id')
                             ->join('schedules','subjects.schedule','=','schedules.id')
-                            ->select('profiles.id','profiles.last_name','profiles.first_name','subjects.id as subjectId','subjects.code','subjects.description','subjects.units','subjects.type as subjectType','schedules.day','schedules.time','schedules.location','schedules.type as roomType')
+                            ->select('profiles.id','profiles.last_name','profiles.first_name','subjects.id as subjectId','subjects.code','subjects.description','subjects.units','subjects.status','subjects.url','subjects.type as subjectType','schedules.day','schedules.time','schedules.location','schedules.type as roomType','schedules.id as scheduleId')
                             ->get();
+        $subjects = $getSubjects->sortBy('scheduleId');
+                            // dd($subjects);
         $user = User::where('profile_id',$id)->select('id')->first();
         $credentials = UserEmail::where('user_id',$user->id)->first();
         
