@@ -235,10 +235,8 @@ class AdmissionRequestsController extends Controller
                         $actionBtn = $evaluateBtn;
                     }
 
-                    // $actionButtons = $actionBtn.
-                    //                   '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-'.$color.' deleteAdmission '.$status.'">
-                    //                     <i class="fas fa-trash"></i>
-                    //                   </a>';
+                    $actionButtons = $actionBtn;
+                    
                     return $actionButtons;
                 })
                 ->rawColumns(['action','status'])
