@@ -320,10 +320,10 @@ class SubjectsController extends Controller
                                       </a>
                                       <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editSubject">
                                         <i class="fas fa-edit"></i>
-                                      </a>
-                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteSubject">
-                                        <i class="fas fa-trash"></i>
                                       </a>';
+                                    //   <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteSubject">
+                                    //     <i class="fas fa-trash"></i>
+                                    //   </a>';
                     return $actionButtons;
                 })
                 ->rawColumns(['action','category','instructor','schedule','type'])
