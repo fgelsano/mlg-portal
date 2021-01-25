@@ -166,7 +166,7 @@
                         <div id="instructor">
                             <div class="row mt-5">
                                 <div class="col-12 col-md-4 border-bottom text-uppercase font-weight-bold">
-                                    Instructor's Name
+                                    {{ $subject->first_name }} {{ $subject->last_name }}
                                 </div>
                             </div>
                             <div class="row">
