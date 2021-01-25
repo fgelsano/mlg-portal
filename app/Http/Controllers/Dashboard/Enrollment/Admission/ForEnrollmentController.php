@@ -119,11 +119,11 @@ class ForEnrollmentController extends Controller
                 ->addColumn('action', function($data){
                     $enrollBtn = '<a href="" data-id="'.$data->profile_id.'" class="btn btn-sm btn-success enrollStudent"><i class="fas fa-folder-open"></i> Enroll</a>';
 
-                    $actionButtons = $enrollBtn.
-                                      '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteAdmission">
-                                        <i class="fas fa-trash"></i>
-                                      </a>';
-                    return $actionButtons;
+                    // $actionButtons = $enrollBtn.
+                    //                   '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteAdmission">
+                    //                     <i class="fas fa-trash"></i>
+                    //                   </a>';
+                    return $enrollBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);

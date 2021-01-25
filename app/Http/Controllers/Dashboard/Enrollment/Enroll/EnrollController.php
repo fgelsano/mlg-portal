@@ -388,10 +388,10 @@ class EnrollController extends Controller
                 ->addColumn('action', function($data){
                     $actionButtons = '<a href="" data-id="'.$data->id.'" class="btn btn-sm btn-warning editInstructor">
                                         <i class="fas fa-edit"></i>
-                                      </a>
-                                      <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteInstructor">
-                                        <i class="fas fa-trash"></i>
                                       </a>';
+                                    //   <a href="" data-id="'.$data->id.'" class="btn btn-sm btn-danger deleteInstructor">
+                                    //     <i class="fas fa-trash"></i>
+                                    //   </a>';
                     return $actionButtons;
                 })
                 ->rawColumns(['action','status'])
