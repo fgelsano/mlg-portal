@@ -194,6 +194,8 @@
                             @elseif($profile->year_level == 4)
                                 Fourth Year
                             @endif
+
+                            ({{ $semester->name }} Semester, AY {{ $academic_year->name }})
                         </h5>
                     </div>
                 </div>
@@ -247,7 +249,7 @@
                 {{ $profile->school_address }}
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col-12 table-responsive">
                 <table class="table table-sm">

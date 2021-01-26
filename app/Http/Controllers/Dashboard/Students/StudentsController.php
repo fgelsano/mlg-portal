@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Admission;
 use App\Models\Course;
+use App\Models\Option;
 use App\Models\Profile;
 use App\Models\Subject;
 use App\Models\Schedule;
@@ -142,7 +143,16 @@ class StudentsController extends Controller
 
     public function print($id)
     {
-        $profile = Profile::where('id',$id)->first();
+        $admission = Admission::where('profile_id',$id)->latest()->select('academic_year','semester')->first();
+        
+        $academic_year = Option::where('id',$admission->academic_year)->select('name')->first();
+        $semester = Option::where('id',$admission->semester)->select('name')->first();
+        
+
+        $profile = Profile::where('profiles.id',$id)
+                            ->join('courses','profiles.course','=','courses.id')
+                            ->select('profiles.*','courses.code','courses.name')
+                            ->first();
         
         $subjects = Subject::where('subjects.ay',$this->globalAySem('ay'))
                             ->where('subjects.sem',$this->globalAySem('sem'))
@@ -151,8 +161,7 @@ class StudentsController extends Controller
                             ->select('profiles.id','profiles.last_name','profiles.first_name','subjects.id as subjectId','subjects.code','subjects.description','subjects.units','subjects.status','subjects.url','subjects.type as subjectType','schedules.day','schedules.time','schedules.location','schedules.type as roomType','schedules.id as scheduleId')
                             ->get()
                             ->sortBy('scheduleId',2);
-                            
-        // return view('admin.student-view.subjects.index',compact('profile', 'subjects','credentials'));
-        return view('admin.students.cor.print',compact('profile', 'subjects'));
+        
+        return view('admin.students.cor.print',compact('profile', 'subjects','academic_year','semester'));
     }
 }
