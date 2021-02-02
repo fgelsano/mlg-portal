@@ -17,7 +17,7 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="merriweather p-3 d-none text-center border-bottom mb-3" id="letterhead">
+                <div class="merriweather p-3 d-none text-center border-bottom mb-1" id="letterhead">
                     <img src="{{ asset('admin/img/MLG_Logo-Since-1999.jpg') }}" width="10%">
                     <h3 class="mb-0">MLG College of Learning, Inc</h3>
                     <p class="mb-3">Brgy. Atabay, Hilongos, Leyte</p>
@@ -149,20 +149,6 @@
                             </tbody>
                         </table>
                         </form>
-                        @if(Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 1)
-                            <div class="row my-5 no-print">    
-                                <div class="col-12 col-md-2">
-                                    <button class="btn btn-primary btn-block no-print" id="saveGrades">
-                                        <i class="fa fa-save mr-1"></i>Save
-                                    </button>
-                                </div>
-                                <div class="col-12 col-md-2">
-                                    <button id="printCOR" class="btn btn-warning btn-block no-print">
-                                        <i class="fas fa-print"></i> Print
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
                         <div id="instructor">
                             <div class="row mt-5">
                                 <div class="col-12 col-md-4 border-bottom text-uppercase font-weight-bold">
@@ -175,6 +161,21 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        @if(Auth::user()->role == 4 || Auth::user()->role == 5 || Auth::user()->role == 1)
+                            <div class="row my-3 no-print">    
+                                <div class="col-12 col-md-2">
+                                    <button class="btn btn-primary btn-block no-print" id="saveGrades">
+                                        <i class="fa fa-save mr-1"></i>Save
+                                    </button>
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <button id="printCOR" class="btn btn-warning btn-block no-print">
+                                        <i class="fas fa-print"></i> Print
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
