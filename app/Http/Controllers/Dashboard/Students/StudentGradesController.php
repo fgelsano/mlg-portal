@@ -93,6 +93,11 @@ class StudentGradesController extends Controller
 
     public function viewGrades($id)
     {
+        $school_years = Option::where('type','ay')->orWhere('type','current-ay')
+                        ->select('id','name')->get();
+        $semesters = Option::where('type','current-sem')->orWhere('type','upcoming-sem')
+                        ->select('id','name')->get();
+        
         $enrollment = Enrollment::where('profile_id',$id)->select('subject_id')->get();
         $givenGrade = [];
         foreach($enrollment as $subject){
@@ -113,13 +118,57 @@ class StudentGradesController extends Controller
                 'code' => $subjectDetails->code,
                 'description' => $subjectDetails->description,
                 'clearance' => $clearance == null ? 'Not Cleared' : $clearance->id,
-                'grade' => $grade == null ? 'No Grade Yet' : $grade->grade
+                'grade' => $grade == null ? 'No Grade Yet' : $grade->grade,
             ]);
         }
         // dd($givenGrade);
         $profile = Profile::where('id',$id)->first();
         // dd($grades);
-        return view('admin.students.viewGrades.index',compact('givenGrade','profile'));
+        return view('admin.students.viewGrades.index',compact('givenGrade','profile','school_years','semesters'));
+    }
+
+    public function viewFilteredGrades($id, Request $request)
+    {
+        // dd($id, $request->all());
+        $enrollment = Enrollment::where('profile_id',$id)
+                                ->where('academic_year',$request->input('school-year'))
+                                ->where('semester',$request->input('semester'))
+                                ->select('subject_id')->get();
+        
+        if($enrollment->count() == 0){
+            return response()->json([
+                'error' => 'No subjects found!',
+            ],400);
+        }
+        $givenGrade = [];
+        foreach($enrollment as $subject){
+            $subjectDetails = Subject::where('id',$subject->subject_id)
+                                ->select('id','code','description')
+                                ->first();
+
+            $clearance = Clearance::where('studentId',$id)
+                                    ->where('subjectId',$subject->subject_id)
+                                    ->select('id')
+                                    ->first();
+
+            $grade = Grade::where('profileId',$id)
+                            ->where('subjectId',$subject->subject_id)
+                            ->first();
+                            
+            array_push($givenGrade,[
+                'code' => $subjectDetails->code,
+                'description' => $subjectDetails->description,
+                'clearance' => $clearance == null ? 'Not Cleared' : $clearance->id,
+                'grade' => $grade == null ? 'No Grade Yet' : $grade->grade,
+            ]);
+        }
+        // dd($givenGrade);
+        $profile = Profile::where('id',$id)->first();
+        // dd($grades);
+        // return view('admin.students.viewGrades.index',compact('givenGrade','profile','school_years','semesters'));
+        return response()->json([
+            'givenGrade' => $givenGrade
+        ],200);
     }
 
     /**
