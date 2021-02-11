@@ -114,4 +114,63 @@
         $('#document-img').attr('src',file);
         $('#document-viewer').modal('show');
     })
+
+    $(document).on('click', '#btnFilter', function(e){
+        e.preventDefault();
+
+        let form = $('#filterGradeForm')[0];
+        let formData = new FormData(form);
+
+        let profileId = $(this).attr('data-id');
+        let routeUrl = "{{ route('grades.filter','id') }}";
+        let profileUrl = routeUrl.replace('id', profileId);
+        $.ajax({
+            url: profileUrl,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(data){
+                console.log(data.givenGrade);
+                $('#subjectListItems').empty();
+                let count = 1;
+                let grade = '';
+                let clearance = '';
+                $.each(data.givenGrade,function(key,value){
+                    if(value.clearance == 'Not Cleared'){
+                        clearance = '<span class="badge badge-danger">Not Cleared</span>';
+                    } else {
+                        clearance = '<span class="badge badge-success">Cleared</span>';
+                    }
+                    if(value.grade == 'No Grade Yet'){
+                        grade = 'font-weight-bold text-warning';
+                    } else if(value.grade == '5.0'){
+                        grade = 'font-weight-bold text-danger';
+                    } else if(value.grade == 'NG'){
+                        grade = 'font-weight-bold text-info';
+                    } else {
+                        grade = 'font-weight-bold text-success';
+                    }
+                    $('#subjectListItems').append(
+                        '<tr>'+
+                            '<td>'+ count +'</td>'+
+                            '<td>'+ value.code +'</td>'+
+                            '<td>'+ value.description +'</td>'+
+                            '<td>'+ clearance +'</td>'+
+                            '<td class="'+grade+'">'+ value.grade +'</td>'+
+                        '</tr>'
+                    );
+                    count++;
+                });
+            },
+            error: function(err){
+                console.log(err);
+                $('#subjectListItems').empty();
+                $('#subjectListItems').append(
+                    '<tr><td colspan="5"><div class="alert alert-danger py-3 mt-2 mb-5 text-center">Sorry, there\'s no subjects found in this criteria! Try to filter with another criteria again.</div></td></tr>'
+                );
+            }
+        })
+    });
 </script>
