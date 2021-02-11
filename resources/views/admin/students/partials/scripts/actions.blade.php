@@ -144,11 +144,13 @@
                         clearance = '<span class="badge badge-success">Cleared</span>';
                     }
                     if(value.grade == 'No Grade Yet'){
-                        grade = 'font-weight-bold text-warning';
+                        grade = 'font-weight-bold';
                     } else if(value.grade == '5.0'){
                         grade = 'font-weight-bold text-danger';
                     } else if(value.grade == 'NG'){
                         grade = 'font-weight-bold text-info';
+                    } else if(value.grade == 'INC'){
+                        grade = 'font-weight-bold text-warning';
                     } else {
                         grade = 'font-weight-bold text-success';
                     }
