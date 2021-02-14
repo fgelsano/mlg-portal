@@ -141,6 +141,7 @@
                                             <th>First Name</th>
                                             <th>Course</th>
                                             <th>Year</th>
+                                            <th>Email</th>
                                             <th class="no-print">Action</th>
                                         </tr>
                                     </thead>
@@ -166,6 +167,7 @@
                                                         4th Year
                                                     @endif
                                                 </td>
+                                                <td>{{ $student->email }}</td>
                                                 <td class="no-print"><button class="btn btn-sm btn-primary viewStudentProfile" data-id="{{ $student->student_id }}"><i class="fas fa-eye"></i> View Profile</button></td>
                                             </tr>
                                             @php
