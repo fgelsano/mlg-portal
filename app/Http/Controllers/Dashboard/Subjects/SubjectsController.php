@@ -383,7 +383,7 @@ class SubjectsController extends Controller
                                 ->where('enrollments.semester',$this->globalAySem('sem'))
                                 ->join('profiles','enrollments.profile_id','=','profiles.id')
                                 ->join('courses','profiles.course','=','courses.id')
-                                ->select('enrollments.subject_id as subject_id','profiles.school_id','profiles.id as student_id','profiles.last_name','profiles.first_name','profiles.year_level','profiles.gender','courses.code as course')
+                                ->select('enrollments.subject_id as subject_id','profiles.school_id','profiles.id as student_id','profiles.last_name','profiles.first_name','profiles.year_level','profiles.gender','profiles.email','courses.code as course')
                                 ->get();
         $subject = Subject::where('subjects.id',$id)
                     ->where('subjects.ay',$this->globalAySem('ay'))
