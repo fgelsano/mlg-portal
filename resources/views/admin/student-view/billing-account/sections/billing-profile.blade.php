@@ -1,5 +1,11 @@
 <div class="row mt-3 mb-3 text-white text-uppercase py-2">
-    <div class="col-12 bg-danger py-2 text-center text-uppercase">Billing Account</div>
+    <div class="col-md-10 col-12 bg-danger py-2 text-center text-uppercase">Billing Account</div>
+    <div class="col-md-2 col-12">
+        <button class="btn btn-outline-warning btn-block">
+            <i class="fas fa-print mr-2"></i>
+            Print
+        </button>
+    </div>
 </div>
 
 <div class="row">
@@ -92,62 +98,64 @@
     @endif
 </div>
 
-<p class="text-uppercase bg-success py-2 pl-md-3 pl-1 text-white">General Computation</p>
-<div class="row border mx-0 bg-white py-3">
-    <div class="col-md-6 col-12">
-        @php
-            $grandBalance = 0;
-            $grandDeduction = 0;
-            $semester = '';
-        @endphp
-        @foreach ($assessments as $assessment)
+@if (count($assessments) > 0)
+    <p class="text-uppercase bg-success py-2 pl-md-3 pl-1 text-white">General Computation</p>
+    <div class="row border mx-0 bg-white py-3">
+        <div class="col-md-6 col-12">
             @php
-                $semDeductions = 0;
-                foreach($assessment->deductions as $deduction){
-                    $semDeductions += $deduction->amount;
-                }
-                (float)$semBalance = $assessment->total - $semDeductions;
-                if($assessment->sem == 1){
-                    
-                }
+                $grandBalance = 0;
+                $grandDeduction = 0;
+                $semester = '';
+            @endphp
+            @foreach ($assessments as $assessment)
+                @php
+                    $semDeductions = 0;
+                    foreach($assessment->deductions as $deduction){
+                        $semDeductions += $deduction->amount;
+                    }
+                    (float)$semBalance = $assessment->total - $semDeductions;
+                    if($assessment->sem == 1){
+                        
+                    }
 
-                if($assessment->sem == 1){
-                    $semester = '1st Semester';
-                }elseif($assessment->sem == 2){
-                    $semester = '2nd Semester';
-                }else($assessment->sem == 3){
-                    $semester = 'Summer'
+                    if($assessment->sem == 1){
+                        $semester = '1st Semester';
+                    }elseif($assessment->sem == 2){
+                        $semester = '2nd Semester';
+                    }else($assessment->sem == 3){
+                        $semester = 'Summer'
+                    }
+                @endphp
+                <div class="row pl-md-3">
+                    <div class="col-md-6 col-8">AY: {{ $assessment->ay }} | {{ $semester }}</div>
+                    <div class="col-md-6 col-4 text-right">₱ {{ number_format($semBalance,2) }}</div>
+                </div>
+                @php
+                    (float)$grandBalance += $assessment->total;
+                    (float)$grandDeduction += $semDeductions;
+                @endphp
+            @endforeach
+        </div>
+        <div class="col-md-6 col-12 text-right">
+            @php
+                (float)$totalBalance = $grandBalance - $grandDeduction;
+                $badgeColor = '';
+                $balanceType = '';
+                if($totalBalance == 0){
+                    $badgeColor = 'badge-success';
+                    $balanceType = 'Fully Paid';
+                }elseif($totalBalance > 0){
+                    $badgeColor = 'badge-danger';
+                    $balanceType = 'Collectible';
+                }elseif($totalBalance < 0){
+                    $badgeColor = 'badge-success';
+                    $balanceType = 'Refundable';
                 }
             @endphp
-            <div class="row pl-md-3">
-                <div class="col-md-6 col-8">AY: {{ $assessment->ay }} | {{ $semester }}</div>
-                <div class="col-md-6 col-4 text-right">₱ {{ number_format($semBalance,2) }}</div>
-            </div>
-            @php
-                (float)$grandBalance += $assessment->total;
-                (float)$grandDeduction += $semDeductions;
-            @endphp
-        @endforeach
+            <p class="font-30 mb-0 font-weight-bold">
+                ₱ {{ number_format($totalBalance,2) }}<br>            
+            </p>
+            <span class="badge px-3 text-uppercase font-20 {{ $badgeColor }}">{{ $balanceType }}</span>
+        </div>
     </div>
-    <div class="col-md-6 col-12 text-right">
-        @php
-            (float)$totalBalance = $grandBalance - $grandDeduction;
-            $badgeColor = '';
-            $balanceType = '';
-            if($totalBalance == 0){
-                $badgeColor = 'badge-success';
-                $balanceType = 'Fully Paid';
-            }elseif($totalBalance > 0){
-                $badgeColor = 'badge-danger';
-                $balanceType = 'Collectible';
-            }elseif($totalBalance < 0){
-                $badgeColor = 'badge-success';
-                $balanceType = 'Refundable';
-            }
-        @endphp
-        <p class="font-30 mb-0 font-weight-bold">
-            ₱ {{ number_format($totalBalance,2) }}<br>            
-        </p>
-        <span class="badge px-3 text-uppercase font-20 {{ $badgeColor }}">{{ $balanceType }}</span>
-    </div>
-</div>
+@endif

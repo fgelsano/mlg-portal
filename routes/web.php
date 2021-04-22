@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\BillingMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -92,8 +93,4 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::post('/dashboard/userEmails/activate/{id}','UserEmails\UserEmailsController@activate')->name('userEmails.activate')->middleware('admin.super');
     Route::resource('/dashboard/userEmails','UserEmails\UserEmailsController')->middleware('admin.super');
     Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
-
-    Route::get('sendbasicemail','MailController@basic_email');
-    Route::get('sendhtmlemail','MailController@html_email');
-    Route::get('sendattachmentemail','MailController@attachment_email');
 });
