@@ -6,7 +6,7 @@
     <i class="fa fa-bars"></i>
     </button>
     
-    <h1 class="h4 mb-0 text-gray-800 px-3">@yield('menu-title')</h1>
+    <h1 class="h4 mb-0 text-gray-800 px-3 d-md-block d-none">@yield('menu-title')</h1>
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto" id="page-top">

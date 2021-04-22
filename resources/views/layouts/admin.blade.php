@@ -71,6 +71,13 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+
+    .font-20{
+      font-size:20px;
+    }
+    .font-30{
+      font-size:30px;
+    }
     @media print {
       .no-print{
           display: none!important;
