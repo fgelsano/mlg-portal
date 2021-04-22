@@ -117,8 +117,22 @@
       <div class="sidebar-heading">
         Cashier Menus
       </div>
-        <!-- Nav Item - Payments -->
-        <li class="nav-item
+      <!-- Nav Item - Accounts -->
+      
+        
+      
+      <li class="nav-item
+        @if(isset($profile))
+          {{ url()->current() === route('billing-accounts.show',$profile->id) ? 'active' : '' }}
+        @endif
+        {{ url()->current() === route('billing-accounts.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('billing-accounts.index') }}">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <span class="ml-2">Accounts</span></a>
+      </li>
+
+      <!-- Nav Item - Payments -->
+      <li class="nav-item
         {{ url()->current() === route('payments.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('payments.index') }}">
           <i class="fas fa-money-bill-alt"></i>
@@ -171,11 +185,18 @@
       </li>
 
       <!-- Nav Item - Billing -->
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('student-billings.show', Auth::user()->profile_id) }}">
           <i class="fas fa-money-bill-alt"></i>
           <span class="ml-2">Billing</span></a>
-      </li>
+      </li> --}}
+
+      <li class="nav-item 
+      {{ url()->current() === route('student-billing-account.show', Auth::user()->profile_id) ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('student-billing-account.show', Auth::user()->profile_id) }}">
+          <i class="fas fa-money-bill-alt"></i>
+          <span class="ml-2">Billing Account</span></a>
+      </li> 
     @endif
 
     <!-- Divider -->

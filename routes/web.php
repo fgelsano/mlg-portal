@@ -52,6 +52,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
 
     Route::resource('/dashboard/cashier-clearances','Cashier\CashierClearancesController');
     Route::resource('/dashboard/cashier-billings', 'Cashier\CashierBillingsController');
+    Route::resource('/dashboard/billing-accounts','Cashier\BillingAccountsController');
 
     Route::resource('/dashboard/instructors', 'Instructors\InstructorsController');
     Route::get('/dashboard/instructors-list', 'Instructors\InstructorsController@instructorList')->name('instructors.list');
@@ -66,6 +67,7 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::resource('/dashboard/student-subjects','Students\StudentSubjectsController');
     Route::resource('/dashboard/student-grades','Students\StudentGradesController');
     Route::resource('/dashboard/student-billings','Students\StudentBillingsController');
+    Route::resource('/dashboard/student-billing-account','Students\StudentBillingAccountsController');
     Route::resource('/dashboard/student-clearances','Students\StudentClearancesController');
     Route::get('/dashboard/student/grades/{id}','Students\StudentGradesController@viewGrades');
     Route::post('/dashboard/student/grades/filtered/{id}','Students\StudentGradesController@viewFilteredGrades')->name('grades.filter');
@@ -90,4 +92,8 @@ Route::prefix('/')->middleware(['auth'])->namespace('Dashboard')->group( functio
     Route::post('/dashboard/userEmails/activate/{id}','UserEmails\UserEmailsController@activate')->name('userEmails.activate')->middleware('admin.super');
     Route::resource('/dashboard/userEmails','UserEmails\UserEmailsController')->middleware('admin.super');
     Route::resource('/dashboard/enrollment/settings/options', 'Enrollment\Settings\OptionsController');
+
+    Route::get('sendbasicemail','MailController@basic_email');
+    Route::get('sendhtmlemail','MailController@html_email');
+    Route::get('sendattachmentemail','MailController@attachment_email');
 });
