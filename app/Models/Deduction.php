@@ -12,7 +12,8 @@ class Deduction extends Model
         'ay',
         'sem',
         'deduction_name',
-        'amount'
+        'amount',
+        'assessment_id'
     ];
 
     public function assessment()

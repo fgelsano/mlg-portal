@@ -9,6 +9,8 @@ use App\Models\Profile;
 use App\Models\Assessment;
 use App\Models\Deduction;
 use DataTables;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BillingMail;
 use Validator;
 
 class BillingAccountsController extends Controller
@@ -82,6 +84,19 @@ class BillingAccountsController extends Controller
                 $deductions->deduction_name     = $request->input('deduction-description')[$key];
                 $deductions->amount             = $request->input('deduction-amount')[$key];
                 $deductions->save();
+            }
+
+            $profile = Profile::where('id',$request->input('student-id'))->select('id','email','first_name','last_name')->first();
+            $url = route('billing-accounts.show',$profile->id);
+            
+            $details = [
+                'profile'   => $profile,
+                'url'       => $url,
+                'ay'        => $request->ay,
+                'sem'       => $request->sem
+            ];
+            if($profile){
+                Mail::to($profile->email)->send(new BillingMail($details));
             }
 
             return response()->json([
