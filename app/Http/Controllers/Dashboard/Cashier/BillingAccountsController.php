@@ -95,9 +95,9 @@ class BillingAccountsController extends Controller
                 'ay'        => $request->ay,
                 'sem'       => $request->sem
             ];
-            if($profile){
-                Mail::to($profile->email)->send(new BillingMail($details));
-            }
+            // if($profile){
+            //     Mail::to($profile->email)->send(new BillingMail($details));
+            // }
 
             return response()->json([
                 'success'       => 'Bill Added Successfully',
