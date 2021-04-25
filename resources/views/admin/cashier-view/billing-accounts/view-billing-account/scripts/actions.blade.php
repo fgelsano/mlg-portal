@@ -41,7 +41,6 @@
         
         $('#total-balance').text('₱ '+totalBalance);
 
-        $('#total-balance').text('₱ '+totalBalance);
         if(totalBalance > 0){
             $('#total-balance').removeClass('text-success');
             $('#total-balance').addClass('text-danger');
@@ -75,9 +74,9 @@
         $('#total-fees').val(totalFees);
 
         let feesTotal = $('#total-fees').val();
-        let fessMisc = $('#total-deductions').val();
+        let feesMisc = $('#total-deductions').val();
 
-        let totalBalance = parseFloat(feesTotal) - parseFloat(fessMisc);
+        let totalBalance = parseFloat(feesTotal) - parseFloat(feesMisc);
         
         $('#total-balance').text('₱ '+totalBalance);
         if(totalBalance > 0){

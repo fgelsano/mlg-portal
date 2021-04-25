@@ -22,7 +22,7 @@
                                 <label for="" class="mb-0 small font-weight-bold">Academic Year</label>
                             </div>
                             <div class="col-12 px-0">
-                                <select name="ay" id="ay" class="form-control form-control-sm">
+                                <select name="ay" id="ay" class="form-control form-control-sm" required>
                                     <option value="" selected disabled>Select AY</option>
                                     <option value="20-21">20-21</option>
                                     <option value="21-22">21-22</option>
@@ -35,19 +35,19 @@
                             <div class="row">
                                 <div class="col-md-4 col-12">
                                     <div class="custom-control custom-radio custom-control-inline mr-0">
-                                        <input type="radio" value="1" id="1sem" name="sem" class="custom-control-input">
+                                        <input type="radio" value="1" id="1sem" name="sem" class="custom-control-input" required>
                                         <label class="custom-control-label" for="1sem">1st Sem</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="custom-control custom-radio custom-control-inline mr-0">
-                                        <input type="radio" value="2" id="2sem" name="sem" class="custom-control-input">
+                                        <input type="radio" value="2" id="2sem" name="sem" class="custom-control-input" required>
                                         <label class="custom-control-label" for="2sem">2nd Sem</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="custom-control custom-radio custom-control-inline mr-0">
-                                        <input type="radio" value="3" id="3sem" name="sem" class="custom-control-input">
+                                        <input type="radio" value="3" id="3sem" name="sem" class="custom-control-input" required>
                                         <label class="custom-control-label" for="3sem">Summer</label>
                                     </div>
                                 </div>
@@ -108,6 +108,7 @@
                         </div>
                         <div class="col-md-6 col-12 text-right font-30" id="total-balance">₱ 00.00</div>
                     </div>
+                    <input type="hidden" name="balance" id="balance">
                     <input type="hidden" name="_method" value="" id="formMethod">
                     <input type="hidden" name="action-button" value="save">
                 </form>
