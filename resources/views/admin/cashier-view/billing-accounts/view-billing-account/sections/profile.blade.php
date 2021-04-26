@@ -89,13 +89,13 @@
                         @if($profile->course == 0)
                             No Data
                         @elseif($profile->course == 1)
-                            BSIT
+                            Bachelor of Science in Information Technology
                         @elseif($profile->course == 2)
-                            BEED
+                            Bachelor in Elementary Education
                         @elseif($profile->course == 3)
-                            BSED-Math
+                            Bachelor in Secondary Education major in Mathematics
                         @elseif($profile->course == 4)
-                            BSED-SS
+                            Bachelor in Secondary Education major in Social Studies
                         @endif
                     </div>
                 </h4>
