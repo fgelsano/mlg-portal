@@ -85,61 +85,33 @@
         <div class="row mt-4 mb-md-0 mb-4">
             <div class="col-12 font-weight-bold">
                 <h4 class="text-danger my-0 font-weight-bold" id="print-course">
-                    <div class="d-md-block d-none">
-                        @if(Auth::user()->role == 3)
-                            @if($profile->course == 0)
-                                No Data
-                            @elseif($profile->course == 1)
-                                Bachelor of Science in Information Technology | BSIT
-                            @elseif($profile->course == 2)
-                                Bachelor in Elementary Education | BEED
-                            @elseif($profile->course == 3)
-                                Bachelor in Secondary Education major in Mathematics | BSED-Math
-                            @elseif($profile->course == 4)
-                                Bachelor in Secondary Education major in Social Studies | BSED-SocStu
-                            @endif
-                        @endif
-                        @if(Auth::user()->role == 0)
-                            System Administrator
-                        @endif
-                        @if(Auth::user()->role == 4)
-                            Full Time Instructor
-                        @endif
-                        @if(Auth::user()->role == 5)
-                            Part Time Instructor
-                        @endif
-                    </div>
-                    <div class="d-block d-md-none">
-                        @if(Auth::user()->role == 3)
-                            @if($profile->course == 0)
-                                No Data
-                            @elseif($profile->course == 1)
-                                BSIT
-                            @elseif($profile->course == 2)
-                                BEED
-                            @elseif($profile->course == 3)
-                                BSED-Math
-                            @elseif($profile->course == 4)
-                                BSED-SocStu
-                            @endif
+                    <div class="">
+                        @if($profile->course == 0)
+                            No Data
+                        @elseif($profile->course == 1)
+                            BSIT
+                        @elseif($profile->course == 2)
+                            BEED
+                        @elseif($profile->course == 3)
+                            BSED-Math
+                        @elseif($profile->course == 4)
+                            BSED-SS
                         @endif
                     </div>
                 </h4>
             </div>
             <div class="col-12 font-weight-bold my-0">
                 <h5 class="my-0" id="print-year-level">
-                    @if(Auth::user()->role == 3)
-                        @if($profile->year_level == 0)
-                            No Data
-                        @elseif($profile->year_level == 1)
-                            First Year
-                        @elseif($profile->year_level == 2)
-                            Second Year
-                        @elseif($profile->year_level == 3)
-                            Third Year
-                        @elseif($profile->year_level == 4)
-                            Fourth Year
-                        @endif
+                    @if($profile->year_level == 0)
+                        No Data
+                    @elseif($profile->year_level == 1)
+                        First Year
+                    @elseif($profile->year_level == 2)
+                        Second Year
+                    @elseif($profile->year_level == 3)
+                        Third Year
+                    @elseif($profile->year_level == 4)
+                        Fourth Year
                     @endif
                 </h5>
             </div>
