@@ -144,9 +144,9 @@
         
         if(balance == 'Fully Paid'){
             balanceInitialType = '0';
-        }else if(balance == 'Collectible'){
+        }else if(balance == 'COLLECTIBLE'){
             balanceInitialType = '1';
-        }else if(balance == 'Refundable'){
+        }else if(balance == 'REFUNDABLE'){
             balanceInitialType = '2';
         }
         
