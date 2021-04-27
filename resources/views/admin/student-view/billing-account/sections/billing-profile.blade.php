@@ -1,7 +1,7 @@
 <div class="row mt-3 mb-3 text-white text-uppercase py-2">
     <div class="col-md-10 col-12 bg-danger py-2 text-center text-uppercase">Billing Account</div>
     <div class="col-md-2 col-12">
-        <button class="btn btn-outline-warning btn-block">
+        <button class="btn btn-outline-warning btn-block" id="btnPrint">
             <i class="fas fa-print mr-2"></i>
             Print
         </button>
