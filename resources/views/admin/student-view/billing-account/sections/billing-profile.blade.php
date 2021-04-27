@@ -1,10 +1,17 @@
 <div class="row mt-3 mb-3 text-white text-uppercase py-2">
-    <div class="col-md-10 col-12 bg-danger py-2 text-center text-uppercase">Billing Account</div>
+    <div class="col-12 bg-danger py-2 text-uppercase" id="billing-account">
+        <div class="row d-flex align-items-center">
+            <div class="col-10">Billing Statement</div>
+            <div class="col-2">
+                <button class="btn btn-outline-warning btn-block no-print btn-sm" id="btnPrint">
+                    <i class="fas fa-print mr-2"></i>
+                    Print
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="col-md-2 col-12">
-        <button class="btn btn-outline-warning btn-block" id="btnPrint">
-            <i class="fas fa-print mr-2"></i>
-            Print
-        </button>
+        
     </div>
 </div>
 
