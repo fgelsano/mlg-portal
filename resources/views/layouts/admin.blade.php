@@ -78,6 +78,13 @@
     .font-30{
       font-size:30px;
     }
+    #request-loading{
+        z-index: 999;
+        position: fixed;
+        top: 45%;
+        left: 45%;
+        background: rgba(255, 255, 255, .5);
+    }
     @media print {
       .no-print{
           display: none!important;
@@ -129,6 +136,7 @@
       <!-- Main Content -->
     <div id="content">
         @include('admin.0-partials._topbar')
+        <img src="{{ asset('admin/img/loading-ellipsis.gif') }}" alt="request-loading" id="request-loading" class="d-none">
         @yield('contents')
     </div>
     <!-- End of Main Content -->
