@@ -40,6 +40,7 @@
         let totalBalance = parseFloat(totalFees) - parseFloat(miscFees);
         
         $('#total-balance').text('₱ '+totalBalance);
+        $('#balance').val(totalBalance);
 
         if(totalBalance > 0){
             $('#total-balance').removeClass('text-success');
@@ -79,6 +80,7 @@
         let totalBalance = parseFloat(feesTotal) - parseFloat(feesMisc);
         
         $('#total-balance').text('₱ '+totalBalance);
+        $('#balance').val(totalBalance);
         if(totalBalance > 0){
             $('#total-balance').removeClass('text-success');
             $('#total-balance').addClass('text-danger');
@@ -137,15 +139,18 @@
         let studentId = $('#add-billing-modal').attr('data-id');
 
         let balance = $('#balance-type').text();
-        let balanceType = '';
+        let balanceInitialType = '';
+        let balanceType = 0;
         
-        if(balance === 'FULLY PAID'){
-            balanceType = 0;
-        }else if(balance === 'COLLECTIBLE'){
-            balanceType = 1;
-        }else if(balance === 'REFUNDABLE'){
-            balanceType = 2;
+        if(balance == 'Fully Paid'){
+            balanceInitialType = '0';
+        }else if(balance == 'Collectible'){
+            balanceInitialType = '1';
+        }else if(balance == 'Refundable'){
+            balanceInitialType = '2';
         }
+        
+        balanceType = parseInt(balanceInitialType);
 
         formData.append('student-id',studentId);
         formData.append('balance-type',balanceType);
