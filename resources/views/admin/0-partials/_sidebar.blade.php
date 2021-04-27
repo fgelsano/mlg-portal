@@ -195,7 +195,7 @@
       {{ url()->current() === route('student-billing-account.show', Auth::user()->profile_id) ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('student-billing-account.show', Auth::user()->profile_id) }}">
           <i class="fas fa-money-bill-alt"></i>
-          <span class="ml-2">Billing Account</span></a>
+          <span class="ml-2">Billing Account <sup><span class="badge badge-danger">New</span></sup></span></a>
       </li> 
     @endif
 
