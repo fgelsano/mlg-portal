@@ -102,52 +102,62 @@
                 <div class="row mt-3">
                     <div class="col-12 table-responsive">
                         <form action="" id="grades" method="" data-subject="{{ $subject->id }}">
-                        @csrf
-                        <table class="table table-sm">
-                            <thead>
-                                <tr class="table-primary py-3">
-                                    <th scope="col" class="py-3">#</th>
-                                    <th scope="col" class="py-3">Id</th>
-                                    <th scope="col" class="py-3">Last Name</th>
-                                    <th scope="col" class="py-3">First Name</th>
-                                    <th scope="col" class="py-3">Grade</th>
-                                    <th scope="col" class="py-3 no-print">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php $count = 1; @endphp
-                                @foreach($students as $key => $student)
-                                    <tr>
-                                        <td>{{ $count }}</td>
-                                        <td>{{ $student->school_id }}</td>
-                                        <td>{{ $student->last_name }}</td>
-                                        <td>{{ $student->first_name }}</td>
-                                        <td>
-                                            @if($student->grade == null)
-                                                <input type="text" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
-                                            @else
-                                                <p id="grade-{{$student->grade_id}}" class="m-0 {{$student->grade == '5.0' ? 'text-danger' : ''}} {{$student->grade == 'INC' ? 'text-warning' : ''}} {{$student->grade == 'NG' ? 'text-primary' : ''}}">{{$student->grade}}</p>
-                                                <input type="hidden" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
-                                            @endif
-                                        </td>
-                                        <td class="no-print">
-                                            @if($student->grade == null)
-                                                <p class="m-0 text-danger">No Grade</p>
-                                            @else
-                                                @if(Auth::user()->role == 4 || Auth::user()->role == 5)
-                                                    <button class="btn btn-info btn-sm btnEditGrade" data-grade-id="{{$student->grade_id}}"><i class="fa fa-edit mr-1"></i>Edit</button>
-                                                @endif
-                                            @endif
-                                            @if(Auth::user()->role == 4 || Auth::user()->role == 5)
-                                                <button type='submit' class="btn btn-info btn-sm {{$student->grade_id}} d-none btnUpdateGrade" data-grade-id="{{$student->grade_id}}"><i class="fa fa-edit mr-1"></i>Update</button>
-                                                <button class="btn btn-danger btn-sm {{$student->grade_id}} d-none btnCancelEdit-{{$student->grade_id}}" data-grade-id="{{$student->grade_id}}"><i class="fa fa-times mr-1"></i>Cancel</button>
-                                            @endif
-                                        </td>
+                            @csrf
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr class="table-primary py-3">
+                                        <th scope="col" class="py-3">#</th>
+                                        <th scope="col" class="py-3">Id</th>
+                                        <th scope="col" class="py-3">Last Name</th>
+                                        <th scope="col" class="py-3">First Name</th>
+                                        <th scope="col" class="py-3">Grade</th>
+                                        <th scope="col" class="py-3">Re-exam</th>
+                                        <th scope="col" class="py-3 no-print">Actions</th>
                                     </tr>
-                                    @php $count++ @endphp
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @php $count = 1; @endphp
+                                    @foreach($students as $key => $student)
+                                        <tr>
+                                            <td>{{ $count }}</td>
+                                            <td>{{ $student->school_id }}</td>
+                                            <td>{{ $student->last_name }}</td>
+                                            <td>{{ $student->first_name }}</td>
+                                            <td>
+                                                @if($student->grade == null)
+                                                    <input type="text" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
+                                                @else
+                                                    <p id="grade-{{$student->grade_id}}" class="m-0 {{$student->grade == '5.0' ? 'text-danger' : ''}} {{$student->grade == 'INC' ? 'text-warning' : ''}} {{$student->grade == 'NG' ? 'text-primary' : ''}}">{{$student->grade}}</p>
+                                                    <input type="hidden" name="grade[{{$student->profile_id}}]" id="{{$student->grade_id}}" value="{{ isset($student->grade) ? $student->grade : '' }}" maxlength="3">
+                                                @endif
+                                            </td>                                        
+                                            <td>
+                                                @if($student->reexam != null)
+                                                    {{ $student->reexam }}
+                                                @elseif($student->grade == 'INC')
+                                                    <input type="text" name="reexam[{{$student->profile_id}}]" id="reexam-{{$student->grade_id}}" value="" maxlength="3">
+                                                @else
+                                                    <p class="reexam-na mb-0">N/A</p>
+                                                @endif
+                                            </td>
+                                            <td class="no-print">
+                                                @if($student->grade == null)
+                                                    <p class="m-0 text-danger">No Grade</p>
+                                                @else
+                                                    @if(Auth::user()->role == 4 || Auth::user()->role == 5)
+                                                        <button class="btn btn-info btn-sm btnEditGrade" data-grade-id="{{$student->grade_id}}"><i class="fa fa-edit mr-1"></i>Edit</button>
+                                                    @endif
+                                                @endif
+                                                @if(Auth::user()->role == 4 || Auth::user()->role == 5)
+                                                    <button type='submit' class="btn btn-info btn-sm {{$student->grade_id}} d-none btnUpdateGrade" data-grade-id="{{$student->grade_id}}"><i class="fa fa-edit mr-1"></i>Update</button>
+                                                    <button class="btn btn-danger btn-sm {{$student->grade_id}} d-none btnCancelEdit-{{$student->grade_id}}" data-grade-id="{{$student->grade_id}}"><i class="fa fa-times mr-1"></i>Cancel</button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @php $count++ @endphp
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </form>
                         <div id="instructor">
                             <div class="row mt-5">

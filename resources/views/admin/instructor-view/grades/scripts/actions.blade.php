@@ -1,6 +1,7 @@
 <script>
     $(document).on('click','#saveGrades',function(e){
         e.preventDefault();
+        $('#loading-spinner').css('visibility','visible');
         Swal.fire({
             title: 'Submit Grade/s',
             text: 'Are you sure you want to submit grade/s',
@@ -15,7 +16,7 @@
                 let form = $('#grades')[0];
                 let formData = new FormData(form);
                 let subjectId = $('#grades').attr('data-subject');
-
+                console.log(formData);
                 formData.append('subjectId',subjectId);
                 
                 let routeUrl = "{{ route('instructor-grades.store') }}";
@@ -29,6 +30,7 @@
                     processData: false,
                     dataType: 'json',
                     success: function(data){
+                        $('#loading-spinner').css('visibility','hidden');
                         Swal.fire({
                             title: 'Grade/s Submitted!',
                             icon: 'success'
