@@ -11,6 +11,7 @@ class Grade extends Model
         'subjectId',
         'profileId',
         'grade',
+        'reexam',
         'ay',
         'sem'
     ];

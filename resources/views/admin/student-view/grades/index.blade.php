@@ -35,6 +35,7 @@
                                         <th scope="col" class="py-3">Instructor</th>
                                         <th scope="col" class="py-3">Schedule</th>
                                         <th scope="col" class="py-3">Grade</th>
+                                        <th scope="col" class="py-3" width="10%">Re-exam</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +52,7 @@
                                                     <p class="m-0 {{$subject['grade'] == '5.0' ? 'text-danger' : ''}} {{$subject['grade'] == 'INC' ? 'text-warning' : ''}} {{$subject['grade'] == 'NG' ? 'text-primary' : ''}}">{{ $subject['grade'] }}</p>
                                                 @endif
                                             </td>
+                                            <td>{{ $subject['reexam'] }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
