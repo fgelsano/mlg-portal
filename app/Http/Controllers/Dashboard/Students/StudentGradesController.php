@@ -120,6 +120,7 @@ class StudentGradesController extends Controller
                 'description' => $subjectDetails->description,
                 'clearance' => $clearance == null ? 'Not Cleared' : $clearance->id,
                 'grade' => $grade == null ? 'No Grade Yet' : $grade->grade,
+                'reexam' => $grade == null ? '' : $grade->reexam,
             ]);
         }
         // dd($givenGrade);

@@ -267,6 +267,7 @@
                                 <th scope="col">Description</th>
                                 <th scope="col">Clearance</th>
                                 <th scope="col">Grade</th>
+                                <th scope="col">Re-exam</th>
                             </tr>
                         </thead>
                         <tbody id="subjectListItems">
@@ -290,6 +291,7 @@
                                     ">
                                         {{ $grade['grade'] }}
                                     </td>
+                                    <td>{{ $grade['reexam'] }}</td>
                                 </tr>
                                 @php $count++; @endphp
                             @endforeach
